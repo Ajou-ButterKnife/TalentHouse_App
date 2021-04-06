@@ -6,4 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
+    <EditText
+        android:id="@+id/login_et_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="ID"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.354" />
+
+    <EditText
+        android:id="@+id/login_et_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_et_id"
+        app:layout_constraintVertical_bias="0.082" />
+
+    <Button
+        android:id="@+id/login_btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:onClick="onLoginButtonClick"
+        android:text="login"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/login_et_password"
+        app:layout_constraintTop_toBottomOf="@+id/login_et_password"
+        app:layout_constraintVertical_bias="0.139" />
+
+    <Button
+        android:id="@+id/login_btn_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="42dp"
+        android:text="sign up"
+        android:onClick="onSignUpButtonClick"
+        app:layout_constraintBottom_toBottomOf="@+id/login_btn_login"
+        app:layout_constraintEnd_toEndOf="@+id/login_et_password"
+        app:layout_constraintTop_toTopOf="@+id/login_btn_login"
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
