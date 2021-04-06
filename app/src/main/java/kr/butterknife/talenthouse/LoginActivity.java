@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
@@ -16,7 +17,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginButtonClick(View view) {
-        Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_SHORT).show();
+        EditText login_et_id = findViewById(R.id.login_et_id);
+        EditText login_et_password = findViewById(R.id.login_et_password);
+        Toast.makeText(getApplicationContext(), "ID : " + login_et_id.getText().toString() + "\tPassword : " + login_et_password.getText().toString(), Toast.LENGTH_SHORT).show();
     }
 
     public void onSignUpButtonClick(View view) {
