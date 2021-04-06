@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "959404390611",
+    "project_id": "butterfly-efb30",
+    "storage_bucket": "butterfly-efb30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:959404390611:android:2e8a89f70bf64aa8e5fc26",
+        "android_client_info": {
+          "package_name": "kr.butterknife.talenthouse"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "959404390611-b1k6fhj1p2ffpfi9rlbmb5f7v011ak3s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLnb73OB009UJDvWe3kHIa6lYY1D2GTBo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "959404390611-b1k6fhj1p2ffpfi9rlbmb5f7v011ak3s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
