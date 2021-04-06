@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/btmnavi_menu"
+        android:title="메뉴"
+        android:icon="@android:drawable/ic_menu_sort_by_size"/>
+
+    <item
+        android:id="@+id/btmnavi_search"
+        android:title="검색"
+        android:icon="@android:drawable/ic_menu_search"/>
+
+    <item
+        android:id="@+id/btmnavi_home"
+        android:title="홈"
+        android:icon="@android:drawable/btn_star"/>
+
+    <item
+        android:id="@+id/btmnavi_like"
+        android:title="좋아요"
+        android:icon="@android:drawable/ic_menu_edit"/>
+
+    <item
+        android:id="@+id/btmnavi_mypage"
+        android:title="마이페이지"
+        android:icon="@android:drawable/ic_dialog_alert"/>
+</menu>
