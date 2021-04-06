@@ -16,7 +16,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void btn_click(View view) {
-        EditText editTextEmail = findViewById(R.id.editTextTextEmailAddress);
+        EditText editTextEmail = findViewById(R.id.signup_et_email);
+        EditText editTextPassword = findViewById(R.id.signup_et_password);
+        EditText editTextPhonenumber = findViewById(R.id.signup_et_phonenumber);
         Toast.makeText(getApplicationContext(), editTextEmail.getText().toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), editTextPassword.getText().toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), editTextPhonenumber.getText().toString(), Toast.LENGTH_LONG).show();
     }
 }
