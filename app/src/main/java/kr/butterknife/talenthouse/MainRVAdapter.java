@@ -31,7 +31,8 @@ public class MainRVAdapter extends RecyclerView.Adapter<MainRVAdapter.MyViewHold
         arrayList = list;
     }
 
-    // TODO: 4/6/21 나중에 들어오는 타입에 따라서 뷰 여러개 
+    // TODO: 4/6/21 나중에 들어오는 타입에 따라서 뷰 여러개
+    // 참고 : https://lakue.tistory.com/16
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
