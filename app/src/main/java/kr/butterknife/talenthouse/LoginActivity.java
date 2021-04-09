@@ -46,13 +46,13 @@ public class LoginActivity extends AppCompatActivity {
         // 파이어베이스 인증 객체 선언
         firebaseAuth = FirebaseAuth.getInstance();
 
-        /*      한번 인증 되면 바로 main화면으로 이동. 로그아웃 버튼 구현 전 까지는 주석처리 예정
+        //      한번 인증 되면 바로 main화면으로 이동. 로그아웃 버튼 구현 전 까지는 주석처리 예정
         if (firebaseAuth.getCurrentUser() != null) {
             Intent intent = new Intent(getApplication(), MainActivity.class);
             startActivity(intent);
             finish();
         }
-        */
+        
 
         buttonGoogle = findViewById(R.id.signInButton);
 
@@ -85,8 +85,9 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 로그인 성공
-                            Intent i2 = new Intent (getApplicationContext(), MainActivity.class);
-                            startActivity(i2);
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            Toast.makeText(getApplicationContext(), user.getUid(), Toast.LENGTH_SHORT).show();
+                           // Intent i2 = new Intent (getApplicationContext(), MainActivity.class);//startActivity(i2);
                         } else {
                             // 로그인 실패
                             Toast.makeText(getApplicationContext(), "fail" , Toast.LENGTH_SHORT).show();
