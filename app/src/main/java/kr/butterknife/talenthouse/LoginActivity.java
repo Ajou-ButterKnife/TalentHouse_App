@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.request.LoginReq;
@@ -126,36 +127,32 @@ public class LoginActivity extends AppCompatActivity {
         String id = ((EditText) findViewById(R.id.login_et_id)).getText().toString();
         String pw = ((EditText) findViewById(R.id.login_et_password)).getText().toString();
 
-        new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ButterKnifeApi.INSTANCE.getRetrofitService().login(new LoginReq(id, pw)).enqueue(new Callback<LoginRes>() {
-                        @Override
-                        public void onResponse(Call<LoginRes> call, Response<LoginRes> response) {
-                            // 정상 출력이 되면 아래 로그가 출력됨
-                            if(response.body() != null)
-                                Log.d(TAG, response.body().getEmail());
-                            // 정상 출력이 되지 않을 때 서버에서의 response
-                            else {
-                                Log.d(TAG, response.errorBody().toString());
-                                Log.d(TAG, response.message());
-                                Log.d(TAG, String.valueOf(response.code()));
-                            }
-                        }
+        try {
+            ButterKnifeApi.INSTANCE.getRetrofitService().login(new LoginReq(id, pw)).enqueue(new Callback<LoginRes>() {
+                @Override
+                public void onResponse(Call<LoginRes> call, Response<LoginRes> response) {
+                    // 정상 출력이 되면 아래 로그가 출력됨
+                    if(response.body() != null) {
+                        Log.d(TAG, response.body().getEmail());
+                    }
+                    // 정상 출력이 되지 않을 때 서버에서의 response
+                    else {
+                        Log.d(TAG, response.errorBody().toString());
+                        Log.d(TAG, response.message());
+                        Log.d(TAG, String.valueOf(response.code()));
+                    }
+                }
 
-                        @Override
-                        public void onFailure(Call<LoginRes> call, Throwable t) {
-                            // 서버쪽으로 아예 메시지를 보내지 못한 경우
-                            Log.d(TAG, "SERVER CONNECTION ERROR");
-                        }
-                    });
+                @Override
+                public void onFailure(Call<LoginRes> call, Throwable t) {
+                    // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                    Log.d(TAG, "SERVER CONNECTION ERROR");
                 }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.run();
+            });
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onSignUpButtonClick(View view) {
