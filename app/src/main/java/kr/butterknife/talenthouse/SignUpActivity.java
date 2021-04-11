@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
-import kr.butterknife.talenthouse.network.request.LoginReq;
 import kr.butterknife.talenthouse.network.request.SignUpReq;
-import kr.butterknife.talenthouse.network.response.LoginRes;
 import kr.butterknife.talenthouse.network.response.SignUpRes;
 import retrofit2.Call;
 import retrofit2.Callback;
