@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
-import kr.butterknife.talenthouse.network.request.LoginReq;
-import kr.butterknife.talenthouse.network.response.LoginRes;
+import kr.butterknife.talenthouse.network.request.NormalLoginReq;
+import kr.butterknife.talenthouse.network.response.NormalLoginRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,7 +25,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -128,12 +127,20 @@ public class LoginActivity extends AppCompatActivity {
         String pw = ((EditText) findViewById(R.id.login_et_password)).getText().toString();
 
         try {
-            ButterKnifeApi.INSTANCE.getRetrofitService().login(new LoginReq(id, pw)).enqueue(new Callback<LoginRes>() {
+            ButterKnifeApi.INSTANCE.getRetrofitService().login(new NormalLoginReq(id, pw)).enqueue(new Callback<NormalLoginRes>() {
                 @Override
-                public void onResponse(Call<LoginRes> call, Response<LoginRes> response) {
+                public void onResponse(Call<NormalLoginRes> call, Response<NormalLoginRes> response) {
                     // 정상 출력이 되면 아래 로그가 출력됨
                     if(response.body() != null) {
-                        Log.d(TAG, response.body().getEmail());
+                        NormalLoginRes result = response.body();
+                        if(result.getResult().equals("SUCCESS")) {
+                            LoginInfo.INSTANCE.setLoginInfo((int) result.getUserId(), getApplicationContext());
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "아이디 혹은 비밀번호가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                     // 정상 출력이 되지 않을 때 서버에서의 response
                     else {
@@ -144,8 +151,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<LoginRes> call, Throwable t) {
+                public void onFailure(Call<NormalLoginRes> call, Throwable t) {
                     // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                    Toast.makeText(getApplicationContext(), "서버와 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "SERVER CONNECTION ERROR");
                 }
             });
