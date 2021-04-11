@@ -19,4 +19,12 @@ object LoginInfo {
 
         return ret
     }
+
+    fun logout(context : Context) {
+        val spf = context.getSharedPreferences(SPF_NAME, Context.MODE_PRIVATE)
+        val editor = spf.edit()
+
+        editor.remove(LOGIN_KEY)
+        editor.commit()
+    }
 }
