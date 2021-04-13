@@ -13,9 +13,14 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        // 나중에 login or main activity 구분해서
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            int loginId = LoginInfo.INSTANCE.getLoginInfo(getApplicationContext());
+            if(loginId == 0) {
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            }
+            else {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
             finish();
         }, 2000);
     }
