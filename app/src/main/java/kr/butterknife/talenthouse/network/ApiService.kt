@@ -2,10 +2,8 @@ package kr.butterknife.talenthouse.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kr.butterknife.talenthouse.network.request.NormalLoginReq
-import kr.butterknife.talenthouse.network.request.SignUpReq
-import kr.butterknife.talenthouse.network.response.NormalLoginRes
-import kr.butterknife.talenthouse.network.response.SignUpRes
+import kr.butterknife.talenthouse.network.request.*
+import kr.butterknife.talenthouse.network.response.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -34,6 +32,10 @@ interface ButterKnifeApiService {
 
     @POST("user")
     fun addUser(@Body user : SignUpReq) : Call<SignUpRes>
+
+    @POST("login/social")
+    fun socialLogin(@Body uid : SocialLoginReq) : Call<SocialLoginRes>
+
 }
 
 object ButterKnifeApi {
