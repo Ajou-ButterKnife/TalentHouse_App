@@ -7,7 +7,7 @@ data class CommonLoginRes(
 data class NormalLoginRes(
     val result : String,
     val detail : String?,
-    val data : CommonLoginRes,
+    val data : CommonLoginRes?,
 )
 
 data class SignUpRes(
