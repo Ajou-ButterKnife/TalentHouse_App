@@ -27,3 +27,7 @@ data class SocialSignUpReq(
     val phone : String,
     val nickname : String,
 )
+
+data class OverlapNickname(
+    val nickname : String
+)
