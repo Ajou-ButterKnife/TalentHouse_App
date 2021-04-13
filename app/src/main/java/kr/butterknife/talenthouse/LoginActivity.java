@@ -325,13 +325,18 @@ public class LoginActivity extends AppCompatActivity {
                 nickname.setError("닉네임을 입력해주세요");
                 return;
             }
-            if(nickname.getError() != null ) {
+            else if(nickname.getError() != null && !isOverlapNickname[0]) {
                 nickname.setError("닉네임 중복확인을 해주세요.");
                 return;
             }
             String tempNickname = nickname.getEditText().getText().toString();
             String tempPhone = phone.getEditText().getText().toString();
             // 회원가입 프로세스 처리
+            String[] category = new String[chipGroup.getChildCount()];
+
+            for(int i = 0; i < chipGroup.getChildCount(); i++) {
+                category[i] = ((Chip) chipGroup.getChildAt(i)).getText().toString();
+            }
             Toast.makeText(getApplicationContext(), tempNickname + " " + tempPhone, Toast.LENGTH_SHORT).show();
         });
 
