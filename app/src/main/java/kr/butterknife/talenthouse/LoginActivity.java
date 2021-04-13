@@ -191,8 +191,8 @@ public class LoginActivity extends AppCompatActivity {
                     // 정상 출력이 되면 아래 로그가 출력됨
                     if(response.body() != null) {
                         NormalLoginRes result = response.body();
-                        if(result.getResult().equals("SUCCESS")) {
-                            LoginInfo.INSTANCE.setLoginInfo((int) result.getUserId(), getApplicationContext());
+                        if(result.getResult().equals("Success")) {
+                            LoginInfo.INSTANCE.setLoginInfo(result.getData().get_id(), getApplicationContext());
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             finish();
                         }
