@@ -21,8 +21,8 @@ import android.widget.Toast;
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.request.NormalLoginReq;
 
-import kr.butterknife.talenthouse.network.request.*
-import kr.butterknife.talenthouse.network.response.*
+import kr.butterknife.talenthouse.network.request.*;
+import kr.butterknife.talenthouse.network.response.*;
 
 import retrofit2.Call;
 import retrofit2.Callback;
