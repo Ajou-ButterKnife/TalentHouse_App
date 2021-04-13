@@ -49,18 +49,18 @@ public class SignUpActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String str = parent.getItemAtPosition(position).toString();
                 if(str.equals("카테고리") == false){
-                    boolean AlreadySelected = false;
+                    boolean alreadySelected = false;
                     // 이미 선택되었는지 확인
                     for(int i = 0; i< chipGroup.getChildCount(); i++){
                         String category = ((Chip)chipGroup.getChildAt(i)).getText().toString();
                         if(category.equals(str)){
-                            AlreadySelected = true;
+                            alreadySelected = true;
                             Toast.makeText(getApplicationContext(), "이미 선택된 카테고리입니다.",Toast.LENGTH_SHORT).show();
                             parent.setSelection(0);
                             break;
                         }
                     }
-                    if(AlreadySelected == false){
+                    if(alreadySelected == false){
                         // Chip 인스턴스 생성
                         Chip chip = new Chip(SignUpActivity.this);
                         chip.setText(str);
