@@ -38,6 +38,10 @@ interface ButterKnifeApiService {
     @POST("login/social")
     fun socialLogin(@Body uid : SocialLoginReq) : Call<SocialLoginRes>
 
+
+    @POST("signup/social")
+    fun socialAddUser(@Body user : SocialSignUpReq) : Call<SocialSignUpRes>
+
     @POST("signup/nickname_overlap_check")
     fun overlapCheck(@Body data : OverlapNickname) : Call<CommonResponse>
 }
