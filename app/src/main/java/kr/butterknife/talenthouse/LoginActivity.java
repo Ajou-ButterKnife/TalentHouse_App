@@ -160,16 +160,19 @@ public class LoginActivity extends AppCompatActivity {
             ButterKnifeApi.INSTANCE.getRetrofitService().socialLogin(new SocialLoginReq(uid)).enqueue(new Callback<SocialLoginRes>() {
                 @Override
                 public void onResponse(Call<SocialLoginRes> call, Response<SocialLoginRes> response) {
-                    String result = response.body().getResult();
-                    CommonLoginRes data = response.body().getData();
-                    if(result.equals("Success")){
-                        Log.d("id_test", data.get_id());
-                        Intent i2 = new Intent (getApplicationContext(), MainActivity.class);
-                        startActivity(i2);
-                        finish();
-                    }
-                    else if(result.equals("Fail")){
-                        Toast.makeText(getApplicationContext(), "go sign up" , Toast.LENGTH_SHORT).show();
+                    if(response.body() != null) {
+                        String result = response.body().getResult();
+                        CommonLoginRes data = response.body().getData();
+                        if (result.equals("Success")) {
+                            Log.d("id_test", data.get_id());
+                            LoginInfo.INSTANCE.setLoginInfo(data.get_id(), getApplicationContext());
+                            Intent i2 = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(i2);
+                            finish();
+                        } else {
+                            System.out.println("2");
+                            onSocialSignUp(uid);
+                        }
                     }
                         // 정상 출력이 되지 않을 때 서버에서의 response
                     else {
@@ -240,6 +243,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onSocialSignUp(String uid) {
+        System.out.println("1");
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.dialog_social_signup, null, false);
 
@@ -338,7 +342,7 @@ public class LoginActivity extends AppCompatActivity {
             for(int i = 0; i < chipGroup.getChildCount(); i++) {
                 category[i] = ((Chip) chipGroup.getChildAt(i)).getText().toString();
             }
-            Toast.makeText(getApplicationContext(), tempNickname + " " + tempPhone, Toast.LENGTH_SHORT).show();
+            socialSignUpWithServer(uid, tempNickname, tempPhone, Arrays.asList(category));
         });
 
         cancel.setOnClickListener(v -> {

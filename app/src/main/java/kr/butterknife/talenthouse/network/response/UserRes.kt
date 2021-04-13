@@ -25,11 +25,11 @@ data class NormalSignUpRes(
 data class SocialLoginRes(
     val result : String,
     val detail : String?,
-    val data : CommonLoginRes,
+    val data : CommonLoginRes?,
 )
 
 data class SocialSignUpRes(
     val result : String,
     val detail : String?,
-    val data : CommonSignUpRes,
+    val data : CommonSignUpRes?,
 )
