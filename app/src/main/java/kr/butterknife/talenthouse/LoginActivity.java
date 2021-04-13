@@ -197,7 +197,7 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                         }
                         else {
-                            Toast.makeText(getApplicationContext(), "아이디 혹은 비밀번호가 잘못되었습니다.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), result.getDetail(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
