@@ -7,20 +7,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.request.NormalLoginReq;
+import kr.butterknife.talenthouse.network.request.OverlapNickname;
 import kr.butterknife.talenthouse.network.request.SocialLoginReq;
+import kr.butterknife.talenthouse.network.response.CommonResponse;
 import kr.butterknife.talenthouse.network.response.NormalLoginRes;
 import kr.butterknife.talenthouse.network.response.SocialLoginRes;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,13 +38,18 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -100,7 +110,8 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onLoginButtonClick();
+//                onLoginButtonClick();
+                onSocialSignUp("asdf");
             }
         });
     }
@@ -232,6 +243,113 @@ public class LoginActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.dialog_social_signup, null, false);
 
+        Spinner spinner = view.findViewById(R.id.social_spinner);
+        ChipGroup chipGroup = view.findViewById(R.id.social_chipgroup);
+        Button overlap = view.findViewById(R.id.social_btn_overlap);
+        TextInputLayout nickname = view.findViewById(R.id.social_et_nickname);
+        TextInputLayout phone = view.findViewById(R.id.social_et_phone);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String str = parent.getItemAtPosition(position).toString();
+                if(str.equals("카테고리") == false){
+                    boolean alreadySelected = false;
+                    // 이미 선택되었는지 확인
+                    for(int i = 0; i< chipGroup.getChildCount(); i++){
+                        String category = ((Chip)chipGroup.getChildAt(i)).getText().toString();
+                        if(category.equals(str)){
+                            alreadySelected = true;
+                            Toast.makeText(getApplicationContext(), "이미 선택된 카테고리입니다.",Toast.LENGTH_SHORT).show();
+                            parent.setSelection(0);
+                            break;
+                        }
+                    }
+                    if(alreadySelected == false){
+                        // Chip 인스턴스 생성
+                        Chip chip = new Chip(view.getContext());
+                        chip.setText(str);
+                        // chip icon 표시 여부
+                        chip.setCloseIconVisible(true);
+                        chip.setBackgroundColor(Color.BLUE);
+                        // chip group 에 해당 chip 추가
+                        chipGroup.addView(chip);
+                        parent.setSelection(0);
+                        // chip 인스턴스 클릭 리스너
+                        chip.setOnCloseIconClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                chipGroup.removeView(v);
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        // 데이터를 저장하게 되는 리스트
+        List<String> spinner_items = Arrays.asList(getResources().getStringArray(R.array.category_spinner));
+        // 스피너와 리스트를 연결하기 위해 사용되는 어댑터
+        ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinner_items);
+
+        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // 스피너의 어댑터 지정
+        spinner.setAdapter(spinner_adapter);
+
+        overlap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String tempNickname = nickname.getEditText().getText().toString();
+                if(tempNickname.equals("")) {
+                    nickname.setError("닉네임을 입력해주세요");
+                    return;
+                }
+
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            ButterKnifeApi.INSTANCE.getRetrofitService().overlapCheck(new OverlapNickname(tempNickname)).enqueue(new Callback<CommonResponse>() {
+                                @Override
+                                public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                                    // 정상 출력이 되면 아래 로그가 출력됨
+                                    if(response.body() != null) {
+                                        CommonResponse result = response.body();
+                                        if(result.getResult().equals("Success")) {
+                                            nickname.setError(null);
+                                        }
+                                        else {
+                                            nickname.setError("중복된 닉네임입니다.");
+                                        }
+                                    }
+                                        // 정상 출력이 되지 않을 때 서버에서의 response
+                                    else {
+                                        Log.d(TAG, response.errorBody().toString());
+                                        Log.d(TAG, response.message());
+                                        Log.d(TAG, String.valueOf(response.code()));
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<CommonResponse> call, Throwable t) {
+                                    // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                                    Log.d(TAG, "SERVER CONNECTION ERROR");
+                                }
+                            });
+                        }
+                        catch(Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.run();
+            }
+        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -239,8 +357,16 @@ public class LoginActivity extends AppCompatActivity {
         builder.setPositiveButton("회원 가입", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String nickname = ((TextInputEditText) view.findViewById(R.id.social_et_nickname)).getText().toString();
-                String phone = ((TextInputEditText) view.findViewById(R.id.social_et_phone)).getText().toString();
+                if(nickname.getEditText().getText().toString().length() == 0) {
+                    nickname.setError("닉네임을 입력해주세요");
+                    return;
+                }
+                if(nickname.getError() != null ) {
+                    nickname.setError("닉네임 중복확인을 해주세요.");
+                    return;
+                }
+                String tempNickname = nickname.getEditText().getText().toString();
+                String tempPhone = phone.getEditText().getText().toString();
                 // 회원가입 프로세스 처리
                 Toast.makeText(getApplicationContext(), nickname + " " + phone, Toast.LENGTH_SHORT).show();
             }
