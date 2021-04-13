@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.request.LoginReq;
@@ -24,7 +25,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -130,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    ButterKnifeApi.INSTANCE.getRetrofitService().login(new LoginReq(id, pw)).enqueue(new Callback<LoginRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().normalLogin(new LoginReq(id, pw)).enqueue(new Callback<LoginRes>() {
                         @Override
                         public void onResponse(Call<LoginRes> call, Response<LoginRes> response) {
                             // 정상 출력이 되면 아래 로그가 출력됨
