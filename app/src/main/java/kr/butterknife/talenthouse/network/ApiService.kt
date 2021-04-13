@@ -38,6 +38,8 @@ interface ButterKnifeApiService {
     @POST("login/social")
     fun socialLogin(@Body uid : SocialLoginReq) : Call<SocialLoginRes>
 
+    @POST("signup/social")
+    fun socialAddUser(@Body user : SocialSignUpReq) : Call<SocialSignUpRes>
 }
 
 object ButterKnifeApi {

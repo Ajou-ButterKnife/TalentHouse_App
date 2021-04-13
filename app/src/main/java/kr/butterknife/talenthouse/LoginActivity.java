@@ -18,9 +18,16 @@ import android.widget.Toast;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.request.NormalLoginReq;
+import kr.butterknife.talenthouse.network.request.NormalSignUpReq;
 import kr.butterknife.talenthouse.network.request.SocialLoginReq;
+import kr.butterknife.talenthouse.network.request.SocialSignUpReq;
+import kr.butterknife.talenthouse.network.response.CommonLoginRes;
+import kr.butterknife.talenthouse.network.response.CommonSignUpRes;
 import kr.butterknife.talenthouse.network.response.NormalLoginRes;
+import kr.butterknife.talenthouse.network.response.NormalSignUpRes;
+import kr.butterknife.talenthouse.network.response.SignUpRes;
 import kr.butterknife.talenthouse.network.response.SocialLoginRes;
+import kr.butterknife.talenthouse.network.response.SocialSignUpRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,6 +47,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -152,12 +162,15 @@ public class LoginActivity extends AppCompatActivity {
             ButterKnifeApi.INSTANCE.getRetrofitService().socialLogin(new SocialLoginReq(uid)).enqueue(new Callback<SocialLoginRes>() {
                 @Override
                 public void onResponse(Call<SocialLoginRes> call, Response<SocialLoginRes> response) {
-                    String loginFlag = response.body().getSocialFlag();
-                    if(loginFlag.equals("login")){
+                    String result = response.body().getResult();
+                    CommonLoginRes data = response.body().getData();
+                    if(result.equals("Success")){
+                        Log.d("id_test", data.get_id());
                         Intent i2 = new Intent (getApplicationContext(), MainActivity.class);
                         startActivity(i2);
+                        finish();
                     }
-                    else if(loginFlag.equals("signup")){
+                    else if(result.equals("Fail")){
                         Toast.makeText(getApplicationContext(), "go sign up" , Toast.LENGTH_SHORT).show();
                     }
                         // 정상 출력이 되지 않을 때 서버에서의 response
@@ -253,5 +266,34 @@ public class LoginActivity extends AppCompatActivity {
         });
         builder.setCancelable(false);
         builder.show();
+    }
+
+    private void socialSignUpWithServer(String uid, String nickname, String phone, List<String> category) {
+        try {
+            ButterKnifeApi.INSTANCE.getRetrofitService().socialAddUser(new SocialSignUpReq(phone, nickname, category, uid)).enqueue(new Callback<SocialSignUpRes>() {
+                @Override
+                public void onResponse(Call<SocialSignUpRes> call, Response<SocialSignUpRes> response) {
+                    String result = response.body().getResult();
+                    CommonSignUpRes data = response.body().getData();
+                    if(result.equals("Success")) {   // 회원가입 성공
+                        Intent i2 = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(i2);
+                        finish();
+                    }
+                    else {      // 회원가입 실패
+                        Toast.makeText(getApplicationContext(), "서버와 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SocialSignUpRes> call, Throwable t) {
+                    // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                    Log.d(TAG, "SERVER CONNECTION ERROR");
+                }
+            });
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }

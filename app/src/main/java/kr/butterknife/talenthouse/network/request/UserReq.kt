@@ -26,4 +26,6 @@ data class SocialLoginReq(
 data class SocialSignUpReq(
     val phone : String,
     val nickname : String,
+    val category : List<String>,
+    val uid : String,
 )
