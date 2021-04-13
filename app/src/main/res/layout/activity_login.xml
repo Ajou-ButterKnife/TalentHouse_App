@@ -50,7 +50,6 @@
         android:id="@+id/login_btn_login"
         android:layout_width="wrap_content"
         android:layout_height="42dp"
-        android:onClick="onLoginButtonClick"
         android:text="login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/login_et_password"
