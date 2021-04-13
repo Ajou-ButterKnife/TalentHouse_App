@@ -17,7 +17,7 @@ object SpinnerUtil {
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val str = parent.getItemAtPosition(position).toString()
-                if (str == "카테고리" == false) {
+                if (str == "카테고리") {
                     var alreadySelected = false
                     // 이미 선택되었는지 확인
                     for (i in 0 until chipGroup.getChildCount()) {
