@@ -12,7 +12,9 @@ import android.widget.Toast;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.request.LoginReq;
+import kr.butterknife.talenthouse.network.request.SocialLoginReq;
 import kr.butterknife.talenthouse.network.response.LoginRes;
+import kr.butterknife.talenthouse.network.response.SocialLoginRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,11 +58,12 @@ public class LoginActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         //      한번 인증 되면 바로 main화면으로 이동. 로그아웃 버튼 구현 전 까지는 주석처리 예정
+        /*
         if (firebaseAuth.getCurrentUser() != null) {
             Intent intent = new Intent(getApplication(), MainActivity.class);
             startActivity(intent);
             finish();
-        }
+        }*/
         
 
         buttonGoogle = findViewById(R.id.signInButton);
@@ -94,9 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 로그인 성공
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            Toast.makeText(getApplicationContext(), user.getUid(), Toast.LENGTH_SHORT).show();
-                           // Intent i2 = new Intent (getApplicationContext(), MainActivity.class);//startActivity(i2);
+                            onGoogleLoginButtonClick();
                         } else {
                             // 로그인 실패
                             Toast.makeText(getApplicationContext(), "fail" , Toast.LENGTH_SHORT).show();
@@ -123,40 +124,71 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    public void onGoogleLoginButtonClick() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
+        try {
+            ButterKnifeApi.INSTANCE.getRetrofitService().socialLogin(new SocialLoginReq(uid)).enqueue(new Callback<SocialLoginRes>() {
+                @Override
+                public void onResponse(Call<SocialLoginRes> call, Response<SocialLoginRes> response) {
+                    String loginFlag = response.body().getSocialFlag();
+                    if(loginFlag.equals("login")){
+                        Intent i2 = new Intent (getApplicationContext(), MainActivity.class);
+                        startActivity(i2);
+                    }
+                    else if(loginFlag.equals("signup")){
+                        Toast.makeText(getApplicationContext(), "go sign up" , Toast.LENGTH_SHORT).show();
+                    }
+                        // 정상 출력이 되지 않을 때 서버에서의 response
+                    else {
+                        Log.d(TAG, response.errorBody().toString());
+                        Log.d(TAG, response.message());
+                        Log.d(TAG, String.valueOf(response.code()));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<SocialLoginRes> call, Throwable t) {
+                    // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                    Log.d(TAG, "SERVER CONNECTION ERROR");
+                }
+            });
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void onLoginButtonClick(View view) {
         String id = ((EditText) findViewById(R.id.login_et_id)).getText().toString();
         String pw = ((EditText) findViewById(R.id.login_et_password)).getText().toString();
 
-        new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ButterKnifeApi.INSTANCE.getRetrofitService().login(new LoginReq(id, pw)).enqueue(new Callback<LoginRes>() {
-                        @Override
-                        public void onResponse(Call<LoginRes> call, Response<LoginRes> response) {
-                            // 정상 출력이 되면 아래 로그가 출력됨
-                            if(response.body() != null)
-                                Log.d(TAG, response.body().getEmail());
-                            // 정상 출력이 되지 않을 때 서버에서의 response
-                            else {
-                                Log.d(TAG, response.errorBody().toString());
-                                Log.d(TAG, response.message());
-                                Log.d(TAG, String.valueOf(response.code()));
-                            }
-                        }
+        try {
+            ButterKnifeApi.INSTANCE.getRetrofitService().login(new LoginReq(id, pw)).enqueue(new Callback<LoginRes>() {
+                @Override
+                public void onResponse(Call<LoginRes> call, Response<LoginRes> response) {
+                    // 정상 출력이 되면 아래 로그가 출력됨
+                    if(response.body() != null)
+                        Log.d(TAG, response.body().getEmail());
+                    // 정상 출력이 되지 않을 때 서버에서의 response
+                    else {
+                        Log.d(TAG, response.errorBody().toString());
+                        Log.d(TAG, response.message());
+                        Log.d(TAG, String.valueOf(response.code()));
+                    }
+                }
 
-                        @Override
-                        public void onFailure(Call<LoginRes> call, Throwable t) {
-                            // 서버쪽으로 아예 메시지를 보내지 못한 경우
-                            Log.d(TAG, "SERVER CONNECTION ERROR");
-                        }
-                    });
+                @Override
+                public void onFailure(Call<LoginRes> call, Throwable t) {
+                    // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                    Log.d(TAG, "SERVER CONNECTION ERROR");
                 }
-                catch(Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }.run();
+            });
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void onSignUpButtonClick(View view) {

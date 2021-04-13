@@ -10,3 +10,12 @@ data class SignUpReq(
     val password : String,
     val phone : String,
 )
+
+data class SocialLoginReq(
+    val uid : String,
+)
+
+data class SocialSignUpReq(
+    val phone : String,
+    val nickname : String,
+)
