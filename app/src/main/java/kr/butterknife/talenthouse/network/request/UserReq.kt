@@ -29,3 +29,7 @@ data class SocialSignUpReq(
     val category : List<String>,
     val uid : String,
 )
+
+data class OverlapNickname(
+    val nickname : String
+)
