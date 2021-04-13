@@ -9,6 +9,10 @@ data class SignUpRes(
     val email : String,
 )
 
+data class NormalSignUpRes(
+        val email : String,
+)
+
 data class SocialLoginRes(
     val socialFlag : String,
 )

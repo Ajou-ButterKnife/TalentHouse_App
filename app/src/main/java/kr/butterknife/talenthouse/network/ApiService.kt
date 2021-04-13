@@ -15,6 +15,7 @@ import retrofit2.http.POST
 //private const val BASE_URL = "http://3.137.162.68:4000/"
 private const val BASE_URL = "http://10.0.2.2:4000/"
 
+
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
 }
@@ -27,11 +28,12 @@ private val moshi = Moshi.Builder()
     .build()
 
 interface ButterKnifeApiService {
+
+    @POST("signup/normal")
+    fun normalAddUser(@Body user : NormalSignUpReq) : Call<NormalSignUpRes>
+
     @POST("login/normal")
     fun login(@Body user : NormalLoginReq) : Call<NormalLoginRes>
-
-    @POST("user")
-    fun addUser(@Body user : SignUpReq) : Call<SignUpRes>
 
     @POST("login/social")
     fun socialLogin(@Body uid : SocialLoginReq) : Call<SocialLoginRes>

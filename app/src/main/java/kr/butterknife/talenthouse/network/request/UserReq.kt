@@ -11,6 +11,14 @@ data class SignUpReq(
     val phone : String,
 )
 
+data class NormalSignUpReq(
+        val email : String,
+        val password : String,
+        val phone : String,
+        val nickname : String,
+        val category : List<String>,
+)
+
 data class SocialLoginReq(
     val uid : String,
 )
