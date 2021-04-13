@@ -1,6 +1,6 @@
 package kr.butterknife.talenthouse.network.request
 
-data class LoginReq(
+data class NormalLoginReq(
     val email : String,
     val password : String,
 )
@@ -17,4 +17,13 @@ data class NormalSignUpReq(
         val phone : String,
         val nickname : String,
         val category : List<String>,
+)
+
+data class SocialLoginReq(
+    val uid : String,
+)
+
+data class SocialSignUpReq(
+    val phone : String,
+    val nickname : String,
 )

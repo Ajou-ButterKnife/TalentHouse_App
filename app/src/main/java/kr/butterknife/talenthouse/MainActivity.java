@@ -4,9 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.main_bottomnavi);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
         mainFrag = new MainFragment();
 
         transaction.add(R.id.main_ll, mainFrag).commit();
@@ -39,6 +43,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.btmnavi_menu :
                 return true;
             case R.id.btmnavi_mypage :
+                //임시로 로그아웃
+                LoginInfo.INSTANCE.logout(getApplicationContext());
+                startActivity(new Intent(getApplicationContext(), SplashActivity.class));
+                finish();
                 return true;
             case R.id.btmnavi_search :
                 return true;

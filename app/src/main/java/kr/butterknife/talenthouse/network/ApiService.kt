@@ -2,10 +2,8 @@ package kr.butterknife.talenthouse.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kr.butterknife.talenthouse.network.request.LoginReq
-import kr.butterknife.talenthouse.network.request.NormalSignUpReq
-import kr.butterknife.talenthouse.network.response.LoginRes
-import kr.butterknife.talenthouse.network.response.NormalSignUpRes
+import kr.butterknife.talenthouse.network.request.*
+import kr.butterknife.talenthouse.network.response.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -15,8 +13,8 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 //private const val BASE_URL = "http://3.137.162.68:4000/"
-//private const val BASE_URL = "http://localhost:5555/"
-private const val BASE_URL = "http://10.0.2.2:8888/"
+private const val BASE_URL = "http://10.0.2.2:4000/"
+
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -30,12 +28,16 @@ private val moshi = Moshi.Builder()
     .build()
 
 interface ButterKnifeApiService {
-//    example
-    @POST("user")
-    fun normalLogin(@Body user : LoginReq) : Call<LoginRes>
 
     @POST("signup/normal")
     fun normalAddUser(@Body user : NormalSignUpReq) : Call<NormalSignUpRes>
+
+    @POST("login/normal")
+    fun login(@Body user : NormalLoginReq) : Call<NormalLoginRes>
+
+    @POST("login/social")
+    fun socialLogin(@Body uid : SocialLoginReq) : Call<SocialLoginRes>
+
 }
 
 object ButterKnifeApi {

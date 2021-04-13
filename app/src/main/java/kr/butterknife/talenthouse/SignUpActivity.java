@@ -20,11 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
-import kr.butterknife.talenthouse.network.request.LoginReq;
 import kr.butterknife.talenthouse.network.request.NormalSignUpReq;
-import kr.butterknife.talenthouse.network.request.NormalSignUpReq;
-import kr.butterknife.talenthouse.network.response.LoginRes;
-import kr.butterknife.talenthouse.network.response.NormalSignUpRes;
 import kr.butterknife.talenthouse.network.response.NormalSignUpRes;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -124,7 +120,7 @@ public class SignUpActivity extends AppCompatActivity {
         for(int i = 0; i< chipGroup.getChildCount(); i++){
             category[i] = ((Chip)chipGroup.getChildAt(i)).getText().toString();
         }
-
+      
         new Runnable() {
             @Override
             public void run() {
