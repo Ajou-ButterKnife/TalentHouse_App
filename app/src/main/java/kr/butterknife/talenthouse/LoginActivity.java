@@ -248,50 +248,11 @@ public class LoginActivity extends AppCompatActivity {
         Button overlap = view.findViewById(R.id.social_btn_overlap);
         TextInputLayout nickname = view.findViewById(R.id.social_et_nickname);
         TextInputLayout phone = view.findViewById(R.id.social_et_phone);
+        Button signup = view.findViewById(R.id.social_btn_signup);
+        Button cancel = view.findViewById(R.id.social_btn_cancel);
+        final Boolean[] isOverlapNickname = {false};
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String str = parent.getItemAtPosition(position).toString();
-                if(str.equals("카테고리") == false){
-                    boolean alreadySelected = false;
-                    // 이미 선택되었는지 확인
-                    for(int i = 0; i< chipGroup.getChildCount(); i++){
-                        String category = ((Chip)chipGroup.getChildAt(i)).getText().toString();
-                        if(category.equals(str)){
-                            alreadySelected = true;
-                            Toast.makeText(getApplicationContext(), "이미 선택된 카테고리입니다.",Toast.LENGTH_SHORT).show();
-                            parent.setSelection(0);
-                            break;
-                        }
-                    }
-                    if(alreadySelected == false){
-                        // Chip 인스턴스 생성
-                        Chip chip = new Chip(view.getContext());
-                        chip.setText(str);
-                        // chip icon 표시 여부
-                        chip.setCloseIconVisible(true);
-                        chip.setBackgroundColor(Color.BLUE);
-                        // chip group 에 해당 chip 추가
-                        chipGroup.addView(chip);
-                        parent.setSelection(0);
-                        // chip 인스턴스 클릭 리스너
-                        chip.setOnCloseIconClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                chipGroup.removeView(v);
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+        SpinnerUtil.INSTANCE.setCategorySpinner(spinner, chipGroup, getApplicationContext());
         // 데이터를 저장하게 되는 리스트
         List<String> spinner_items = Arrays.asList(getResources().getStringArray(R.array.category_spinner));
         // 스피너와 리스트를 연결하기 위해 사용되는 어댑터
@@ -323,9 +284,11 @@ public class LoginActivity extends AppCompatActivity {
                                         CommonResponse result = response.body();
                                         if(result.getResult().equals("Success")) {
                                             nickname.setError(null);
+                                            isOverlapNickname[0] = true;
                                         }
                                         else {
                                             nickname.setError("중복된 닉네임입니다.");
+                                            isOverlapNickname[0] = false;
                                         }
                                     }
                                         // 정상 출력이 되지 않을 때 서버에서의 response
@@ -354,30 +317,29 @@ public class LoginActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setView(view);
-        builder.setPositiveButton("회원 가입", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if(nickname.getEditText().getText().toString().length() == 0) {
-                    nickname.setError("닉네임을 입력해주세요");
-                    return;
-                }
-                if(nickname.getError() != null ) {
-                    nickname.setError("닉네임 중복확인을 해주세요.");
-                    return;
-                }
-                String tempNickname = nickname.getEditText().getText().toString();
-                String tempPhone = phone.getEditText().getText().toString();
-                // 회원가입 프로세스 처리
-                Toast.makeText(getApplicationContext(), nickname + " " + phone, Toast.LENGTH_SHORT).show();
-            }
-        });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
         builder.setCancelable(false);
-        builder.show();
+
+        AlertDialog dialog = builder.create();
+
+        signup.setOnClickListener(v -> {
+            if(nickname.getEditText().getText().toString().length() == 0) {
+                nickname.setError("닉네임을 입력해주세요");
+                return;
+            }
+            if(nickname.getError() != null ) {
+                nickname.setError("닉네임 중복확인을 해주세요.");
+                return;
+            }
+            String tempNickname = nickname.getEditText().getText().toString();
+            String tempPhone = phone.getEditText().getText().toString();
+            // 회원가입 프로세스 처리
+            Toast.makeText(getApplicationContext(), tempNickname + " " + tempPhone, Toast.LENGTH_SHORT).show();
+        });
+
+        cancel.setOnClickListener(v -> {
+            dialog.cancel();
+        });
+
+        dialog.show();
     }
 }
