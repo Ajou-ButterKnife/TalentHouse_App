@@ -10,7 +10,8 @@ data class SignUpRes(
 )
 
 data class NormalSignUpRes(
-        val email : String,
+        val result : String,
+        val detail : String?,
 )
 
 data class SocialLoginRes(

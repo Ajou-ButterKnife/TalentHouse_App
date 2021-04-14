@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category_spinner">
+        <item>카테고리</item>
+        <item>춤</item>
+        <item>노래</item>
+        <item>랩</item>
+        <item>그림</item>
+        <item>사진</item>
+        <item>기타</item>
+    </string-array>
+</resources>

@@ -8,12 +8,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +26,9 @@ import java.util.List;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.request.NormalSignUpReq;
+import kr.butterknife.talenthouse.network.request.OverlapEmail;
+import kr.butterknife.talenthouse.network.request.OverlapNickname;
+import kr.butterknife.talenthouse.network.response.CommonResponse;
 import kr.butterknife.talenthouse.network.response.NormalSignUpRes;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +38,10 @@ public class SignUpActivity extends AppCompatActivity {
 
     private String TAG = "SIGN_UP_TAG";
     ArrayList<String> SelectedCategory;
+    private Button btnSignup, btnEmailCheck, btnNicknameCheck;
+    TextInputLayout textInputLayoutEmail, textInputLayoutNickname;
+    boolean isOverlapEmail = true;
+    boolean isOverlapNickname = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,118 +50,182 @@ public class SignUpActivity extends AppCompatActivity {
 
         Spinner spinner = findViewById(R.id.signup_spinner);
         ChipGroup chipGroup = findViewById(R.id.signup_chipgroup);
-        SelectedCategory = new ArrayList<>();
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        SpinnerUtil.INSTANCE.setCategorySpinner(spinner, chipGroup, getApplicationContext());
+
+
+        // 이메일 중복체크 버튼
+        btnEmailCheck = (Button)findViewById(R.id.signup_btn_emailCheck);
+        btnEmailCheck.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String str = parent.getItemAtPosition(position).toString();
-                if(str.equals("카테고리") == false){
-                    boolean alreadySelected = false;
-                    // 이미 선택되었는지 확인
-                    for(int i = 0; i< chipGroup.getChildCount(); i++){
-                        String category = ((Chip)chipGroup.getChildAt(i)).getText().toString();
-                        if(category.equals(str)){
-                            alreadySelected = true;
-                            Toast.makeText(getApplicationContext(), "이미 선택된 카테고리입니다.",Toast.LENGTH_SHORT).show();
-                            parent.setSelection(0);
-                            break;
+            public void onClick(View v) {
+                textInputLayoutEmail = (TextInputLayout)findViewById(R.id.signup_til_email);
+                String textEmail = textInputLayoutEmail.getEditText().getText().toString();
+                if(textEmail.equals("")){
+                    textInputLayoutEmail.setError("이메일을 입력해주세요");
+                    return;
+                }
+                    new Runnable(){
+                        @Override
+                        public void run(){
+                            try{
+                                ButterKnifeApi.INSTANCE.getRetrofitService().overlapCheck(new OverlapEmail(textEmail)).enqueue(new Callback<CommonResponse>() {
+                                    @Override
+                                    public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                                        // 정상 출력이 되면 아래 로그가 출력됨
+                                        if(response.body() != null){
+                                            CommonResponse result = response.body();
+                                            if(result.getResult().equals("Success")){
+                                                textInputLayoutEmail.setError(null);
+                                                isOverlapEmail = false;
+                                            }
+                                            else{
+                                                textInputLayoutEmail.setError("중복된 이메일입니다");
+                                                isOverlapEmail = true;
+                                            }
+                                        }
+                                        else{
+                                            Log.d(TAG, response.errorBody().toString());
+                                            Log.d(TAG, response.message());
+                                            Log.d(TAG, String.valueOf(response.code()));
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<CommonResponse> call, Throwable t) {
+                                        // 서버 쪽으로 메시지를 보내지 못한 경우
+                                        Log.d(TAG, "SERVER CONNECTION ERROR");
+                                    }
+                                });
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
+                        }
+                    }.run();
+                }
+
+        });
+        // 닉네임 중복체크 버튼
+        btnNicknameCheck = (Button)findViewById(R.id.signup_btn_nicknameCheck);
+        btnNicknameCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                textInputLayoutNickname = (TextInputLayout)findViewById(R.id.signup_til_nickname);
+                String textNickname = textInputLayoutNickname.getEditText().getText().toString();
+                if(textNickname.equals("")){
+                    textInputLayoutNickname.setError("닉네임을 입력해주세요");
+                    return;
+                }
+                new Runnable(){
+                    @Override
+                    public void run(){
+                        try{
+                            ButterKnifeApi.INSTANCE.getRetrofitService().overlapCheck(new OverlapNickname(textNickname)).enqueue(new Callback<CommonResponse>() {
+                                @Override
+                                public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                                    // 정상 출력이 되면 아래 로그가 출력됨
+                                    if(response.body() != null){
+                                        CommonResponse result = response.body();
+                                        if(result.getResult().equals("Success")){
+                                            textInputLayoutEmail.setError(null);
+                                            isOverlapNickname = false;
+                                        }
+                                        else{
+                                            textInputLayoutEmail.setError("중복된 닉네임입니다");
+                                            isOverlapNickname = true;
+                                        }
+                                    }
+                                    else{
+                                        Log.d(TAG, response.errorBody().toString());
+                                        Log.d(TAG, response.message());
+                                        Log.d(TAG, String.valueOf(response.code()));
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<CommonResponse> call, Throwable t) {
+                                    // 서버 쪽으로 메시지를 보내지 못한 경우
+                                    Log.d(TAG, "SERVER CONNECTION ERROR");
+                                }
+                            });
+                        }catch (Exception e){
+                            e.printStackTrace();
                         }
                     }
-                    if(alreadySelected == false){
-                        // Chip 인스턴스 생성
-                        Chip chip = new Chip(SignUpActivity.this);
-                        chip.setText(str);
-                        // chip icon 표시 여부
-                        chip.setCloseIconVisible(true);
-                        chip.setBackgroundColor(Color.BLUE);
-                        // chip group 에 해당 chip 추가
-                        chipGroup.addView(chip);
-                        parent.setSelection(0);
-                        // chip 인스턴스 클릭 리스너
-                        chip.setOnCloseIconClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                chipGroup.removeView(v);
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+                }.run();
             }
         });
-
-        // 데이터를 저장하게 되는 리스트
-        List<String> spinner_items = new ArrayList<>();
-        // 스피너와 리스트를 연결하기 위해 사용되는 어댑터
-        ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinner_items);
-        spinner_items.add("카테고리");
-        spinner_items.add("춤");
-        spinner_items.add("노래");
-        spinner_items.add("랩");
-        spinner_items.add("그림");
-        spinner_items.add("사진");
-        spinner_items.add("기타");
-
-        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // 스피너의 어댑터 지정
-        spinner.setAdapter(spinner_adapter);
-
-    }
-
-    public void btn_click(View view) {
-        String email = ((EditText) findViewById(R.id.signup_et_email)).getText().toString();
-        String password = ((EditText) findViewById(R.id.signup_et_password)).getText().toString();
-        String phone = ((EditText) findViewById(R.id.signup_et_phonenumber)).getText().toString();
-        String nickname = ((EditText) findViewById(R.id.signup_et_nickname)).getText().toString();
-
-//        String[] category = new String[SelectedCategory.size()];
-//        int size = 0;
-//        for(String temp : SelectedCategory){
-//            category[size++] = temp;
-//        }
-
-        ChipGroup chipGroup = findViewById(R.id.signup_chipgroup);
-        String[] category = new String[chipGroup.getChildCount()];
-
-        for(int i = 0; i< chipGroup.getChildCount(); i++){
-            category[i] = ((Chip)chipGroup.getChildAt(i)).getText().toString();
-        }
-      
-        new Runnable() {
+        // 회원가입 버튼
+        btnSignup = (Button)findViewById(R.id.signup_btn_signup);
+        btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                try {
-                    ButterKnifeApi.INSTANCE.getRetrofitService().normalAddUser(new NormalSignUpReq(email, password, phone, nickname, Arrays.asList(category))).enqueue(new Callback<NormalSignUpRes>() {
+            public void onClick(View v) {
+                textInputLayoutEmail = (TextInputLayout)findViewById(R.id.signup_til_email);
+                textInputLayoutNickname = (TextInputLayout)findViewById(R.id.signup_til_nickname);
+
+                String email = textInputLayoutEmail.getEditText().getText().toString();
+                String password = ((TextInputLayout)findViewById(R.id.signup_til_password)).getEditText().getText().toString();
+                String phone = ((TextInputLayout)findViewById(R.id.signup_til_phone)).getEditText().getText().toString();
+                String nickname = textInputLayoutNickname.getEditText().getText().toString();
+
+                ChipGroup chipGroup = findViewById(R.id.signup_chipgroup);
+                String[] category = new String[chipGroup.getChildCount()];
+
+                for(int i = 0; i< chipGroup.getChildCount(); i++){
+                    category[i] = ((Chip)chipGroup.getChildAt(i)).getText().toString();
+                }
+                if(isOverlapEmail == true){
+                    Toast.makeText(getApplicationContext(), "Email 중복확인을 해주세요", Toast.LENGTH_SHORT).show();
+                }else if(password.equals("")){
+                    Toast.makeText(getApplicationContext(), "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }else if(isOverlapNickname == true){
+                    Toast.makeText(getApplicationContext(), "Nickname 중복확인을 해주세요", Toast.LENGTH_SHORT).show();
+                }else if(phone.equals("")){
+                    Toast.makeText(getApplicationContext(), "핸드폰 번호를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }else{
+                    new Runnable() {
                         @Override
-                        public void onResponse(Call<NormalSignUpRes> call, Response<NormalSignUpRes> response) {
-                            // 정상 출력이 되면 아래 로그가 출력됨
-                            if(response.body() != null)
-                                Log.d(TAG, response.body().getEmail());
-                                // 정상 출력이 되지 않을 때 서버에서의 response
-                            else {
-                                Log.d(TAG, response.errorBody().toString());
-                                Log.d(TAG, response.message());
-                                Log.d(TAG, String.valueOf(response.code()));
+                        public void run() {
+                            try {
+                                ButterKnifeApi.INSTANCE.getRetrofitService().normalAddUser(new NormalSignUpReq(email, password, phone, nickname, Arrays.asList(category))).enqueue(new Callback<NormalSignUpRes>() {
+                                    @Override
+                                    public void onResponse(Call<NormalSignUpRes> call, Response<NormalSignUpRes> response) {
+                                        // 정상 출력이 되면 아래 로그가 출력됨
+                                        if (response.body() != null){
+                                            Log.d(TAG, response.body().getResult());
+                                            if(response.body().getResult().equals("Success")){
+                                                Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }
+                                        }
+                                        // 정상 출력이 되지 않을 때 서버에서의 response
+                                        else {
+                                            Log.d(TAG, response.errorBody().toString());
+                                            Log.d(TAG, response.message());
+                                            Log.d(TAG, String.valueOf(response.code()));
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<NormalSignUpRes> call, Throwable t) {
+                                        // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                                        Log.d(TAG, "SERVER CONNECTION ERROR");
+                                    }
+                                });
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                         }
-
-                        @Override
-                        public void onFailure(Call<NormalSignUpRes> call, Throwable t) {
-                            // 서버쪽으로 아예 메시지를 보내지 못한 경우
-                            Log.d(TAG, "SERVER CONNECTION ERROR");
-                        }
-                    });
-                }
-                catch(Exception e) {
-                    e.printStackTrace();
+                    }.run();
                 }
             }
-        }.run();
+        });
+        List<String> spinner_items = Arrays.asList(getResources().getStringArray(R.array.category_spinner));
+        // 스피너와 리스트를 연결하기 위해 사용되는 어댑터
+        ArrayAdapter<String> spinner_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, spinner_items);
+
+        spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // 스피너의 어댑터 지정
+        spinner.setAdapter(spinner_adapter);
     }
 }
