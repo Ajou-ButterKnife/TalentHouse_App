@@ -14,8 +14,8 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         new Handler().postDelayed(() -> {
-            int loginId = LoginInfo.INSTANCE.getLoginInfo(getApplicationContext());
-            if(loginId == 0) {
+            String loginId = LoginInfo.INSTANCE.getLoginInfo(getApplicationContext());
+            if(loginId == "") {
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
             else {
