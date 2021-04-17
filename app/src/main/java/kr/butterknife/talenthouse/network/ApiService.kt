@@ -43,6 +43,9 @@ interface ButterKnifeApiService {
 
     @POST("signup/email_overlap_check")
     fun overlapCheck(@Body data : OverlapEmail) : Call<CommonResponse>
+
+    @POST("signup/social")
+    fun socialAddUser(@Body user : SocialSignUpReq) : Call<SocialSignUpRes>
 }
 
 object ButterKnifeApi {
