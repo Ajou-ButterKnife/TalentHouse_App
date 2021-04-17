@@ -6,6 +6,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+//https://youngest-programming.tistory.com/69
 public class MainRVViewHolder {
     static class ContentNOViewHolder extends RecyclerView.ViewHolder {
         protected TextView title;
