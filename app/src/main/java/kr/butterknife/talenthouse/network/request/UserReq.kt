@@ -26,21 +26,14 @@ data class SocialLoginReq(
 data class SocialSignUpReq(
     val phone : String,
     val nickname : String,
-<<<<<<< HEAD
-)
-
-data class OverlapNickname(
-        val nickname : String
-)
-
-data class OverlapEmail(
-        val email : String,
-=======
     val category : List<String>,
     val uid : String,
 )
 
+data class OverlapEmail(
+    val email : String,
+)
+
 data class OverlapNickname(
     val nickname : String
->>>>>>> 25418641447b28341cd79461104cdcbe5663c9a7
 )
