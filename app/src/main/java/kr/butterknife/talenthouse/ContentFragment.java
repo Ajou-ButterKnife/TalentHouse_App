@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,7 +21,7 @@ import java.util.Locale;
 public class ContentFragment extends Fragment {
 
     RVItem item;
-    View include;
+    ViewStub content;
     TextView title, date, writer, subject, addComment;
     EditText comment;
     RecyclerView commentRV;
@@ -37,7 +38,7 @@ public class ContentFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_content, container, false);
 
-        include = view.findViewById(R.id.content_include);
+        content = view.findViewById(R.id.content_include);
         comment = view.findViewById(R.id.content_et_comment);
         commentRV = view.findViewById(R.id.content_rv_comment);
         addComment = view.findViewById(R.id.content_btn_addcomment);
@@ -69,10 +70,14 @@ public class ContentFragment extends Fragment {
         else if(item.getMp4Url() != null) {
 
         }
-        title = include.findViewById(R.id.rvtext_tv_title);
-        date = include.findViewById(R.id.rvtext_tv_date);
-        writer = include.findViewById(R.id.rvtext_tv_writer);
-        subject = include.findViewById(R.id.rvtext_tv_subject);
+        else {
+            content.setLayoutResource(R.layout.item_rv_text);
+            View inflated = content.inflate();
+            title = inflated.findViewById(R.id.rvtext_tv_title);
+            date = inflated.findViewById(R.id.rvtext_tv_date);
+            writer = inflated.findViewById(R.id.rvtext_tv_writer);
+            subject = inflated.findViewById(R.id.rvtext_tv_subject);
+        }
 
         title.setText(item.getTitle());
         date.setText(item.getDate());
