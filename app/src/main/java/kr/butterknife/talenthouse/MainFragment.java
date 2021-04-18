@@ -3,6 +3,7 @@ package kr.butterknife.talenthouse;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,16 @@ public class MainFragment extends Fragment {
         arrayList.add(new RVItem("wertwert", "wert", "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
 
         rvAdapter = new MainRVAdapter(arrayList);
+        rvAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+                ((MainActivity) getActivity()).replaceFragment(
+                        new ContentFragment(arrayList.get(pos)),
+                        "Content"
+                );
+            }
+        });
+
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
