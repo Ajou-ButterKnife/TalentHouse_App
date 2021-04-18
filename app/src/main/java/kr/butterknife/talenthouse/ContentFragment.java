@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class ContentFragment extends Fragment {
 
@@ -78,7 +81,10 @@ public class ContentFragment extends Fragment {
     }
 
     public void writeComment() {
-        CommentItem newComment = new CommentItem("test", "20200101", comment.getText().toString());
+        Date curDate = new Date(System.currentTimeMillis());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
+
+        CommentItem newComment = new CommentItem("test", sdf.format(curDate), comment.getText().toString());
 
         //network 작업
 
