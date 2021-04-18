@@ -6,15 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".ContentFragment">
 
-
-    <include
-        android:id="@+id/content_include"
-        layout="@layout/item_rv_text"
+    <FrameLayout
+        android:id="@+id/content_layout_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+        <ViewStub
+            android:id="@+id/content_include"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
 
     <View
         android:id="@+id/view"
@@ -23,7 +26,7 @@
         android:background="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/content_include" />
+        app:layout_constraintTop_toBottomOf="@id/content_layout_content" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/content_rv_comment"
@@ -40,6 +43,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/darker_gray"
         android:inputType="text"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/content_btn_addcomment"
         app:layout_constraintStart_toStartOf="parent" />
