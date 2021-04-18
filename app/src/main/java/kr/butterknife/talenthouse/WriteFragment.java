@@ -1,6 +1,7 @@
 package kr.butterknife.talenthouse;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,15 +26,18 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
 public class WriteFragment extends Fragment implements View.OnClickListener{
 
+    private final int imageSelected = 10;
+    private final int videoSelected = 20;
+
     private String category;
 
     private Spinner spinner;
-    private ImageView imageView;
     private VideoView videoView;
     private Button btnUploadImage;
     private Button btnUploadVideo;
@@ -96,20 +101,16 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fw_btn_uploadImage:
-                Intent intent = new Intent();
+                intent = new Intent();
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setAction(Intent.ACTION_PICK);
-                startActivityForResult(intent, 10);
-
-//                intent = new Intent(Intent.ACTION_PICK);
-//                intent.setType("image/*");
-//                startActivityForResult(intent, 10);
+                startActivityForResult(intent, imageSelected);
                 break;
             case R.id.fw_btn_uploadVideo:
                 intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("video/*");
-                startActivityForResult(intent, 20);
+                startActivityForResult(intent, videoSelected);
                 break;
         }
     }
@@ -119,7 +120,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode){
-            case 10:
+            case imageSelected:
                     if(resultCode == -1){
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
                         layoutParams.rightMargin = 5;
@@ -136,7 +137,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
                     Toast.makeText(getContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case 20:
+            case videoSelected:
                 if(resultCode == -1){
                     // 선택한 사진의 경로(Uri) 객체 얻어오기
                     uri = data.getData();
