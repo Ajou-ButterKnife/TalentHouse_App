@@ -23,22 +23,22 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         View view = null;
 
         if(viewType == ContentType.MP3.ordinal()) {
-            LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_mp3, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_mp3, parent, false);
             ContentMP3ViewHolder vh = new ContentMP3ViewHolder(view);
             return vh;
         }
         else if(viewType == ContentType.MP4.ordinal()) {
-            LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_mp4, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_mp4, parent, false);
             ContentMP4ViewHolder vh = new ContentMP4ViewHolder(view);
             return vh;
         }
         else if(viewType == ContentType.IMAGE.ordinal()) {
-            LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_image, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_image, parent, false);
             ContentImageViewHolder vh = new ContentImageViewHolder(view);
             return vh;
         }
 
-        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_text, parent, false);
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_text, parent, false);
         ContentNOViewHolder vh = new ContentNOViewHolder(view);
         return vh;
     }
