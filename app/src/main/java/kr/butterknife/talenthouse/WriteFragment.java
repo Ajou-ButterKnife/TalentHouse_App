@@ -47,6 +47,8 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
     HorizontalScrollView horizontalScrollView;
     LinearLayout linearLayout;
 
+    private LinearLayout imageContainer, videoContainer;
+
     public WriteFragment() {
         // Required empty public constructor
     }
@@ -61,7 +63,11 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
         videoView = view.findViewById(R.id.fw_vv);
         btnUploadImage = view.findViewById(R.id.fw_btn_uploadImage);
         btnUploadVideo = view.findViewById(R.id.fw_btn_uploadVideo);
+        imageContainer = view.findViewById(R.id.fw_container_image);
+        videoContainer = view.findViewById(R.id.fw_container_video);
 
+        imageContainer.setVisibility(View.GONE);
+        videoContainer.setVisibility(View.GONE);
 
         btnUploadImage.setOnClickListener(this);
         btnUploadVideo.setOnClickListener(this);
@@ -83,6 +89,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
                 String str = parent.getItemAtPosition(position).toString();
                 if(str.equals("카테고리") == false){
                     category = str;
+                    setLLVisibility(category);
                     Log.d("setCater", category);
                 }
             }
@@ -163,6 +170,33 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
                 }else{
                     Toast.makeText(getContext(), "동영상을 선택하지 않았습니다.", Toast.LENGTH_SHORT).show();
                 }
+                break;
+        }
+    }
+
+    public void setLLVisibility(String name) {
+        String[] array = getResources().getStringArray(R.array.category_spinner);
+        int idx;
+        for(idx = 0; idx < array.length; idx++)
+            if(array[idx].equals(name))
+                break;
+
+        switch(idx) {
+            case 1 :
+            case 2 :
+            case 3 :
+                imageContainer.setVisibility(View.GONE);
+                videoContainer.setVisibility(View.VISIBLE);
+                break;
+            case 4 :
+            case 5 :
+            case 6 :
+                imageContainer.setVisibility(View.VISIBLE);
+                videoContainer.setVisibility(View.GONE);
+                break;
+            default :
+                imageContainer.setVisibility(View.GONE);
+                videoContainer.setVisibility(View.GONE);
                 break;
         }
     }
