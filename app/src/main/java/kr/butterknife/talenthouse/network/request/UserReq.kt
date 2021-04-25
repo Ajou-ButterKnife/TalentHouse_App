@@ -37,3 +37,12 @@ data class OverlapEmail(
 data class OverlapNickname(
     val nickname : String
 )
+
+data class UploadPostReq(
+    val id : String,
+    val title : String,
+    val description : String,
+    val category : String,
+    val imageUrl : List<String>,
+    val videoUrl : String,
+)

@@ -31,13 +31,13 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fw_et_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Title"
-                    android:ems="15"
-                    android:inputType="text"
                     android:layout_margin="8dp"
-                    />
+                    android:ems="15"
+                    android:hint="Title"
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -46,13 +46,14 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fw_et_desc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:ems="15"
-                    android:lines="5"
                     android:hint="Desc"
                     android:inputType="textMultiLine"
-                    android:layout_margin="8dp"/>
+                    android:lines="5" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,7 +104,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/write_btn"
+                android:id="@+id/fw_btn_post"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="글 작성" />

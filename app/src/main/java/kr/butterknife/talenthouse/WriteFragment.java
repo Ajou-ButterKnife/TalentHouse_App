@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,6 +38,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,23 +46,37 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class WriteFragment extends Fragment implements View.OnClickListener{
+import kr.butterknife.talenthouse.network.ButterKnifeApi;
+import kr.butterknife.talenthouse.network.request.NormalLoginReq;
+import kr.butterknife.talenthouse.network.request.UploadPostReq;
+import kr.butterknife.talenthouse.network.response.CommonResponse;
+import kr.butterknife.talenthouse.network.response.NormalLoginRes;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+ public class WriteFragment extends Fragment implements View.OnClickListener{
 
 
+    private String TAG = "UPLOAD_TAG";
     private String category;
     private Spinner spinner;
     private ImageView imageView;
     private VideoView videoView;
     private Button btnUploadImage;
     private Button btnUploadVideo;
-    private Button btnUpWrite;
+    private Button btnUpPost;
     private Intent intent;
     private Uri uri;
-    private ArrayList<File> images;
+    private List<File> images;
     private File video;
     private String TEST = "TEST_TAG";
     private final int imageSelected = 10;
     private final int videoSelected = 20;
+
+    private TextInputEditText titleEt;
+    private TextInputEditText descEt;
+
 
 
     HorizontalScrollView horizontalScrollView;
@@ -80,14 +96,14 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
         videoView = view.findViewById(R.id.fw_vv);
         btnUploadImage = view.findViewById(R.id.fw_btn_uploadImage);
         btnUploadVideo = view.findViewById(R.id.fw_btn_uploadVideo);
-        btnUpWrite = view.findViewById(R.id.write_btn);
+        btnUpPost = view.findViewById(R.id.fw_btn_post);
 
-
-
+        titleEt = view.findViewById(R.id.fw_et_title);
+        descEt = view.findViewById(R.id.fw_et_desc);
 
         btnUploadImage.setOnClickListener(this);
         btnUploadVideo.setOnClickListener(this);
-        btnUpWrite.setOnClickListener(this);
+        btnUpPost.setOnClickListener(this);
 
 
         linearLayout = view.findViewById(R.id.fw_ll_image);
@@ -95,7 +111,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
 
 
         List<String> spinner_items = Arrays.asList(getResources().getStringArray(R.array.category_spinner));
-        // 스피커와 리스트를 연결하기 위해 사용되는 어댑터
+        // 스피너와 리스트를 연결하기 위해 사용되는 어댑터
         ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinner_items);
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // 스피너의 어댑터 지정
@@ -110,13 +126,11 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
                     Log.d("setCater", category);
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
         });
-
 
         images = new ArrayList<>();
 
@@ -138,17 +152,30 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
                 intent.setType("video/*");
                 startActivityForResult(intent, videoSelected);
                 break;
-            case R.id.write_btn:
-                if(video == null)
+            case R.id.fw_btn_post:
+                if(video == null) {     // video 업로드일 경우
                     uploadWithTransferUtilty(images);
-                else
+                    ArrayList<String> postImageUrl = new ArrayList<>();
+                    for(File file : images) {
+                        postImageUrl.add("https://talent-house-app.s3.ap-northeast-2.amazonaws.com/photo/" + file.getName());
+                    }
+                }
+                else {      // image 업로드일 경우
                     uploadWithTransferUtilty(video);
+                    String postVideoUrl = "https://talent-house-app.s3.ap-northeast-2.amazonaws.com/video/" + video.getName();
+                }
+                String postTitle = titleEt.getText().toString();
+                String postDesc = descEt.getText().toString();
+                String postCategory = spinner.getSelectedItem().toString();
+                String postId = LoginInfo.INSTANCE.getLoginInfo(getActivity().getApplicationContext());
+
+
                 break;
 
         }
     }
 
-    public void uploadWithTransferUtilty(ArrayList<File> files) {
+    public void uploadWithTransferUtilty(List<File> files) {
         // CredentialsProvider 객체 생성 (Cognito에서 자격 증명 풀 ID 제공)
         AWSCredentials awsCredentials = new BasicAWSCredentials("AKIAQUQIUUPFLLOMLQUD", "Yi6ph/MUh6ISRliH2mv0jlwkqtg5hZoJ5LjQU4Ia");
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
@@ -157,7 +184,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
         TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
 
         for(File file : files) {
-            TransferObserver uploadObserver = transferUtility.upload("talent-house-app/photo", file.getName(), file);
+            TransferObserver uploadObserver = transferUtility.upload("talent-house-app/photo", "test"+file.getName(), file);
 
             uploadObserver.setTransferListener(new TransferListener() {
                 @Override
@@ -185,16 +212,9 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
                 /* Handle completion */
             }
         }
-
-        // arraylist http
-                startActivityForResult(intent, videoSelected);
-                break;
-        }
     }
 
     public void uploadWithTransferUtilty(File file) {
-        System.out.println("asdf");
-        Log.d("TAG", "TESTTEST");
         // CredentialsProvider 객체 생성 (Cognito에서 자격 증명 풀 ID 제공)
         AWSCredentials awsCredentials = new BasicAWSCredentials("AKIAQUQIUUPFLLOMLQUD", "Yi6ph/MUh6ISRliH2mv0jlwkqtg5hZoJ5LjQU4Ia");
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
@@ -202,7 +222,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
         TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
 
-        TransferObserver uploadObserver = transferUtility.upload("talent-house-app/video", file.getName(), file);
+        TransferObserver uploadObserver = transferUtility.upload("talent-house-app/video", "test"+file.getName(), file);
 
         uploadObserver.setTransferListener(new TransferListener() {
             @Override
@@ -224,12 +244,10 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
                 Log.d("MYTAG", "UPLOAD ERROR - - ID: $id - - EX:" + ex.toString());
             }
         });
-
         // If you prefer to long-poll for updates
         if (uploadObserver.getState() == TransferState.COMPLETED) {
             /* Handle completion */
         }
-
     }
 
     @Override
@@ -300,4 +318,41 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
         return path;
     }
 
+    public void postPost(String title, String description, String category, String id, ArrayList<String> imageUrl, String videoUrl){
+        try {
+            ButterKnifeApi.INSTANCE.getRetrofitService().postCreate(new UploadPostReq(id, title, description, category, imageUrl, videoUrl)).enqueue(new Callback<CommonResponse>() {
+                @Override
+                public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                    // 정상 출력이 되면 아래 로그가 출력됨
+                    if(response.body() != null) {
+                        CommonResponse result = response.body();
+                        if(result.getResult().equals("Success")) {
+                            ((MainActivity) getActivity()).finishFragment(WriteFragment.this);
+                        }
+                        else {
+                            Toast.makeText(getActivity().getApplicationContext(), result.getDetail(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    // 정상 출력이 되지 않을 때 서버에서의 response
+                    else {
+                        Log.d(TAG, response.errorBody().toString());
+                        Log.d(TAG, response.message());
+                        Log.d(TAG, String.valueOf(response.code()));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CommonResponse> call, Throwable t) {
+                    // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                    Toast.makeText(getActivity().getApplicationContext(), "서버와 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "SERVER CONNECTION ERROR");
+                }
+            });
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    }
 }

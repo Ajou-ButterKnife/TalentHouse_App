@@ -46,6 +46,9 @@ interface ButterKnifeApiService {
 
     @POST("signup/social")
     fun socialAddUser(@Body user : SocialSignUpReq) : Call<SocialSignUpRes>
+
+    @POST("post/create")
+    fun postCreate(@Body data : UploadPostReq) : Call<CommonResponse>
 }
 
 object ButterKnifeApi {
