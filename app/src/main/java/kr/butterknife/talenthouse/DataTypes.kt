@@ -47,6 +47,6 @@ data class CommentItem(
     val writerId : String,
     @Json(name = "writer_nickname")
     val writerNickname : String,
-    val date : String,
+    val date : Date,
     val comment : String,
 )
