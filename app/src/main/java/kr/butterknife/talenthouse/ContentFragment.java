@@ -80,7 +80,7 @@ public class ContentFragment extends Fragment {
         }
 
         title.setText(item.getTitle());
-        date.setText(item.getUpdateTime());
+        date.setText(Util.INSTANCE.getDate2String(item.getUpdateTime()));
         writer.setText(item.getWriterNickname());
         subject.setText(item.getDescription());
     }
