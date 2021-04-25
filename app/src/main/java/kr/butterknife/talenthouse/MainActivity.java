@@ -2,6 +2,8 @@ package kr.butterknife.talenthouse;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -55,4 +57,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         return false;
     }
+
+    public void replaceFragment(Fragment fragment, String backstackName){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_ll, fragment);
+        fragmentTransaction.addToBackStack(backstackName);
+        fragmentTransaction.commit();
+    }
+
 }
