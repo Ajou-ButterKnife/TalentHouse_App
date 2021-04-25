@@ -5,25 +5,25 @@
     <item
         android:id="@+id/btmnavi_menu"
         android:title="메뉴"
-        android:icon="@android:drawable/ic_menu_sort_by_size"/>
+        android:icon="@drawable/btm_navigation_menu"/>
 
     <item
         android:id="@+id/btmnavi_search"
         android:title="검색"
-        android:icon="@android:drawable/ic_menu_search"/>
+        android:icon="@drawable/btm_navigation_search"/>
 
     <item
         android:id="@+id/btmnavi_home"
         android:title="홈"
-        android:icon="@android:drawable/btn_star"/>
+        android:icon="@drawable/btm_navigation_home"/>
 
     <item
-        android:id="@+id/btmnavi_like"
+        android:id="@+id/btmnavi_favorite"
         android:title="좋아요"
-        android:icon="@android:drawable/ic_menu_edit"/>
+        android:icon="@drawable/btm_navigation_favorite"/>
 
     <item
         android:id="@+id/btmnavi_mypage"
         android:title="마이페이지"
-        android:icon="@android:drawable/ic_dialog_alert"/>
+        android:icon="@drawable/btm_navigation_mypage"/>
 </menu>

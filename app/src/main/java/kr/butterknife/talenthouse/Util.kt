@@ -5,15 +5,15 @@ import android.graphics.Color
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import java.text.SimpleDateFormat
 import java.util.*
 
 object SpinnerUtil {
-    fun setCategorySpinner(spinner: Spinner, chipGroup: ChipGroup, context : Context) {
+    fun setCategorySpinner(spinner: Spinner, chipGroup: ChipGroup, context: Context) {
         spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 val str = parent.getItemAtPosition(position).toString()
@@ -48,4 +48,8 @@ object SpinnerUtil {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
+}
+
+object Util {
+    fun getDate2String(date: Date) = SimpleDateFormat("yyyy.MM.dd", Locale.KOREA).format(date)
 }

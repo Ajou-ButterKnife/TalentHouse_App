@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,11 +24,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bottomNavigationView = findViewById(R.id.main_bottomnavi);
-        bottomNavigationView.setOnNavigationItemSelectedListener(this);
         mainFrag = new MainFragment();
 
-        replaceFragment(mainFrag, "Main");
+        bottomNavigationView = findViewById(R.id.main_bottomnavi);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+        bottomNavigationView.setSelectedItemId(R.id.btmnavi_home);
     }
 
 
@@ -37,9 +36,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.btmnavi_home :
-                replaceFragment(mainFrag, "Main");
+                if(getVisibleFragment(mainFrag))
+                    replaceFragment(mainFrag, "Main");
                 return true;
-            case R.id.btmnavi_like :
+            case R.id.btmnavi_favorite:
                 return true;
             case R.id.btmnavi_menu :
                 return true;
@@ -65,4 +65,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         fragmentTransaction.commit();
     }
 
+    public boolean getVisibleFragment(Fragment fragment) {
+        for(Fragment f : getSupportFragmentManager().getFragments()) {
+            if(f.isVisible()) {
+                if(f.equals(fragment))
+                    return false;
+            }
+        }
+        return true;
+    }
 }

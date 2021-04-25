@@ -2,21 +2,19 @@ package kr.butterknife.talenthouse;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MainFragment extends Fragment implements View.OnClickListener {
 
@@ -37,15 +35,16 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         btnWrite.setOnClickListener(this);
 
         rv = view.findViewById(R.id.main_rv);
-        ArrayList<RVItem> arrayList = new ArrayList<>();
+        ArrayList<PostItem> arrayList = new ArrayList<>();
 
         //for test
-        arrayList.add(new RVItem("asdfasdf", "asdf", "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new RVItem("qwerqwer", "qwer", "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new RVItem("zxcvzxcv", "zxcv", "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new RVItem("xcvbxcvb", "xcvb", "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new RVItem("sdfgsdfg", "sdfg", "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new RVItem("wertwert", "wert", "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
+        ArrayList<CommentItem> tempArr = new ArrayList<>();
+        arrayList.add(new PostItem("asdfasdf", "asdf", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
+        arrayList.add(new PostItem("qwerqwer", "qwer", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
+        arrayList.add(new PostItem("zxcvzxcv", "zxcv", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
+        arrayList.add(new PostItem("xcvbxcvb", "xcvb", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
+        arrayList.add(new PostItem("sdfgsdfg", "sdfg", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
+        arrayList.add(new PostItem("wertwert", "wert", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
 
         rvAdapter = new MainRVAdapter(arrayList);
         rvAdapter.setOnItemClickListener(new OnItemClickListener() {
