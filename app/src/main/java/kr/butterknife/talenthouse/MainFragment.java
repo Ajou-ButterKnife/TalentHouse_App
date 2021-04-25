@@ -13,20 +13,14 @@ import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
-import kr.butterknife.talenthouse.network.request.OverlapEmail;
-import kr.butterknife.talenthouse.network.response.CommonResponse;
 import kr.butterknife.talenthouse.network.response.PostRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import java.util.Date;
-import java.util.List;
 
 public class MainFragment extends Fragment implements View.OnClickListener {
 
@@ -63,7 +57,9 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        Log.d("TEST", "0");
         getPosts();
+        Log.d("TEST", "1");
         return view;
     }
 
@@ -77,9 +73,11 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
                                 try{
+                                    Log.d("TEST", "2");
                                     List<PostItem> postList = response.body().getData();
+                                    Log.d("TEST", "2");
                                     for(PostItem p : postList){
-                                        posts.add(new PostItem(p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription()));
+                                        posts.add(new PostItem(p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory()));
                                     }
                                     rvAdapter.notifyDataSetChanged();
                                 }catch (Exception e){
@@ -94,6 +92,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                         }
                     });
                 }catch (Exception e){
+                    Log.d("TEST", "-1");
                     e.printStackTrace();
                 }
             }

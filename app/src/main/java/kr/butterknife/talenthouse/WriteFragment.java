@@ -340,7 +340,7 @@ import retrofit2.Response;
                                  if (result.getResult().equals("Success")) {
                                      ((MainActivity) getActivity()).finishFragment(WriteFragment.this);
                                  } else {
-                                     Toast.makeText(getActivity().getApplicationContext(), result.getDetail(), Toast.LENGTH_SHORT).show();
+
                                  }
                              }
 

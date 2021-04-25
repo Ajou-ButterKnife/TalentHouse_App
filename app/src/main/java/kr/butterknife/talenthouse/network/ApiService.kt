@@ -49,7 +49,7 @@ interface ButterKnifeApiService {
     @POST("signup/social")
     fun socialAddUser(@Body user : SocialSignUpReq) : Call<SocialSignUpRes>
 
-    @GET("post/")
+    @GET("post")
     fun getPosts() :Call<PostRes>
   
     @POST("post/create")

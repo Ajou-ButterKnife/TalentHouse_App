@@ -10,32 +10,35 @@ data class PostItem(
     @Json(name = "writer_id")
     val writerId : String,
     @Json(name = "update_time")
-    val updateTime : Date,
+    val updateTime : String,
     val description : String,
+    @Json(name = "mp3_url")
     var mp3Url : String? = null,
+    @Json(name = "video_url")
     var videoUrl : String? = null,
+    @Json(name = "image_url")
     val imageUrl : List<String>? = null,
-    @Json(name = "likes_cnt")
-    val likesCnt : Int,
+    @Json(name = "like_cnt")
+    val likeCnt : Int,
     val category : String,
-    val comments : List<CommentItem>
+//    val comments : Array<CommentItem>
 ) {
-    constructor(title : String, writerNickname : String, writerId : String, updateTime : Date, description : String, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
-        title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category, comments
+    constructor(title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, category : String) : this (
+        title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category
     )
 
-    constructor(title : String, writerNickname : String, writerId : String, updateTime : Date, description : String, url : String, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
-        title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category, comments
-    ) {
-        if(url.contains(".mp4"))
-            this.videoUrl = url
-        else
-            this.mp3Url = url
-    }
-
-    constructor(title : String, writerNickname : String, writerId : String, updateTime : Date, description : String, imageUrl: List<String>, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
-        title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, category, comments
-    )
+//    constructor(title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
+//        title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category, comments
+//    ) {
+//        if(url.contains(".mp4"))
+//            this.videoUrl = url
+//        else
+//            this.mp3Url = url
+//    }
+//
+//    constructor(title : String, writerNickname : String, writerId : String, updateTime : String, description : String, imageUrl: List<String>, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
+//        title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, category, comments
+//    )
 }
 
 enum class ContentType(type : Int) {
