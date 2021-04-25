@@ -104,6 +104,9 @@ import retrofit2.Response;
          imageContainer = view.findViewById(R.id.fw_container_image);
          videoContainer = view.findViewById(R.id.fw_container_video);
 
+         imageContainer.setVisibility(View.GONE);
+         videoContainer.setVisibility(View.GONE);
+
          btnUploadImage.setOnClickListener(this);
          btnUploadVideo.setOnClickListener(this);
          btnUpPost.setOnClickListener(this);
