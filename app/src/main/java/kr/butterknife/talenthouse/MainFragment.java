@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MainFragment extends Fragment implements View.OnClickListener {
 
@@ -36,12 +38,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         ArrayList<PostItem> arrayList = new ArrayList<>();
 
         //for test
-        arrayList.add(new PostItem("asdfasdf", "asdf", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new PostItem("qwerqwer", "qwer", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new PostItem("zxcvzxcv", "zxcv", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new PostItem("xcvbxcvb", "xcvb", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new PostItem("sdfgsdfg", "sdfg", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new PostItem("wertwert", "wert", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
+        ArrayList<CommentItem> tempArr = new ArrayList<>();
+        arrayList.add(new PostItem("asdfasdf", "asdf", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
+        arrayList.add(new PostItem("qwerqwer", "qwer", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
+        arrayList.add(new PostItem("zxcvzxcv", "zxcv", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
+        arrayList.add(new PostItem("xcvbxcvb", "xcvb", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
+        arrayList.add(new PostItem("sdfgsdfg", "sdfg", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
+        arrayList.add(new PostItem("wertwert", "wert", LoginInfo.INSTANCE.getLoginInfo(getContext()), new Date(), "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf", 0, "category", tempArr));
 
         rvAdapter = new MainRVAdapter(arrayList);
         rvAdapter.setOnItemClickListener(new OnItemClickListener() {
