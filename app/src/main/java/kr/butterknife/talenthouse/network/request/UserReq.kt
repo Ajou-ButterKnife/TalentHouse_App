@@ -44,5 +44,5 @@ data class UploadPostReq(
     val description : String,
     val category : String,
     val imageUrl : List<String>,
-    val videoUrl : String,
+    val videoUrl : String?,
 )

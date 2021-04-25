@@ -13,7 +13,8 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 //private const val BASE_URL = "http://3.137.162.68:4000/"
-private const val BASE_URL = "http://10.0.2.2:4000/"
+//private const val BASE_URL = "http://10.0.2.2:4000/"
+private const val BASE_URL = "http://172.30.1.3:4000/"
 
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
