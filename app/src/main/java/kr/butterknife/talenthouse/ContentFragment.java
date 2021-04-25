@@ -46,7 +46,7 @@ public class ContentFragment extends Fragment {
 
         commentList = new ArrayList<>();
         for(int i = 0; i < 20; i++)
-            commentList.add(new CommentItem(LoginInfo.INSTANCE.getLoginInfo(getContext()), "writer" + (i + 1), "20210101", "This is comment. Comment's number is " + (i + 1)));
+            commentList.add(new CommentItem(LoginInfo.INSTANCE.getLoginInfo(getContext()), "writer" + (i + 1), new Date(), "This is comment. Comment's number is " + (i + 1)));
 
         rvAdapter = new CommentRVAdapter(commentList);
 
@@ -80,16 +80,13 @@ public class ContentFragment extends Fragment {
         }
 
         title.setText(item.getTitle());
-        date.setText(item.getUpdateTime());
+        date.setText(Util.INSTANCE.getDate2String(item.getUpdateTime()));
         writer.setText(item.getWriterNickname());
         subject.setText(item.getDescription());
     }
 
     public void writeComment() {
-        Date curDate = new Date(System.currentTimeMillis());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
-
-        CommentItem newComment = new CommentItem(LoginInfo.INSTANCE.getLoginInfo(getContext()), "test", sdf.format(curDate), comment.getText().toString());
+        CommentItem newComment = new CommentItem(LoginInfo.INSTANCE.getLoginInfo(getContext()), "test", new Date(), comment.getText().toString());
 
         //network 작업
 

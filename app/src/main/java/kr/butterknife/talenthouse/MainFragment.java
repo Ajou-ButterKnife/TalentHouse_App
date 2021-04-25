@@ -25,6 +25,8 @@ import kr.butterknife.talenthouse.network.response.PostRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import java.util.Date;
+import java.util.List;
 
 public class MainFragment extends Fragment implements View.OnClickListener {
 
