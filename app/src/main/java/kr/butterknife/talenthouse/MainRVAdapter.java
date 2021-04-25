@@ -3,7 +3,7 @@ package kr.butterknife.talenthouse;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import kr.butterknife.talenthouse.MainRVViewHolder.*;
@@ -11,9 +11,9 @@ import kr.butterknife.talenthouse.MainRVViewHolder.*;
 import java.util.ArrayList;
 
 public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<RVItem> arrayList;
+    private ArrayList<PostItem> arrayList;
 
-    public MainRVAdapter(ArrayList<RVItem> list) {
+    public MainRVAdapter(ArrayList<PostItem> list) {
         arrayList = list;
     }
 
@@ -34,7 +34,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             vh.setOnItemClickListener(itemClickListener);
             return vh;
         }
-        else if(viewType == ContentType.MP4.ordinal()) {
+        else if(viewType == ContentType.VIDEO.ordinal()) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_mp4, parent, false);
             ContentMP4ViewHolder vh = new ContentMP4ViewHolder(view);
             vh.setOnItemClickListener(itemClickListener);
@@ -59,9 +59,9 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             System.out.println(position + " : " + "asdf");
             ContentNOViewHolder holder = (ContentNOViewHolder) _holder;
             holder.title.setText(arrayList.get(position).getTitle());
-            holder.writer.setText(arrayList.get(position).getWriter());
-            holder.date.setText(arrayList.get(position).getDate());
-            holder.subject.setText(arrayList.get(position).getSubject());
+            holder.writer.setText(arrayList.get(position).getWriterNickname());
+            holder.date.setText(arrayList.get(position).getUpdateTime());
+            holder.subject.setText(arrayList.get(position).getDescription());
         }
         else if(_holder instanceof ContentMP3ViewHolder) {
 
@@ -84,13 +84,13 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemViewType(int position) {
-        RVItem item = arrayList.get(position);
+        PostItem item = arrayList.get(position);
 
         if(item.getMp3Url() != null) {
             return ContentType.MP3.ordinal();
         }
-        else if(item.getMp4Url() != null) {
-            return ContentType.MP4.ordinal();
+        else if(item.getVideoUrl() != null) {
+            return ContentType.VIDEO.ordinal();
         }
         else if(item.getImageUrl() != null) {
             return ContentType.IMAGE.ordinal();
