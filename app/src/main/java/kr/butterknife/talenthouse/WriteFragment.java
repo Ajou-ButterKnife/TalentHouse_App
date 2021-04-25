@@ -76,6 +76,8 @@ import retrofit2.Response;
      private TextInputEditText titleEt;
      private TextInputEditText descEt;
 
+     private LinearLayout imageContainer, videoContainer;
+
 
      HorizontalScrollView horizontalScrollView;
      LinearLayout linearLayout;
@@ -99,6 +101,9 @@ import retrofit2.Response;
          titleEt = view.findViewById(R.id.fw_et_title);
          descEt = view.findViewById(R.id.fw_et_desc);
 
+         imageContainer = view.findViewById(R.id.fw_container_image);
+         videoContainer = view.findViewById(R.id.fw_container_video);
+
          btnUploadImage.setOnClickListener(this);
          btnUploadVideo.setOnClickListener(this);
          btnUpPost.setOnClickListener(this);
@@ -121,6 +126,7 @@ import retrofit2.Response;
                  String str = parent.getItemAtPosition(position).toString();
                  if (str.equals("카테고리") == false) {
                      category = str;
+                     setLLVisibility(category);
                      Log.d("setCater", category);
                  }
              }
@@ -355,5 +361,32 @@ import retrofit2.Response;
                  }
              }
          }.run();
+     }
+
+     public void setLLVisibility(String name) {
+         String[] array = getResources().getStringArray(R.array.category_spinner);
+         int idx;
+         for(idx = 0; idx < array.length; idx++)
+             if(array[idx].equals(name))
+                 break;
+
+         switch(idx) {
+             case 1 :
+             case 2 :
+             case 3 :
+                 imageContainer.setVisibility(View.GONE);
+                 videoContainer.setVisibility(View.VISIBLE);
+                 break;
+             case 4 :
+             case 5 :
+             case 6 :
+                 imageContainer.setVisibility(View.VISIBLE);
+                 videoContainer.setVisibility(View.GONE);
+                 break;
+             default :
+                 imageContainer.setVisibility(View.GONE);
+                 videoContainer.setVisibility(View.GONE);
+                 break;
+         }
      }
  }
