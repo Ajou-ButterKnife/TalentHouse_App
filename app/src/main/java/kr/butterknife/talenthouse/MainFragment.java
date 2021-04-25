@@ -2,18 +2,23 @@ package kr.butterknife.talenthouse;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerView rv;
     private MainRVAdapter rvAdapter;
@@ -26,6 +31,10 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
+
+        FloatingActionButton btnWrite = view.findViewById(R.id.main_fab_write);
+
+        btnWrite.setOnClickListener(this);
 
         rv = view.findViewById(R.id.main_rv);
         ArrayList<RVItem> arrayList = new ArrayList<>();
@@ -53,5 +62,15 @@ public class MainFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return view;
+    }
+
+    @Override
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.main_fab_write:
+                WriteFragment writeFragment = new WriteFragment();
+                ((MainActivity)getActivity()).replaceFragment(writeFragment, "Write");
+                break;
+        }
     }
 }
