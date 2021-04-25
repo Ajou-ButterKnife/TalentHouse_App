@@ -103,10 +103,10 @@
             </LinearLayout>
 
             <Button
+                android:id="@+id/write_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="글 작성"/>
-
+                android:text="글 작성" />
 
         </LinearLayout>
 

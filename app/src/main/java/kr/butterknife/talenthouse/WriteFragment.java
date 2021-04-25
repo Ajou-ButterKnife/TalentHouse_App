@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse;
+ package kr.butterknife.talenthouse;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,23 +26,42 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferNetworkLossHandler;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3Client;
+
 import java.io.File;
+import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class WriteFragment extends Fragment implements View.OnClickListener{
 
-    private final int imageSelected = 10;
-    private final int videoSelected = 20;
 
     private String category;
-
     private Spinner spinner;
+    private ImageView imageView;
     private VideoView videoView;
     private Button btnUploadImage;
     private Button btnUploadVideo;
+    private Button btnUpWrite;
     private Intent intent;
     private Uri uri;
+    private ArrayList<File> images;
+    private File video;
+    private String TEST = "TEST_TAG";
+    private final int imageSelected = 10;
+    private final int videoSelected = 20;
+
 
     HorizontalScrollView horizontalScrollView;
     LinearLayout linearLayout;
@@ -61,10 +80,15 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
         videoView = view.findViewById(R.id.fw_vv);
         btnUploadImage = view.findViewById(R.id.fw_btn_uploadImage);
         btnUploadVideo = view.findViewById(R.id.fw_btn_uploadVideo);
+        btnUpWrite = view.findViewById(R.id.write_btn);
+
+
 
 
         btnUploadImage.setOnClickListener(this);
         btnUploadVideo.setOnClickListener(this);
+        btnUpWrite.setOnClickListener(this);
+
 
         linearLayout = view.findViewById(R.id.fw_ll_image);
         horizontalScrollView = view.findViewById(R.id.fw_hsv);
@@ -94,6 +118,8 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
         });
 
 
+        images = new ArrayList<>();
+
         return view;
     }
 
@@ -106,13 +132,104 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 intent.setAction(Intent.ACTION_PICK);
                 startActivityForResult(intent, imageSelected);
-                break;
+                break;       
             case R.id.fw_btn_uploadVideo:
                 intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("video/*");
                 startActivityForResult(intent, videoSelected);
                 break;
+            case R.id.write_btn:
+                if(video == null)
+                    uploadWithTransferUtilty(images);
+                else
+                    uploadWithTransferUtilty(video);
+                break;
+
         }
+    }
+
+    public void uploadWithTransferUtilty(ArrayList<File> files) {
+        // CredentialsProvider 객체 생성 (Cognito에서 자격 증명 풀 ID 제공)
+        AWSCredentials awsCredentials = new BasicAWSCredentials("AKIAQUQIUUPFLLOMLQUD", "Yi6ph/MUh6ISRliH2mv0jlwkqtg5hZoJ5LjQU4Ia");
+        AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
+
+        TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
+        TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
+
+        for(File file : files) {
+            TransferObserver uploadObserver = transferUtility.upload("talent-house-app/photo", file.getName(), file);
+
+            uploadObserver.setTransferListener(new TransferListener() {
+                @Override
+                public void onStateChanged(int id, TransferState state) {
+                    if (state == TransferState.COMPLETED) {
+                        // Handle a completed upload
+
+                    }
+                }
+
+                @Override
+                public void onProgressChanged(int id, long current, long total) {
+                    int done = (int) (((double) current / total) * 100.0);
+                    Log.d("MYTAG", "UPLOAD - - ID: $id, percent done = $done");
+                }
+
+                @Override
+                public void onError(int id, Exception ex) {
+                    Log.d("MYTAG", "UPLOAD ERROR - - ID: $id - - EX:" + ex.toString());
+                }
+            });
+
+            // If you prefer to long-poll for updates
+            if (uploadObserver.getState() == TransferState.COMPLETED) {
+                /* Handle completion */
+            }
+        }
+
+        // arraylist http
+                startActivityForResult(intent, videoSelected);
+                break;
+        }
+    }
+
+    public void uploadWithTransferUtilty(File file) {
+        System.out.println("asdf");
+        Log.d("TAG", "TESTTEST");
+        // CredentialsProvider 객체 생성 (Cognito에서 자격 증명 풀 ID 제공)
+        AWSCredentials awsCredentials = new BasicAWSCredentials("AKIAQUQIUUPFLLOMLQUD", "Yi6ph/MUh6ISRliH2mv0jlwkqtg5hZoJ5LjQU4Ia");
+        AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
+
+        TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
+        TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
+
+        TransferObserver uploadObserver = transferUtility.upload("talent-house-app/video", file.getName(), file);
+
+        uploadObserver.setTransferListener(new TransferListener() {
+            @Override
+            public void onStateChanged(int id, TransferState state) {
+                if (state == TransferState.COMPLETED) {
+                    // Handle a completed upload
+
+                }
+            }
+
+            @Override
+            public void onProgressChanged(int id, long current, long total) {
+                int done = (int) (((double) current / total) * 100.0);
+                Log.d("MYTAG", "UPLOAD - - ID: $id, percent done = $done");
+            }
+
+            @Override
+            public void onError(int id, Exception ex) {
+                Log.d("MYTAG", "UPLOAD ERROR - - ID: $id - - EX:" + ex.toString());
+            }
+        });
+
+        // If you prefer to long-poll for updates
+        if (uploadObserver.getState() == TransferState.COMPLETED) {
+            /* Handle completion */
+        }
+
     }
 
     @Override
@@ -121,18 +238,20 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
 
         switch (requestCode){
             case imageSelected:
-                    if(resultCode == -1){
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
-                        layoutParams.rightMargin = 5;
-                        layoutParams.gravity = Gravity.CENTER;
+                if(resultCode == -1){
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
+                    layoutParams.rightMargin = 5;
+                    layoutParams.gravity = Gravity.CENTER;
 
-                        for(int i=0 ; i<data.getClipData().getItemCount() ; i++){
-                            ImageView tempImage = new ImageView(getContext());
-                            tempImage.setImageURI(data.getClipData().getItemAt(i).getUri());
-                            tempImage.setLayoutParams(layoutParams);
-                            tempImage.setScaleType(ImageView.ScaleType.FIT_XY);
-                            linearLayout.addView(tempImage);
-                        }
+                    for(int i=0 ; i<data.getClipData().getItemCount() ; i++){
+                        ImageView tempImage = new ImageView(getContext());
+                        tempImage.setImageURI(data.getClipData().getItemAt(i).getUri());
+                        tempImage.setLayoutParams(layoutParams);
+                        tempImage.setScaleType(ImageView.ScaleType.FIT_XY);
+                        linearLayout.addView(tempImage);
+                        Uri temp = data.getClipData().getItemAt(i).getUri();
+                        images.add(new File(getRealPathFromURI(temp)));
+                    }
                 }else{
                     Toast.makeText(getContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show();
                 }
@@ -159,11 +278,26 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
                                 }, 100);
                             }
                         });
+                        video = new File(getRealPathFromURI(uri));
                     }
+
                 }else{
                     Toast.makeText(getContext(), "동영상을 선택하지 않았습니다.", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
+    public String getRealPathFromURI(Uri contentUri) {
+
+        String[] proj = { MediaStore.Images.Media.DATA };
+
+        Cursor cursor = getActivity().getContentResolver().query(contentUri, proj, null, null, null);
+        cursor.moveToNext();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
+//        Uri uri = Uri.fromFile(new File(path));
+
+        cursor.close();
+        return path;
+    }
+
 }
