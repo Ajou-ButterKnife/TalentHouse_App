@@ -65,6 +65,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         fragmentTransaction.commit();
     }
 
+
+    public void finishFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove(fragment).commit();
+        fragmentManager.popBackStack();
+
     public boolean getVisibleFragment(Fragment fragment) {
         for(Fragment f : getSupportFragmentManager().getFragments()) {
             if(f.isVisible()) {
