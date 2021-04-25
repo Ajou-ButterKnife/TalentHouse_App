@@ -85,7 +85,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
         imageContainer = view.findViewById(R.id.fw_container_image);
         videoContainer = view.findViewById(R.id.fw_container_video);
       
-        btnUpWrite = view.findViewById(R.id.write_btn);
+        btnUpWrite = view.findViewById(R.id.fw_btn_post);
 
         imageContainer.setVisibility(View.GONE);
         videoContainer.setVisibility(View.GONE);
@@ -144,7 +144,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
                 intent.setType("video/*");
                 startActivityForResult(intent, videoSelected);
                 break;
-            case R.id.write_btn:
+            case R.id.fw_btn_post:
                 if(video == null)
                     uploadWithTransferUtilty(images);
                 else
