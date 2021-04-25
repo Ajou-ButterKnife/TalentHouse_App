@@ -2,6 +2,8 @@ package kr.butterknife.talenthouse;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
@@ -15,7 +17,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     private String TAG = "MAIN_TAG";
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     private BottomNavigationView bottomNavigationView;
     private MainFragment mainFrag;
 
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         mainFrag = new MainFragment();
 
-        transaction.add(R.id.main_ll, mainFrag).commit();
+        replaceFragment(mainFrag, "Main");
     }
 
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.btmnavi_home :
-                transaction.replace(R.id.main_ll, mainFrag).commitAllowingStateLoss();
+                replaceFragment(mainFrag, "Main");
                 return true;
             case R.id.btmnavi_like :
                 return true;
@@ -54,5 +55,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 Log.e(TAG, "bottom navigation view clicked");
         }
         return false;
+    }
+
+    public void replaceFragment(Fragment fragment, String backstackName){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_ll, fragment);
+        fragmentTransaction.addToBackStack(backstackName);
+        fragmentTransaction.commit();
     }
 }

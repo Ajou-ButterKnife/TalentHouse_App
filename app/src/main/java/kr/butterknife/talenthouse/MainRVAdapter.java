@@ -17,6 +17,12 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         arrayList = list;
     }
 
+    private OnItemClickListener itemClickListener = null;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        itemClickListener = listener;
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -25,40 +31,45 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if(viewType == ContentType.MP3.ordinal()) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_mp3, parent, false);
             ContentMP3ViewHolder vh = new ContentMP3ViewHolder(view);
+            vh.setOnItemClickListener(itemClickListener);
             return vh;
         }
         else if(viewType == ContentType.MP4.ordinal()) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_mp4, parent, false);
             ContentMP4ViewHolder vh = new ContentMP4ViewHolder(view);
+            vh.setOnItemClickListener(itemClickListener);
             return vh;
         }
         else if(viewType == ContentType.IMAGE.ordinal()) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_image, parent, false);
             ContentImageViewHolder vh = new ContentImageViewHolder(view);
+            vh.setOnItemClickListener(itemClickListener);
             return vh;
         }
 
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_text, parent, false);
         ContentNOViewHolder vh = new ContentNOViewHolder(view);
+        vh.setOnItemClickListener(itemClickListener);
         return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder _holder, int position) {
-        if(position == ContentType.NO.ordinal()) {
+        if(_holder instanceof ContentNOViewHolder) {
+            System.out.println(position + " : " + "asdf");
             ContentNOViewHolder holder = (ContentNOViewHolder) _holder;
             holder.title.setText(arrayList.get(position).getTitle());
             holder.writer.setText(arrayList.get(position).getWriter());
             holder.date.setText(arrayList.get(position).getDate());
             holder.subject.setText(arrayList.get(position).getSubject());
         }
-        else if(position == ContentType.MP3.ordinal()) {
+        else if(_holder instanceof ContentMP3ViewHolder) {
 
         }
-        else if(position == ContentType.MP4.ordinal()) {
+        else if(_holder instanceof ContentMP4ViewHolder) {
 
         }
-        else if(position == ContentType.IMAGE.ordinal()) {
+        else if(_holder instanceof ContentImageViewHolder) {
 
         }
         else {

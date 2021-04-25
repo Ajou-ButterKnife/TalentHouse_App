@@ -17,3 +17,9 @@ data class RVItem(
 enum class ContentType(type : Int) {
     NO(0), IMAGE(1), MP3(2), MP4(3)
 }
+
+data class CommentItem(
+    val writer : String,
+    val date : String,
+    val comment : String,
+)
