@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import kr.butterknife.talenthouse.MainRVViewHolder.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -60,7 +61,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ContentNOViewHolder holder = (ContentNOViewHolder) _holder;
             holder.title.setText(arrayList.get(position).getTitle());
             holder.writer.setText(arrayList.get(position).getWriterNickname());
-            holder.date.setText(arrayList.get(position).getUpdateTime());
+            holder.date.setText(Util.INSTANCE.getDate2String(arrayList.get(position).getUpdateTime()));
             holder.subject.setText(arrayList.get(position).getDescription());
         }
         else if(_holder instanceof ContentMP3ViewHolder) {
