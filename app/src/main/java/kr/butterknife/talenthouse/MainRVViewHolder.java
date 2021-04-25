@@ -1,5 +1,6 @@
 package kr.butterknife.talenthouse;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 //https://youngest-programming.tistory.com/69
 public class MainRVViewHolder {
-    static class ContentNOViewHolder extends RecyclerView.ViewHolder {
+    static class ContentNOViewHolder extends ContentRVHolder {
         protected TextView title;
         protected TextView writer;
         protected TextView date;
@@ -23,21 +24,45 @@ public class MainRVViewHolder {
         }
     }
 
-    static class ContentImageViewHolder extends RecyclerView.ViewHolder {
+    static class ContentImageViewHolder extends ContentRVHolder {
         public ContentImageViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
-    static class ContentMP3ViewHolder extends RecyclerView.ViewHolder {
+    static class ContentMP3ViewHolder extends ContentRVHolder {
         public ContentMP3ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
 
-    static class ContentMP4ViewHolder extends RecyclerView.ViewHolder {
+    static class ContentMP4ViewHolder extends ContentRVHolder {
         public ContentMP4ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
+    }
+}
+
+interface OnItemClickListener {
+    void onItemClick(View v, int pos);
+}
+
+class ContentRVHolder extends RecyclerView.ViewHolder {
+
+    private OnItemClickListener itemClickListener;
+
+    void setOnItemClickListener(OnItemClickListener listener) {
+        this.itemClickListener = listener;
+    }
+
+    public ContentRVHolder(@NonNull View itemView) {
+        super(itemView);
+
+        itemView.setOnClickListener(v -> {
+            int pos = getAdapterPosition();
+            if(pos != RecyclerView.NO_POSITION) {
+                itemClickListener.onItemClick(v, pos);
+            }
+        });
     }
 }
