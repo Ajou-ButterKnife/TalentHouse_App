@@ -188,8 +188,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener{
 
         // arraylist http
                 startActivityForResult(intent, videoSelected);
-                break;
-        }
+
     }
 
     public void uploadWithTransferUtilty(File file) {
