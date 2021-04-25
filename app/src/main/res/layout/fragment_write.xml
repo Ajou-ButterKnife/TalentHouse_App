@@ -108,7 +108,6 @@
                 android:layout_height="wrap_content"
                 android:text="글 작성" />
 
-
         </LinearLayout>
 
     </ScrollView>

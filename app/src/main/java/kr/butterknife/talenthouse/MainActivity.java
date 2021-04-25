@@ -17,7 +17,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
     private String TAG = "MAIN_TAG";
-    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     private BottomNavigationView bottomNavigationView;
     private MainFragment mainFrag;
 
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         mainFrag = new MainFragment();
 
-        transaction.add(R.id.main_ll, mainFrag).commit();
+        replaceFragment(mainFrag, "Main");
     }
 
 
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
             case R.id.btmnavi_home :
-                transaction.replace(R.id.main_ll, mainFrag).commitAllowingStateLoss();
+                replaceFragment(mainFrag, "Main");
                 return true;
             case R.id.btmnavi_like :
                 return true;

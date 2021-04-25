@@ -48,6 +48,16 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         arrayList.add(new RVItem("wertwert", "wert", "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
 
         rvAdapter = new MainRVAdapter(arrayList);
+        rvAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+                ((MainActivity) getActivity()).replaceFragment(
+                        new ContentFragment(arrayList.get(pos)),
+                        "Content"
+                );
+            }
+        });
+
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
