@@ -1,5 +1,8 @@
 package kr.butterknife.talenthouse.network.response
 
+import kr.butterknife.talenthouse.PostItem
+import java.util.*
+
 data class CommonLoginRes(
     val _id : String,
 )
@@ -33,4 +36,8 @@ data class SocialSignUpRes(
     val result : String,
     val detail : String?,
     val data : CommonSignUpRes?,
+)
+
+data class PostRes(
+        val data : List<PostItem>?,
 )
