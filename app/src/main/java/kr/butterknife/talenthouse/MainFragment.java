@@ -6,18 +6,31 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.List;
+
+import kr.butterknife.talenthouse.network.ButterKnifeApi;
+import kr.butterknife.talenthouse.network.request.OverlapEmail;
+import kr.butterknife.talenthouse.network.response.CommonResponse;
+import kr.butterknife.talenthouse.network.response.PostRes;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainFragment extends Fragment implements View.OnClickListener {
 
     private RecyclerView rv;
     private MainRVAdapter rvAdapter;
+    private ArrayList<PostItem> posts;
 
     public MainFragment() {
         // Required empty public constructor
@@ -33,22 +46,14 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         btnWrite.setOnClickListener(this);
 
         rv = view.findViewById(R.id.main_rv);
-        ArrayList<PostItem> arrayList = new ArrayList<>();
+        posts = new ArrayList<>();
 
-        //for test
-        arrayList.add(new PostItem("asdfasdf", "asdf", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new PostItem("qwerqwer", "qwer", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new PostItem("zxcvzxcv", "zxcv", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new PostItem("xcvbxcvb", "xcvb", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new PostItem("sdfgsdfg", "sdfg", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-        arrayList.add(new PostItem("wertwert", "wert", LoginInfo.INSTANCE.getLoginInfo(getContext()), "2021.01.01", "adsfasdfasdfasdfasdfasdfasdfasdfasfasdfsdf"));
-
-        rvAdapter = new MainRVAdapter(arrayList);
+        rvAdapter = new MainRVAdapter(posts);
         rvAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
                 ((MainActivity) getActivity()).replaceFragment(
-                        new ContentFragment(arrayList.get(pos)),
+                        new ContentFragment(posts.get(pos)),
                         "Content"
                 );
             }
@@ -56,8 +61,41 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        getPosts();
         return view;
+    }
+
+    public void getPosts(){
+        new Runnable(){
+            @Override
+            public void run(){
+                try{
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts().enqueue(new Callback<PostRes>() {
+                        @Override
+                        public void onResponse(Call<PostRes> call, Response<PostRes> response) {
+                            if(response.body() != null){
+                                try{
+                                    List<PostItem> postList = response.body().getData();
+                                    for(PostItem p : postList){
+                                        posts.add(new PostItem(p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription()));
+                                    }
+                                    rvAdapter.notifyDataSetChanged();
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<PostRes> call, Throwable t) {
+                            // 서버 쪽으로 메시지를 보내지 못한 경우
+                            Log.d("err", "SERVER CONNECTION ERROR");
+                        }
+                    });
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }.run();
     }
 
     @Override
