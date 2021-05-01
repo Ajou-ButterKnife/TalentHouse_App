@@ -1,5 +1,6 @@
 package kr.butterknife.talenthouse.network.response
 
+import kr.butterknife.talenthouse.CommentItem
 import kr.butterknife.talenthouse.PostItem
 import java.util.*
 
@@ -41,4 +42,13 @@ data class SocialSignUpRes(
 
 data class PostRes(
         val data : List<PostItem>?,
+)
+
+data class GetCommentsRes(
+        val data: List<CommentItem>?
+)
+
+data class CommentRes(
+        val result : String,
+        val data : CommentItem?,
 )
