@@ -14,7 +14,6 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class ImageContentPagerAdapter extends PagerAdapter {
-    private int[] images = {R.drawable.capture001, R.drawable.capture002};
     private LayoutInflater inflater;
     private Context context;
     private List<String> imageUrl;
@@ -26,7 +25,7 @@ public class ImageContentPagerAdapter extends PagerAdapter {
     }
     @Override
     public int getCount() {
-        return images.length;
+        return imageUrl.size();
     }
 
     @Override
@@ -40,7 +39,6 @@ public class ImageContentPagerAdapter extends PagerAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.item_content_image, container, false);
         ImageView imageView = view.findViewById(R.id.vp_iv_image);
-//        imageView.setImageResource(images[position]);
 
         Glide.with(context)
                 .load(imageUrl.get(position))
