@@ -5,6 +5,7 @@ import java.util.*
 
 data class CommonLoginRes(
     val _id : String,
+    val nickname : String,
 )
 
 data class CommonSignUpRes(
