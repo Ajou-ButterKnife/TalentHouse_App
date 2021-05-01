@@ -1,5 +1,6 @@
 package kr.butterknife.talenthouse;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,17 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.PlayerControlView;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,9 +39,14 @@ public class ContentFragment extends Fragment {
     RecyclerView commentRV;
     ArrayList<CommentItem> commentList;
     CommentRVAdapter rvAdapter;
+    String tempVideoUrl = "https://talent-house-app.s3.ap-northeast-2.amazonaws.com/video/testIdScreen_Recording_20210225-172502_Samsung+Notes.mp4";
+    PlayerView pv;
+    PlayerControlView pcv;
+    SimpleExoPlayer player;
 
     public ContentFragment(PostItem item) {
         this.item = item;
+        this.item.setVideoUrl(tempVideoUrl);
     }
 
     @Override
@@ -68,7 +85,14 @@ public class ContentFragment extends Fragment {
 
         }
         else if(item.getVideoUrl() != null) {
-
+            content.setLayoutResource(R.layout.viewstub_content_video);
+            View inflated = content.inflate();
+            title = inflated.findViewById(R.id.content_video_tv_title);
+            date = inflated.findViewById(R.id.content_video_tv_date);
+            writer = inflated.findViewById(R.id.content_video_tv_writer);
+            subject = inflated.findViewById(R.id.content_video_tv_subject);
+            pv = inflated.findViewById(R.id.content_video_player);
+            pcv = inflated.findViewById(R.id.content_video_controller);
         }
         else {
             content.setLayoutResource(R.layout.item_rv_text);
@@ -84,6 +108,33 @@ public class ContentFragment extends Fragment {
         date.setText(item.getUpdateTime());
         writer.setText(item.getWriterNickname());
         subject.setText(item.getDescription());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(item.getVideoUrl() != null) {
+            player = new SimpleExoPlayer.Builder(getContext()).build();
+            pv.setPlayer(player);
+            pcv.setPlayer(player);
+
+            DataSource.Factory factory = new DefaultDataSourceFactory(getContext(), "Ex98VideoAndExoPlayer");
+            Uri videoUri = Uri.parse(item.getVideoUrl());
+            ProgressiveMediaSource mediaSource= new ProgressiveMediaSource.Factory(factory).createMediaSource(videoUri);
+
+            player.addMediaSource(mediaSource);
+            player.prepare();
+
+            player.setPlayWhenReady(false);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        pv.setPlayer(null);
+        player.release();
+        player = null;
     }
 
     public void writeComment() {
