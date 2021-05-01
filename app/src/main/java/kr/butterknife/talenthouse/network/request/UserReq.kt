@@ -1,5 +1,7 @@
 package kr.butterknife.talenthouse.network.request
 
+import kr.butterknife.talenthouse.CommentItem
+
 data class NormalLoginReq(
     val email : String,
     val password : String,
@@ -46,4 +48,11 @@ data class UploadPostReq(
     val category : String,
     val imageUrl : List<String>,
     val videoUrl : String?,
+)
+
+data class UploadCommentReq(
+        val _id : String,
+        val id : String,
+        val nickname : String,
+        val comment : String
 )
