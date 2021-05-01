@@ -51,5 +51,9 @@ object SpinnerUtil {
 }
 
 object Util {
-    fun getDate2String(date: Date) = SimpleDateFormat("yyyy.MM.dd", Locale.KOREA).format(date)
+    fun unixTime2String(timemillis : Long) : String {
+        val sdf = SimpleDateFormat("yyyy.MM.dd.hh.mm")
+        val date = sdf.format(timemillis)
+        return date
+    }
 }
