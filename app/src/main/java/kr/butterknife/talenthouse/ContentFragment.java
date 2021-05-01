@@ -46,7 +46,7 @@ public class ContentFragment extends Fragment {
 
         commentList = new ArrayList<>();
         for(int i = 0; i < 20; i++)
-            commentList.add(new CommentItem(LoginInfo.INSTANCE.getLoginInfo(getContext())[0], "writer" + (i + 1), new Date(), "This is comment. Comment's number is " + (i + 1)));
+            commentList.add(new CommentItem(LoginInfo.INSTANCE.getLoginInfo(getContext()), "writer" + (i + 1), "1234", "This is comment. Comment's number is " + (i + 1)));
 
         rvAdapter = new CommentRVAdapter(commentList);
 
@@ -87,7 +87,7 @@ public class ContentFragment extends Fragment {
     }
 
     public void writeComment() {
-        CommentItem newComment = new CommentItem(LoginInfo.INSTANCE.getLoginInfo(getContext())[0], "test", new Date(), comment.getText().toString());
+        CommentItem newComment = new CommentItem(LoginInfo.INSTANCE.getLoginInfo(getContext()), "test", "1234", comment.getText().toString());
 
         //network 작업
 

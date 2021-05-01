@@ -57,9 +57,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        Log.d("TEST", "0");
         getPosts();
-        Log.d("TEST", "1");
         return view;
     }
 
@@ -77,7 +75,9 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                                     List<PostItem> postList = response.body().getData();
                                     Log.d("TEST", "2");
                                     for(PostItem p : postList){
-                                        posts.add(new PostItem(p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory()));
+                                        posts.add(new PostItem(p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory(), p.getComments()));
+                                        Log.d("TTTT", p.getComments().toString());
+//                                        posts.add(new PostItem(p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory()));
                                     }
                                     rvAdapter.notifyDataSetChanged();
                                 }catch (Exception e){
@@ -92,7 +92,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                         }
                     });
                 }catch (Exception e){
-                    Log.d("TEST", "-1");
                     e.printStackTrace();
                 }
             }
