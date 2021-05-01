@@ -40,6 +40,7 @@ data class OverlapNickname(
 
 data class UploadPostReq(
     val id : String,
+    val nickname : String,
     val title : String,
     val description : String,
     val category : String,
