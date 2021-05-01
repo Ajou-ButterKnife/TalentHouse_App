@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
                         CommonLoginRes data = response.body().getData();
                         if (result.equals("Success")) {
                             Log.d("id_test", data.get_id());
-                            LoginInfo.INSTANCE.setLoginInfo(data.get_id(), getApplicationContext());
+                            LoginInfo.INSTANCE.setLoginInfo(data.get_id(), data.getNickname(), getApplicationContext());
                             Intent i2 = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(i2);
                             finish();
@@ -206,7 +206,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(response.body() != null) {
                         NormalLoginRes result = response.body();
                         if(result.getResult().equals("Success")) {
-                            LoginInfo.INSTANCE.setLoginInfo(result.getData().get_id(), getApplicationContext());
+                            LoginInfo.INSTANCE.setLoginInfo(result.getData().get_id(), result.getData().getNickname(), getApplicationContext());
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
                             finish();
                         }

@@ -164,8 +164,9 @@ import retrofit2.Response;
                  String postTitle = titleEt.getText().toString();
                  String postDesc = descEt.getText().toString();
                  String postCategory = spinner.getSelectedItem().toString();
-                 //String postId = LoginInfo.INSTANCE.getLoginInfo(getActivity().getApplicationContext());
-                 String postId = "testId";
+                 String postId = LoginInfo.INSTANCE.getLoginInfo(getActivity().getApplicationContext())[0];
+                 Log.d("TESTTEST", postId);
+                 //String postId = "testId";
                  if (video == null) {     // video 업로드일 경우
                      uploadWithTransferUtilty(images, postId);
                      ArrayList<String> postImageUrl = new ArrayList<>();
@@ -331,7 +332,7 @@ import retrofit2.Response;
              @Override
              public void run() {
                  try {
-                     ButterKnifeApi.INSTANCE.getRetrofitService().postCreate(new UploadPostReq(id, title, description, category, imageUrl, videoUrl)).enqueue(new Callback<CommonResponse>() {
+                     ButterKnifeApi.INSTANCE.getRetrofitService().postCreate(new UploadPostReq(id, LoginInfo.INSTANCE.getLoginInfo(getContext())[1], title, description, category, imageUrl, videoUrl)).enqueue(new Callback<CommonResponse>() {
                          @Override
                          public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                              // 정상 출력이 되면 아래 로그가 출력됨

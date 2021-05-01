@@ -64,7 +64,7 @@ public class ContentFragment extends Fragment {
         if(item.getMp3Url() != null) {
 
         }
-        else if(item.getMp3Url() != null) {
+        else if(item.getImageUrl() != null) {
 
         }
         else if(item.getVideoUrl() != null) {
