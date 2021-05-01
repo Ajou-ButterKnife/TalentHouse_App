@@ -21,10 +21,13 @@ data class PostItem(
     @Json(name = "like_cnt")
     val likeCnt : Int,
     val category : String,
-//    val comments : Array<CommentItem>
+    val comments : List<CommentItem>
 ) {
-    constructor(title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, category : String) : this (
-        title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category
+//    constructor(title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, category : String) : this (
+//        title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category
+//    )
+    constructor(title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
+            title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category, comments
     )
 
 //    constructor(title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
@@ -50,6 +53,6 @@ data class CommentItem(
     val writerId : String,
     @Json(name = "writer_nickname")
     val writerNickname : String,
-    val date : Date,
+    val date : String,
     val comment : String,
 )
