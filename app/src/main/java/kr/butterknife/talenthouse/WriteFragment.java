@@ -164,8 +164,9 @@ import retrofit2.Response;
                  String postTitle = titleEt.getText().toString();
                  String postDesc = descEt.getText().toString();
                  String postCategory = spinner.getSelectedItem().toString();
-                 //String postId = LoginInfo.INSTANCE.getLoginInfo(getActivity().getApplicationContext());
-                 String postId = "testId";
+                 String postId = LoginInfo.INSTANCE.getLoginInfo(getActivity().getApplicationContext());
+                 Log.d("TESTTEST", postId);
+                 //String postId = "testId";
                  if (video == null) {     // video 업로드일 경우
                      uploadWithTransferUtilty(images, postId);
                      ArrayList<String> postImageUrl = new ArrayList<>();
