@@ -45,7 +45,6 @@ public class ContentFragment extends Fragment {
     PlayerView pv;
     PlayerControlView pcv;
     SimpleExoPlayer player;
-    Context context;
     ImageContentPagerAdapter adapter;
     ViewPager viewPager;
     CircleIndicator indicator;
@@ -54,10 +53,10 @@ public class ContentFragment extends Fragment {
         this.item = item;
 //        String tempVideoUrl = "https://talent-house-app.s3.ap-northeast-2.amazonaws.com/video/testIdScreen_Recording_20210225-172502_Samsung+Notes.mp4";
 //        this.item.setVideoUrl(tempVideoUrl);
-//         List<String> imageUrl = new ArrayList<>();
+//        List<String> imageUrl = new ArrayList<>();
 //        imageUrl.add("https://talent-house-app.s3.ap-northeast-2.amazonaws.com/photo/608ce12de5955b344cc8f85c20210204_154101.jpg");
 //        imageUrl.add("https://talent-house-app.s3.ap-northeast-2.amazonaws.com/photo/608ce18a15d3bcb383e3678eIMG_20210425_170553.jpg");
-//         this.item.setImageUrl(imageUrl);
+//        this.item.setImageUrl(imageUrl);
     }
 
     @Override
@@ -96,13 +95,12 @@ public class ContentFragment extends Fragment {
         else if(item.getImageUrl() != null) {
             content.setLayoutResource(R.layout.viewstub_content_image);
             View inflated = content.inflate();
-            context = getContext();
             title = inflated.findViewById(R.id.content_image_title);
             date = inflated.findViewById(R.id.content_image_date);
             writer = inflated.findViewById(R.id.content_image_tv_writer);
             subject = inflated.findViewById(R.id.content_tv_subject);
             viewPager = inflated.findViewById(R.id.content_pager);
-            adapter = new ImageContentPagerAdapter(context, item.getImageUrl());
+            adapter = new ImageContentPagerAdapter(getContext(), item.getImageUrl());
             viewPager.setAdapter(adapter);
             indicator = inflated.findViewById(R.id.content_indicator);
             indicator.setViewPager(viewPager);
