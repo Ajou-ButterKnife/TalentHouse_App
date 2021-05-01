@@ -17,7 +17,7 @@ data class PostItem(
     @Json(name = "video_url")
     var videoUrl : String? = null,
     @Json(name = "image_url")
-    val imageUrl : List<String>? = null,
+    var imageUrl : List<String>? = null,
     @Json(name = "like_cnt")
     val likeCnt : Int,
     val category : String,
