@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CommentRVAdapter extends RecyclerView.Adapter<CommentRVAdapter.CommentRVHolder>{
     private ArrayList<CommentItem> comments;
@@ -39,8 +40,8 @@ public class CommentRVAdapter extends RecyclerView.Adapter<CommentRVAdapter.Comm
     @Override
     public void onBindViewHolder(@NonNull CommentRVHolder holder, int position) {
         holder.writer.setText(comments.get(position).getWriterNickname());
-//        holder.date.setText(Util.INSTANCE.getDate2String(comments.get(position).getDate()));
-        holder.date.setText(comments.get(position).getDate());
+        holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(comments.get(position).getDate())));
+//        holder.date.setText(comments.get(position).getDate());
         holder.comment.setText(comments.get(position).getComment());
     }
 
