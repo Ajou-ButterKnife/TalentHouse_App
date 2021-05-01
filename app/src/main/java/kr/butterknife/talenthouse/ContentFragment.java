@@ -39,14 +39,14 @@ public class ContentFragment extends Fragment {
     RecyclerView commentRV;
     ArrayList<CommentItem> commentList;
     CommentRVAdapter rvAdapter;
-    String tempVideoUrl = "https://talent-house-app.s3.ap-northeast-2.amazonaws.com/video/testIdScreen_Recording_20210225-172502_Samsung+Notes.mp4";
     PlayerView pv;
     PlayerControlView pcv;
     SimpleExoPlayer player;
 
     public ContentFragment(PostItem item) {
         this.item = item;
-        this.item.setVideoUrl(tempVideoUrl);
+//        String tempVideoUrl = "https://talent-house-app.s3.ap-northeast-2.amazonaws.com/video/testIdScreen_Recording_20210225-172502_Samsung+Notes.mp4";
+//        this.item.setVideoUrl(tempVideoUrl);
     }
 
     @Override
@@ -132,9 +132,11 @@ public class ContentFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        pv.setPlayer(null);
-        player.release();
-        player = null;
+        if(item.getVideoUrl() != null) {
+            pv.setPlayer(null);
+            player.release();
+            player = null;
+        }
     }
 
     public void writeComment() {
