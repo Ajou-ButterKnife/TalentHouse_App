@@ -4,6 +4,7 @@ import com.squareup.moshi.Json
 import java.util.*
 
 data class PostItem(
+        val _id : String,
     val title : String,
     @Json(name = "writer_nickname")
     val writerNickname : String,
@@ -23,12 +24,12 @@ data class PostItem(
     val category : String,
     val comments : List<CommentItem>
 ) {
-    constructor(title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
-            title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category, comments
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
+            _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category, comments
     )
 
-    constructor(title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
-        title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category, comments
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
+        _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category, comments
     ) {
         if(url.contains(".mp4"))
             this.videoUrl = url
@@ -36,8 +37,8 @@ data class PostItem(
             this.mp3Url = url
     }
 
-    constructor(title : String, writerNickname : String, writerId : String, updateTime : String, description : String, imageUrl: List<String>, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
-        title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, category, comments
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, imageUrl: List<String>, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
+        _id, title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, category, comments
     )
 }
 

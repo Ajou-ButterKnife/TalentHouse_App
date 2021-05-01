@@ -12,6 +12,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 //private const val BASE_URL = "http://3.137.162.68:4000/"
 private const val BASE_URL = "http://10.0.2.2:4000/"
@@ -54,6 +55,12 @@ interface ButterKnifeApiService {
   
     @POST("post/create")
     fun postCreate(@Body data : UploadPostReq) : Call<CommonResponse>
+
+    @GET("post/comment/{postId}")
+    fun getComments(@Path("postId") key: String): Call<GetCommentsRes>
+
+    @POST("post/comment/create")
+    fun commentCreate(@Body data : UploadCommentReq) : Call<CommentRes>
 }
 
 object ButterKnifeApi {
