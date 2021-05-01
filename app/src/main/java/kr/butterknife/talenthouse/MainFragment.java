@@ -71,13 +71,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
                                 try{
-                                    Log.d("TEST", "2");
                                     List<PostItem> postList = response.body().getData();
-                                    Log.d("TEST", "2");
                                     for(PostItem p : postList){
-                                        posts.add(new PostItem(p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory(), p.getComments()));
-                                        Log.d("TTTT", p.getComments().toString());
-//                                        posts.add(new PostItem(p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory()));
+                                        Log.d("aaa", p.get_id());
+                                        posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory(), p.getComments()));
                                     }
                                     rvAdapter.notifyDataSetChanged();
                                 }catch (Exception e){
