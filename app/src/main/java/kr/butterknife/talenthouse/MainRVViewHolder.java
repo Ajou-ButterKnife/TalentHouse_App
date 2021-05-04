@@ -57,6 +57,10 @@ public class MainRVViewHolder {
 //            pcv = itemView.findViewById(R.id.rvvideo_video_controller);
         }
     }
+
+    static class ContentLoadingViewHolder extends ContentRVHolder {
+        public ContentLoadingViewHolder(@NonNull View itemView) { super(itemView);}
+    }
 }
 
 interface OnItemClickListener {

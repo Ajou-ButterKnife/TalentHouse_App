@@ -43,7 +43,7 @@ data class PostItem(
 }
 
 enum class ContentType(type : Int) {
-    NO(0), IMAGE(1), MP3(2), VIDEO(3)
+    NO(0), IMAGE(1), MP3(2), VIDEO(3), LOADING(4)
 }
 
 data class CommentItem(

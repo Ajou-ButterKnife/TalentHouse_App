@@ -16,8 +16,7 @@ import retrofit2.http.Path
 
 //private const val BASE_URL = "http://3.137.162.68:4000/"
 private const val BASE_URL = "http://10.0.2.2:4000/"
-//private const val BASE_URL = "http://172.30.1.3:4000/"
-
+//private const val BASE_URL = "http://172.30.1.23:4000/"
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -50,8 +49,8 @@ interface ButterKnifeApiService {
     @POST("signup/social")
     fun socialAddUser(@Body user : SocialSignUpReq) : Call<SocialSignUpRes>
 
-    @GET("post")
-    fun getPosts() :Call<PostRes>
+    @GET("post/{page}")
+    fun getPosts(@Path("page") key: Int) : Call<PostRes>
   
     @POST("post/create")
     fun postCreate(@Body data : UploadPostReq) : Call<CommonResponse>
