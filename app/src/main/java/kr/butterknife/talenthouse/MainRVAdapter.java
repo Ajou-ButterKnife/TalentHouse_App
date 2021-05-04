@@ -47,6 +47,12 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             vh.setOnItemClickListener(itemClickListener);
             return vh;
         }
+        else if(viewType == ContentType.LOADING.ordinal()) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_loading, parent, false);
+            ContentLoadingViewHolder vh = new ContentLoadingViewHolder(view);
+//            vh.setOnItemClickListener(itemClickListener);
+            return vh;
+        }
 
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_text, parent, false);
         ContentNOViewHolder vh = new ContentNOViewHolder(view);
@@ -88,7 +94,10 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemViewType(int position) {
         PostItem item = arrayList.get(position);
 
-        if(item.getMp3Url() != null) {
+        if(item == null){
+            return ContentType.LOADING.ordinal();
+        }
+        else if(item.getMp3Url() != null) {
             return ContentType.MP3.ordinal();
         }
         else if(item.getVideoUrl() != null) {
@@ -100,4 +109,5 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         return ContentType.NO.ordinal();
     }
+
 }
