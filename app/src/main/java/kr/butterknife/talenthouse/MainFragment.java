@@ -44,7 +44,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         rv = view.findViewById(R.id.main_rv);
         posts = new ArrayList<>();
 
-        rvAdapter = new MainRVAdapter(posts);
+        rvAdapter = new MainRVAdapter(getContext(), posts);
         rvAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
@@ -73,8 +73,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                                 try{
                                     List<PostItem> postList = response.body().getData();
                                     for(PostItem p : postList){
-                                        Log.d("aaa", p.get_id());
-                                        posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory(), p.getComments()));
+                                        if(p.getVideoUrl() != null)
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getCategory(), p.getComments()));
+                                        else if(p.getImageUrl().size() != 0)
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getCategory(), p.getComments()));
+                                        else
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory(), p.getComments()));
                                     }
                                     rvAdapter.notifyDataSetChanged();
                                 }catch (Exception e){
