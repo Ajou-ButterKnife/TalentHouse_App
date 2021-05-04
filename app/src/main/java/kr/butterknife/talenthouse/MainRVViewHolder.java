@@ -41,6 +41,10 @@ public class MainRVViewHolder {
             super(itemView);
         }
     }
+
+    static class ContentLoadingViewHolder extends ContentRVHolder {
+        public ContentLoadingViewHolder(@NonNull View itemView) { super(itemView);}
+    }
 }
 
 interface OnItemClickListener {
