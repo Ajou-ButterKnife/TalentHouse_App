@@ -69,7 +69,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ContentNOViewHolder holder = (ContentNOViewHolder) _holder;
             holder.title.setText(arrayList.get(position).getTitle());
             holder.writer.setText(arrayList.get(position).getWriterNickname());
-            holder.date.setText(arrayList.get(position).getUpdateTime());
+            holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
 //            holder.date.setText(Util.INSTANCE.getDate2String(arrayList.get(position).getUpdateTime()));
             holder.subject.setText(arrayList.get(position).getDescription());
         }
@@ -80,7 +80,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ContentVideoViewHolder holder = (ContentVideoViewHolder) _holder;
             holder.title.setText(arrayList.get(position).getTitle());
             holder.writer.setText(arrayList.get(position).getWriterNickname());
-            holder.date.setText(arrayList.get(position).getUpdateTime());
+            holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
             holder.subject.setText(arrayList.get(position).getDescription());
 
             SimpleExoPlayer player = new SimpleExoPlayer.Builder(context).build();
