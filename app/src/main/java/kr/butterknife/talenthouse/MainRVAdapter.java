@@ -1,11 +1,19 @@
 package kr.butterknife.talenthouse;
 
+import android.content.Context;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import kr.butterknife.talenthouse.MainRVViewHolder.*;
 
 import java.text.SimpleDateFormat;
@@ -13,8 +21,10 @@ import java.util.ArrayList;
 
 public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<PostItem> arrayList;
+    Context context;
 
-    public MainRVAdapter(ArrayList<PostItem> list) {
+    public MainRVAdapter(Context context, ArrayList<PostItem> list) {
+        this.context = context;
         arrayList = list;
     }
 
@@ -72,7 +82,18 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         }
         else if(_holder instanceof ContentImageViewHolder) {
-
+            ContentImageViewHolder holder = (ContentImageViewHolder) _holder;
+            holder.title.setText(arrayList.get(position).getTitle());
+            holder.writer.setText(arrayList.get(position).getWriterNickname());
+            holder.date.setText(arrayList.get(position).getUpdateTime());
+            holder.subject.setText(arrayList.get(position).getDescription());
+            holder.viewStubImage.setLayoutResource(R.layout.viewstub_main_image);
+            View inflated = holder.viewStubImage.inflate();
+            ImageView imageView = inflated.findViewById(R.id.vs_main_iv);
+            String temp = arrayList.get(position).getImageUrl().get(0);
+            Glide.with(context)
+                    .load(temp)
+                    .into(imageView);
         }
         else {
 
