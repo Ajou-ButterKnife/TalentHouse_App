@@ -2,6 +2,8 @@ package kr.butterknife.talenthouse;
 
 import android.util.Log;
 import android.view.View;
+import android.view.ViewStub;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,8 +27,19 @@ public class MainRVViewHolder {
     }
 
     static class ContentImageViewHolder extends ContentRVHolder {
+        protected TextView title;
+        protected TextView writer;
+        protected TextView date;
+        protected TextView subject;
+        protected ViewStub viewStubImage;
         public ContentImageViewHolder(@NonNull View itemView) {
             super(itemView);
+            title = itemView.findViewById(R.id.rvimage_tv_title);
+            writer = itemView.findViewById(R.id.rvimage_tv_writer);
+            date = itemView.findViewById(R.id.rvimage_tv_date);
+            subject = itemView.findViewById(R.id.rvimage_tv_subject);
+            viewStubImage = itemView.findViewById(R.id.rvimage_vs);
+
         }
     }
 
