@@ -7,6 +7,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.exoplayer2.ui.PlayerControlView;
+import com.google.android.exoplayer2.ui.PlayerView;
+
 //https://youngest-programming.tistory.com/69
 public class MainRVViewHolder {
     static class ContentNOViewHolder extends ContentRVHolder {
@@ -36,9 +39,22 @@ public class MainRVViewHolder {
         }
     }
 
-    static class ContentMP4ViewHolder extends ContentRVHolder {
-        public ContentMP4ViewHolder(@NonNull View itemView) {
+    static class ContentVideoViewHolder extends ContentRVHolder {
+        protected TextView title;
+        protected TextView writer;
+        protected TextView date;
+        protected TextView subject;
+        protected PlayerView pv;
+//        protected PlayerControlView pcv;
+
+        public ContentVideoViewHolder(@NonNull View itemView) {
             super(itemView);
+            title = itemView.findViewById(R.id.rvvideo_video_tv_title);
+            writer = itemView.findViewById(R.id.rvvideo_video_tv_writer);
+            date = itemView.findViewById(R.id.rvvideo_video_tv_date);
+            subject = itemView.findViewById(R.id.rvvideo_video_tv_subject);
+            pv = itemView.findViewById(R.id.rvvideo_video_player);
+//            pcv = itemView.findViewById(R.id.rvvideo_video_controller);
         }
     }
 }
