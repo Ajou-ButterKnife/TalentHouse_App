@@ -52,7 +52,7 @@ object SpinnerUtil {
 
 object Util {
     fun unixTime2String(timemillis : Long) : String {
-        val sdf = SimpleDateFormat("yyyy.MM.dd.hh.mm")
+        val sdf = SimpleDateFormat("yyyy.MM.dd.hh:mm")
         val date = sdf.format(timemillis)
         return date
     }
