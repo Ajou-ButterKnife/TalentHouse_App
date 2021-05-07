@@ -15,8 +15,8 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 //private const val BASE_URL = "http://3.137.162.68:4000/"
-private const val BASE_URL = "http://10.0.2.2:4000/"
-//private const val BASE_URL = "http://172.30.1.23:4000/"
+//private const val BASE_URL = "http://10.0.2.2:4000/"
+private const val BASE_URL = "http://192.168.0.101:4000/"
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -52,6 +52,9 @@ interface ButterKnifeApiService {
     @GET("post/{page}")
     fun getPosts(@Path("page") key: Int) : Call<PostRes>
   
+    @GET("post/category/{id}")
+    fun getCategories(@Path("id") key: String) : Call<CategoryRes>
+
     @POST("post/create")
     fun postCreate(@Body data : UploadPostReq) : Call<CommonResponse>
 

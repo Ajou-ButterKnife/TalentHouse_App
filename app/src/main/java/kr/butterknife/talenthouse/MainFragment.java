@@ -12,13 +12,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
+import kr.butterknife.talenthouse.network.response.Category;
+import kr.butterknife.talenthouse.network.response.CategoryRes;
 import kr.butterknife.talenthouse.network.response.PostRes;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +35,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private MainRVAdapter rvAdapter;
     private ArrayList<PostItem> posts;
     private int page = 0;
+    private String id;
     private boolean isLoading = false;
+
+    private RecyclerView rvCategory;
+    private MainCategoryRVAdapter rvCategoryAdapter;
+    private ArrayList<String> categoryList;
 
     public MainFragment() {
         // Required empty public constructor
@@ -44,6 +54,18 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         FloatingActionButton btnWrite = view.findViewById(R.id.main_fab_write);
 
         btnWrite.setOnClickListener(this);
+
+        rvCategory = view.findViewById(R.id.main_rv_category);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        rvCategory.setLayoutManager(layoutManager);
+
+        categoryList = new ArrayList<>();
+        getCategories();
+        rvCategoryAdapter = new MainCategoryRVAdapter(getContext(), categoryList, onClickItem);
+        rvCategory.setAdapter(rvCategoryAdapter);
+        MyListDecoration decoration = new MyListDecoration();
+        rvCategory.addItemDecoration(decoration);
+
 
         rv = view.findViewById(R.id.main_rv);
         posts = new ArrayList<>();
@@ -105,6 +127,41 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }.run();
     }
 
+    public void getCategories(){
+        new Runnable(){
+            @Override
+            public void run() {
+                try{
+                    id = LoginInfo.INSTANCE.getLoginInfo(getContext())[0];
+
+//                    String encodeStr= URLEncoder.encode(id, "UTF-8");
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getCategories(id).enqueue(new Callback<CategoryRes>() {
+                        @Override
+                        public void onResponse(Call<CategoryRes> call, Response<CategoryRes> response) {
+                            if(response.body() != null){
+                                try{
+                                    List<String>cateList = response.body().getData().getCategory();
+                                    for(String c : cateList) {
+                                        categoryList.add(c);
+                                    }
+                                    rvCategoryAdapter.notifyDataSetChanged();
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<CategoryRes> call, Throwable t) {
+                            Log.d("err", "SERVER CONNECTION ERROR");
+                        }
+                    });
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.run();
+    }
+
     private void initScrollListener() {
         rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -131,7 +188,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         posts.add(null);
         int tempSize = posts.size() - 1;
         rvAdapter.notifyItemInserted(tempSize);
-
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -157,4 +213,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
+    private View.OnClickListener onClickItem = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String str = (String) v.getTag();
+            Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+
+        }
+    };
 }
