@@ -59,10 +59,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        rvAdapter.initScrollListener(rv);
+        rvAdapter.setOnItemReloadListener(() -> getPosts());
+
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        getPosts();
-        initScrollListener();
+        rvAdapter.doItemReload();
+
         return view;
     }
 
@@ -71,7 +74,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run(){
                 try{
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(page).enqueue(new Callback<PostRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
                         @Override
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
@@ -105,49 +108,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }.run();
     }
 
-    private void initScrollListener() {
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-                if(!isLoading) {
-                    if(layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == posts.size() - 1) {
-                        loadMore();
-                        isLoading = true;
-                    }
-                }
-            }
-        });
-    }
-
-    private void loadMore() {
-        posts.add(null);
-        int tempSize = posts.size() - 1;
-        rvAdapter.notifyItemInserted(tempSize);
-
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                posts.remove(tempSize);
-                int scrollPosition = posts.size();
-                rvAdapter.notifyItemRemoved(tempSize - 1);
-                int currentSize = scrollPosition;
-                page++;
-                getPosts();
-                rvAdapter.notifyDataSetChanged();
-                isLoading = false;
-            }
-        }, 500);
-
-    }
     @Override
     public void onClick(View view){
         switch (view.getId()){
