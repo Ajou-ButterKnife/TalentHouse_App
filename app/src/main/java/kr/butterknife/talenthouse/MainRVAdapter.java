@@ -2,11 +2,13 @@ package kr.butterknife.talenthouse;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<PostItem> arrayList;
     private Context context;
+    private boolean isLoading = false;
+    private int page = 0;
 
     public MainRVAdapter(Context context, ArrayList<PostItem> list) {
         arrayList = list;
@@ -31,6 +35,25 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         itemClickListener = listener;
+    }
+
+    interface OnItemReloadListener {
+        void reloadItem();
+    }
+
+    private OnItemReloadListener itemReloadListener = null;
+
+    public void setOnItemReloadListener(OnItemReloadListener listener) {
+        itemReloadListener = listener;
+    }
+
+    public void doItemReload() {
+        if(itemReloadListener != null)
+            itemReloadListener.reloadItem();
+    }
+
+    public int getPageNum() {
+        return page;
     }
 
     @NonNull
@@ -131,6 +154,51 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
         return ContentType.NO.ordinal();
+    }
+
+    public void initScrollListener(RecyclerView rv) {
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if(!isLoading) {
+                    if(layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == arrayList.size() - 1) {
+                        loadMore();
+                        isLoading = true;
+                    }
+                }
+            }
+        });
+    }
+
+    private void loadMore() {
+        arrayList.add(null);
+        int tempSize = arrayList.size() - 1;
+        notifyItemInserted(tempSize);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                arrayList.remove(tempSize);
+                int scrollPosition = arrayList.size();
+                notifyItemRemoved(tempSize - 1);
+                int currentSize = scrollPosition;
+                page++;
+//                getPosts();
+                itemReloadListener.reloadItem();
+                notifyDataSetChanged();
+                isLoading = false;
+            }
+        }, 500);
+
     }
 
 }
