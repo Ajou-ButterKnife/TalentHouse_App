@@ -79,7 +79,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                                 try{
                                     List<PostItem> postList = response.body().getData();
                                     for(PostItem p : postList){
-                                        Log.d("aaa", p.get_id());
                                         if(p.getVideoUrl() != null)
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getCategory(), p.getComments()));
                                         else if(p.getImageUrl() != null)
