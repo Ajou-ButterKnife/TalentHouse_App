@@ -29,8 +29,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private RecyclerView rv;
     private MainRVAdapter rvAdapter;
     private ArrayList<PostItem> posts;
-    private int page = 0;
-    private boolean isLoading = false;
 
     public MainFragment() {
         // Required empty public constructor
