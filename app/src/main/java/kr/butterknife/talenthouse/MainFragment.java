@@ -34,9 +34,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private RecyclerView rv;
     private MainRVAdapter rvAdapter;
     private ArrayList<PostItem> posts;
-    private int page = 0;
-    private String id;
-    private boolean isLoading = false;
 
     private RecyclerView rvCategory;
     private MainCategoryRVAdapter rvCategoryAdapter;
@@ -85,10 +82,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        rvAdapter.initScrollListener(rv);
+        rvAdapter.setOnItemReloadListener(() -> getPosts());
+
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-//        getPosts();
-        initScrollListener();
+        rvAdapter.doItemReload();
+
         return view;
     }
 
@@ -97,14 +97,13 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run(){
                 try{
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(categorySet, page).enqueue(new Callback<PostRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(categorySet, rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
                         @Override
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
                                 try{
                                     List<PostItem> postList = response.body().getData();
                                     for(PostItem p : postList){
-                                        Log.d("aaa", p.get_id());
                                         if(p.getVideoUrl() != null)
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getCategory(), p.getComments()));
                                         else if(p.getImageUrl() != null)
@@ -130,7 +129,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             }
         }.run();
     }
-
     public void getCategories(){
         new Runnable(){
             @Override
@@ -167,48 +165,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }.run();
     }
 
-    private void initScrollListener() {
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
 
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-
-                if(!isLoading) {
-                    if(layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == posts.size() - 1) {
-                        loadMore();
-                        isLoading = true;
-                    }
-                }
-            }
-        });
-    }
-
-    private void loadMore() {
-        posts.add(null);
-        int tempSize = posts.size() - 1;
-        rvAdapter.notifyItemInserted(tempSize);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                posts.remove(tempSize);
-                int scrollPosition = posts.size();
-                rvAdapter.notifyItemRemoved(tempSize - 1);
-                int currentSize = scrollPosition;
-                page++;
-                getPosts();
-                rvAdapter.notifyDataSetChanged();
-                isLoading = false;
-            }
-        }, 500);
-
-    }
     @Override
     public void onClick(View view){
         switch (view.getId()){
