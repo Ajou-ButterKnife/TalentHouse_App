@@ -44,6 +44,14 @@ data class PostRes(
         val data : List<PostItem>?,
 )
 
+data class Category(
+    val category : List<String>?,
+)
+
+data class CategoryRes(
+    val data : Category,
+)
+
 data class GetCommentsRes(
         val data: List<CommentItem>?
 )
