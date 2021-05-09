@@ -4,6 +4,7 @@ buildscript {
     ext.version_retrofit = "2.9.0"
     ext.version_retrofit_coroutines_adapter = "0.9.2"
     ext.version_moshi = "1.9.3"
+    ext.version_coroutine = "1.1.0"
     repositories {
         google()
         jcenter()

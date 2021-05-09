@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private String TAG = "MAIN_TAG";
     private BottomNavigationView bottomNavigationView;
     private MainFragment mainFrag;
+    private MyPageFragment myPageFrag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +43,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.btmnavi_favorite:
                 return true;
             case R.id.btmnavi_menu :
-                return true;
-            case R.id.btmnavi_mypage :
                 //임시로 로그아웃
                 LoginInfo.INSTANCE.logout(getApplicationContext());
                 startActivity(new Intent(getApplicationContext(), SplashActivity.class));
                 finish();
+                return true;
+            case R.id.btmnavi_mypage :
+                myPageFrag = new MyPageFragment();
+                replaceFragment(myPageFrag, "myPage");
                 return true;
             case R.id.btmnavi_search :
                 return true;
