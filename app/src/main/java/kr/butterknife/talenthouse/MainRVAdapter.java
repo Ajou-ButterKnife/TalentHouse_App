@@ -1,23 +1,20 @@
 package kr.butterknife.talenthouse;
 
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.ImageView;
-
+import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.bumptech.glide.Glide;
-
 import kr.butterknife.talenthouse.MainRVViewHolder.*;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<PostItem> arrayList;
@@ -39,21 +36,45 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = null;
 
-        if(viewType == ContentType.MP3.ordinal()) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_mp3, parent, false);
-            ContentMP3ViewHolder vh = new ContentMP3ViewHolder(view);
-            vh.setOnItemClickListener(itemClickListener);
-            return vh;
-        }
-        else if(viewType == ContentType.VIDEO.ordinal()) {
+        if(viewType == ContentType.VIDEO.ordinal()) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_mp4, parent, false);
             ContentMP4ViewHolder vh = new ContentMP4ViewHolder(view);
             vh.setOnItemClickListener(itemClickListener);
             return vh;
-        }
-        else if(viewType == ContentType.IMAGE.ordinal()) {
+        }else if(viewType == ContentType.IMAGE_1.ordinal()) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_image, parent, false);
-            ContentImageViewHolder vh = new ContentImageViewHolder(view);
+            ViewStub viewStub = view.findViewById(R.id.rvimage_vs);
+            ContentImageViewHolder_1 vh = new ContentImageViewHolder_1(view, viewStub);
+            vh.setOnItemClickListener(itemClickListener);
+            return vh;
+        }else if(viewType == ContentType.IMAGE_2.ordinal()) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_image, parent, false);
+            ViewStub viewStub = view.findViewById(R.id.rvimage_vs);
+            ContentImageViewHolder_2 vh = new ContentImageViewHolder_2(view, viewStub);
+            vh.setOnItemClickListener(itemClickListener);
+            return vh;
+        }else if(viewType == ContentType.IMAGE_3.ordinal()) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_image, parent, false);
+            ViewStub viewStub = view.findViewById(R.id.rvimage_vs);
+            ContentImageViewHolder_3 vh = new ContentImageViewHolder_3(view, viewStub);
+            vh.setOnItemClickListener(itemClickListener);
+            return vh;
+        }else if(viewType == ContentType.IMAGE_4.ordinal()) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_image, parent, false);
+            ViewStub viewStub = view.findViewById(R.id.rvimage_vs);
+            ContentImageViewHolder_4 vh = new ContentImageViewHolder_4(view, viewStub);
+            vh.setOnItemClickListener(itemClickListener);
+            return vh;
+        }else if(viewType == ContentType.IMAGE_5.ordinal()) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_image, parent, false);
+            ViewStub viewStub = view.findViewById(R.id.rvimage_vs);
+            ContentImageViewHolder_5 vh = new ContentImageViewHolder_5(view, viewStub);
+            vh.setOnItemClickListener(itemClickListener);
+            return vh;
+        }else if(viewType == ContentType.IMAGE_6.ordinal()) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_image, parent, false);
+            ViewStub viewStub = view.findViewById(R.id.rvimage_vs);
+            ContentImageViewHolder_6 vh = new ContentImageViewHolder_6(view, viewStub);
             vh.setOnItemClickListener(itemClickListener);
             return vh;
         }
@@ -67,37 +88,33 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder _holder, int position) {
         if(_holder instanceof ContentNOViewHolder) {
-            System.out.println(position + " : " + "asdf");
             ContentNOViewHolder holder = (ContentNOViewHolder) _holder;
             holder.title.setText(arrayList.get(position).getTitle());
             holder.writer.setText(arrayList.get(position).getWriterNickname());
             holder.date.setText(arrayList.get(position).getUpdateTime());
 //            holder.date.setText(Util.INSTANCE.getDate2String(arrayList.get(position).getUpdateTime()));
             holder.subject.setText(arrayList.get(position).getDescription());
-        }
-        else if(_holder instanceof ContentMP3ViewHolder) {
+        }else if(_holder instanceof ContentMP4ViewHolder) {
 
-        }
-        else if(_holder instanceof ContentMP4ViewHolder) {
-
-        }
-        else if(_holder instanceof ContentImageViewHolder) {
-            ContentImageViewHolder holder = (ContentImageViewHolder) _holder;
-            holder.title.setText(arrayList.get(position).getTitle());
-            holder.writer.setText(arrayList.get(position).getWriterNickname());
-            holder.date.setText(arrayList.get(position).getUpdateTime());
-            holder.subject.setText(arrayList.get(position).getDescription());
-            holder.viewStubImage.setLayoutResource(R.layout.viewstub_main_image);
-            View inflated = holder.viewStubImage.inflate();
-            ImageView imageView = inflated.findViewById(R.id.vs_main_iv);
-            String temp = arrayList.get(position).getImageUrl().get(0);
-            Glide.with(context)
-                    .load(temp)
-                    .into(imageView);
-        }
-        else {
-
-        }
+        }else if(_holder instanceof ContentImageViewHolder_1) {
+            ContentImageViewHolder_1 holder = (ContentImageViewHolder_1) _holder;
+            holder.onBind(arrayList.get(position), context);
+        }else if(_holder instanceof ContentImageViewHolder_2) {
+            ContentImageViewHolder_2 holder = (ContentImageViewHolder_2) _holder;
+            holder.onBind(arrayList.get(position), context);
+        }else if(_holder instanceof ContentImageViewHolder_3) {
+            ContentImageViewHolder_3 holder = (ContentImageViewHolder_3) _holder;
+            holder.onBind(arrayList.get(position), context);
+        }else if(_holder instanceof ContentImageViewHolder_4) {
+            ContentImageViewHolder_4 holder = (ContentImageViewHolder_4) _holder;
+            holder.onBind(arrayList.get(position), context);
+        }else if(_holder instanceof ContentImageViewHolder_5) {
+            ContentImageViewHolder_5 holder = (ContentImageViewHolder_5) _holder;
+            holder.onBind(arrayList.get(position), context);
+        }else if(_holder instanceof ContentImageViewHolder_6) {
+            ContentImageViewHolder_6 holder = (ContentImageViewHolder_6) _holder;
+            holder.onBind(arrayList.get(position), context);
+        }else {}
     }
 
     @Override
@@ -109,16 +126,26 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemViewType(int position) {
         PostItem item = arrayList.get(position);
 
-        if(item.getMp3Url() != null) {
-            return ContentType.MP3.ordinal();
-        }
-        else if(item.getVideoUrl() != null) {
+        if(item.getVideoUrl() != null) {
             return ContentType.VIDEO.ordinal();
         }
         else if(item.getImageUrl() != null) {
-            return ContentType.IMAGE.ordinal();
+            switch(item.getImageUrl().size()){
+                case 1:
+                    return ContentType.IMAGE_1.ordinal();
+                case 2:
+                    return ContentType.IMAGE_2.ordinal();
+                case 3:
+                    return ContentType.IMAGE_3.ordinal();
+                case 4:
+                    return ContentType.IMAGE_4.ordinal();
+                case 5:
+                    return ContentType.IMAGE_5.ordinal();
+                default:
+                    return ContentType.IMAGE_6.ordinal();
+            }
         }
-
         return ContentType.NO.ordinal();
     }
+
 }
