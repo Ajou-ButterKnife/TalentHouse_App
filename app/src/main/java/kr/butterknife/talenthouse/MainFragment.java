@@ -41,6 +41,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private RecyclerView rvCategory;
     private MainCategoryRVAdapter rvCategoryAdapter;
     private ArrayList<String> categoryList;
+    private String categorySet;
 
     public MainFragment() {
         // Required empty public constructor
@@ -61,15 +62,18 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         categoryList = new ArrayList<>();
         getCategories();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         rvCategoryAdapter = new MainCategoryRVAdapter(getContext(), categoryList, onClickItem);
         rvCategory.setAdapter(rvCategoryAdapter);
         MyListDecoration decoration = new MyListDecoration();
         rvCategory.addItemDecoration(decoration);
 
-
         rv = view.findViewById(R.id.main_rv);
         posts = new ArrayList<>();
-
         rvAdapter = new MainRVAdapter(getContext(), posts);
         rvAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -83,7 +87,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        getPosts();
+//        getPosts();
         initScrollListener();
         return view;
     }
@@ -93,7 +97,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run(){
                 try{
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(page).enqueue(new Callback<PostRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(categorySet, page).enqueue(new Callback<PostRes>() {
                         @Override
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
@@ -134,16 +138,17 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 try{
                     id = LoginInfo.INSTANCE.getLoginInfo(getContext())[0];
 
-//                    String encodeStr= URLEncoder.encode(id, "UTF-8");
                     ButterKnifeApi.INSTANCE.getRetrofitService().getCategories(id).enqueue(new Callback<CategoryRes>() {
                         @Override
                         public void onResponse(Call<CategoryRes> call, Response<CategoryRes> response) {
                             if(response.body() != null){
                                 try{
-                                    List<String>cateList = response.body().getData().getCategory();
+                                    List<String> cateList = response.body().getData().getCategory();
+                                    categorySet = categoryClassification((ArrayList<String>) cateList);
                                     for(String c : cateList) {
                                         categoryList.add(c);
                                     }
+                                    getPosts();
                                     rvCategoryAdapter.notifyDataSetChanged();
                                 }catch (Exception e){
                                     e.printStackTrace();
@@ -218,8 +223,34 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         @Override
         public void onClick(View v) {
             String str = (String) v.getTag();
+            categorySet = str;
             Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
-
         }
     };
+
+    private String categoryClassification(ArrayList<String> strList) {
+        String resultStr = "";
+        for(int i = 0; i < strList.size(); i++) {
+            if(strList.get(i).equals("춤")) {
+                resultStr += "춤-";
+            } else if(strList.get(i).equals("노래")) {
+                resultStr += "노래-";
+            } else if(strList.get(i).equals("랩")) {
+                resultStr += "랩-";
+            } else if(strList.get(i).equals("그림")) {
+                resultStr += "그림-";
+            } else if(strList.get(i).equals("사진")) {
+                resultStr += "사진-";
+            } else if(strList.get(i).equals("기타")) {
+                resultStr += "기타-";
+            } else {    // 잘못 된 카테고리
+                Log.d("err", "잘못된 카테고리가 들어왔습니다");
+            }
+        }
+
+        if(resultStr.charAt(resultStr.length()-1) == '-') {
+            resultStr = resultStr.substring(0 , resultStr.length()-1);
+        }
+        return resultStr;
+    }
 }
