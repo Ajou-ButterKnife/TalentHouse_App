@@ -63,10 +63,6 @@ public class MainRVViewHolder {
     }
 }
 
-interface OnItemClickListener {
-    void onItemClick(View v, int pos);
-}
-
 class ContentRVHolder extends RecyclerView.ViewHolder {
 
     private OnItemClickListener itemClickListener;
