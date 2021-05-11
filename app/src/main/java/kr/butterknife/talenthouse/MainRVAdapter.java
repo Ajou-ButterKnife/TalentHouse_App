@@ -30,6 +30,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Context context;
     private boolean isLoading = false;
     private int page = 0;
+    private ArrayList<SimpleExoPlayer> playerList = new ArrayList<>();
 
     public MainRVAdapter(Context context, ArrayList<PostItem> list) {
         arrayList = list;
@@ -166,9 +167,16 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             player.addMediaSource(mediaSource);
             player.prepare();
             player.setPlayWhenReady(false);
+            playerList.add(player);
         }
         else {
 
+        }
+    }
+
+    public void clearPlayerList(){
+        for(SimpleExoPlayer player : playerList){
+            player.release();
         }
     }
 
