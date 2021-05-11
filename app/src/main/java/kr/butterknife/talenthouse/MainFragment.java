@@ -12,18 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
-import kr.butterknife.talenthouse.network.response.Category;
-import kr.butterknife.talenthouse.network.response.CategoryRes;
 import kr.butterknife.talenthouse.network.response.PostRes;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +29,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private RecyclerView rv;
     private MainRVAdapter rvAdapter;
     private ArrayList<PostItem> posts;
+
 
     private RecyclerView rvCategory;
     private MainCategoryRVAdapter rvCategoryAdapter;
@@ -67,6 +63,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         rv = view.findViewById(R.id.main_rv);
         posts = new ArrayList<>();
+
         rvAdapter = new MainRVAdapter(getContext(), posts);
         rvAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -93,7 +90,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run(){
                 try{
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(categorySet, rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
                         @Override
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
@@ -102,8 +99,8 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                                     for(PostItem p : postList){
                                         if(p.getVideoUrl() != null)
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getCategory(), p.getComments()));
-                                        else if(p.getImageUrl() != null)
-                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory(), p.getComments()));
+                                        else if(p.getImageUrl().size() != 0)
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getCategory(), p.getComments()));
                                         else
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory(), p.getComments()));
                                     }
@@ -126,6 +123,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             }
         }.run();
     }
+
     public void getCategories(){
         new Runnable(){
             @Override
@@ -161,7 +159,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             }
         }.run();
     }
-
 
     @Override
     public void onClick(View view){
