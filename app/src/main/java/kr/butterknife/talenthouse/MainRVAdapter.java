@@ -163,7 +163,6 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             DataSource.Factory factory = new DefaultDataSourceFactory(context, "Ex98VideoAndExoPlayer");
             Uri videoUri = Uri.parse(arrayList.get(position).getVideoUrl());
             ProgressiveMediaSource mediaSource= new ProgressiveMediaSource.Factory(factory).createMediaSource(videoUri);
-
             player.addMediaSource(mediaSource);
             player.prepare();
             player.setPlayWhenReady(false);
