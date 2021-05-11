@@ -66,8 +66,8 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         View view = null;
 
         if(viewType == ContentType.VIDEO.ordinal()) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_mp4, parent, false);
-            ContentMP4ViewHolder vh = new ContentMP4ViewHolder(view);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_video, parent, false);
+            ContentVideoViewHolder vh = new ContentVideoViewHolder(view);
             vh.setOnItemClickListener(itemClickListener);
             return vh;
         }else if(viewType == ContentType.IMAGE_1.ordinal()) {
@@ -129,7 +129,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
 //            holder.date.setText(Util.INSTANCE.getDate2String(arrayList.get(position).getUpdateTime()));
             holder.subject.setText(arrayList.get(position).getDescription());
-
+        }
         else if(_holder instanceof ContentImageViewHolder_1) {
             ContentImageViewHolder_1 holder = (ContentImageViewHolder_1) _holder;
             holder.onBind(arrayList.get(position), context);
