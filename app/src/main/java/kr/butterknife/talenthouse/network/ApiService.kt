@@ -12,8 +12,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
 //private const val BASE_URL = "http://3.137.162.68:4000/"
-private const val BASE_URL = "http://10.0.2.2:4000/"
-//private const val BASE_URL = "http://192.168.0.102:4000/"
+//private const val BASE_URL = "http://10.0.2.2:4000/"
+private const val BASE_URL = "http://172.30.1.5:4000/"
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -46,10 +46,10 @@ interface ButterKnifeApiService {
     @POST("signup/social")
     fun socialAddUser(@Body user : SocialSignUpReq) : Call<SocialSignUpRes>
 
-    @GET("post/{page}")
-    fun getPosts(@Path("page") page: Int) : Call<PostRes>
+    @GET("post")
+    fun getPosts(@Query("category") category: String, @Query("page") page: Int) : Call<PostRes>
   
-    @GET("post/category/{id}")
+    @GET("user/category/{id}")
     fun getCategories(@Path("id") key: String) : Call<CategoryRes>
 
     @POST("post/create")

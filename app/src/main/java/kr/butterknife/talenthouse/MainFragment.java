@@ -1,24 +1,18 @@
 package kr.butterknife.talenthouse;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
+import kr.butterknife.talenthouse.network.response.CategoryRes;
 import kr.butterknife.talenthouse.network.response.PostRes;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,7 +84,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run(){
                 try{
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(categorySet, rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
                         @Override
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
@@ -178,6 +172,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             rvAdapter.setPage(0);
             posts.clear();
             getPosts();
+//            rvAdapter.doItemReload();
             rv.setAdapter(rvAdapter);
             rvAdapter.initScrollListener(rv);
 
