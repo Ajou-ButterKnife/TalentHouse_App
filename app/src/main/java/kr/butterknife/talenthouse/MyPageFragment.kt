@@ -130,7 +130,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
                     for(p in it) {
                         when {
                             p.videoUrl != null -> posts.add(PostItem(p._id, p.title, p.writerNickname, p.writerId, p.updateTime, p.description, p.videoUrl!!, p.likeCnt, p.category, p.comments))
-                            p.imageUrl != null -> posts.add(PostItem(p._id, p.title, p.writerNickname, p.writerId, p.updateTime, p.description, p.likeCnt, p.category, p.comments))
+                            p.imageUrl != null -> posts.add(PostItem(p._id, p.title, p.writerNickname, p.writerId, p.updateTime, p.description, p.imageUrl!!, p.likeCnt, p.category, p.comments))
                             else -> posts.add(PostItem(p._id, p.title, p.writerNickname, p.writerId, p.updateTime, p.description, p.likeCnt, p.category, p.comments))
                         }
                     }
