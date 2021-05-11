@@ -2,6 +2,11 @@ package kr.butterknife.talenthouse
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import kotlinx.coroutines.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +31,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
     private var userInfoRes : MyPageRes? = null
     private var postsRes : PostRes? = null
     private val INTENT_KEY = "SettingKey"
+
 
     // 들어오는 spf의 id에 따라서 메뉴 보여줄지 말지
     // 마이페이지로도 작동할 수 있고, 딴사람의 이름을 눌러서 들어오면 다른사람의 화면이므로 메뉴같은게 안보인다!

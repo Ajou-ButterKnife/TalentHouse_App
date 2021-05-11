@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.util.Log;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -222,6 +223,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if(!isLoading) {
                     if(layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == arrayList.size() - 1) {
                         loadMore();
+                        Log.d("TESTTEST","isloading");
                         isLoading = true;
                     }
                 }
@@ -249,6 +251,10 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }, 500);
 
+    }
+
+    public void setPage(int page){
+        this.page = page;
     }
 
 }
