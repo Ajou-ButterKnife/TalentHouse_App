@@ -3,6 +3,8 @@ package kr.butterknife.talenthouse;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
+import android.net.Uri;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,25 +12,52 @@ import android.view.ViewStub;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import kr.butterknife.talenthouse.MainRVViewHolder.*;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<PostItem> arrayList;
-    Context context;
+    private Context context;
+    private boolean isLoading = false;
+    private int page = 0;
 
     public MainRVAdapter(Context context, ArrayList<PostItem> list) {
-        this.context = context;
         arrayList = list;
+        this.context = context;
     }
 
     private OnItemClickListener itemClickListener = null;
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         itemClickListener = listener;
+    }
+
+    interface OnItemReloadListener {
+        void reloadItem();
+    }
+
+    private OnItemReloadListener itemReloadListener = null;
+
+    public void setOnItemReloadListener(OnItemReloadListener listener) {
+        itemReloadListener = listener;
+    }
+
+    public void doItemReload() {
+        if(itemReloadListener != null)
+            itemReloadListener.reloadItem();
+    }
+
+    public int getPageNum() {
+        return page;
     }
 
     @NonNull
@@ -78,6 +107,12 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             vh.setOnItemClickListener(itemClickListener);
             return vh;
         }
+        else if(viewType == ContentType.LOADING.ordinal()) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_loading, parent, false);
+            ContentLoadingViewHolder vh = new ContentLoadingViewHolder(view);
+//            vh.setOnItemClickListener(itemClickListener);
+            return vh;
+        }
 
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_text, parent, false);
         ContentNOViewHolder vh = new ContentNOViewHolder(view);
@@ -91,12 +126,11 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ContentNOViewHolder holder = (ContentNOViewHolder) _holder;
             holder.title.setText(arrayList.get(position).getTitle());
             holder.writer.setText(arrayList.get(position).getWriterNickname());
-            holder.date.setText(arrayList.get(position).getUpdateTime());
+            holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
 //            holder.date.setText(Util.INSTANCE.getDate2String(arrayList.get(position).getUpdateTime()));
             holder.subject.setText(arrayList.get(position).getDescription());
-        }else if(_holder instanceof ContentMP4ViewHolder) {
 
-        }else if(_holder instanceof ContentImageViewHolder_1) {
+        else if(_holder instanceof ContentImageViewHolder_1) {
             ContentImageViewHolder_1 holder = (ContentImageViewHolder_1) _holder;
             holder.onBind(arrayList.get(position), context);
         }else if(_holder instanceof ContentImageViewHolder_2) {
@@ -114,7 +148,28 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }else if(_holder instanceof ContentImageViewHolder_6) {
             ContentImageViewHolder_6 holder = (ContentImageViewHolder_6) _holder;
             holder.onBind(arrayList.get(position), context);
-        }else {}
+        }
+        else if(_holder instanceof ContentVideoViewHolder) {
+            ContentVideoViewHolder holder = (ContentVideoViewHolder) _holder;
+            holder.title.setText(arrayList.get(position).getTitle());
+            holder.writer.setText(arrayList.get(position).getWriterNickname());
+            holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
+            holder.subject.setText(arrayList.get(position).getDescription());
+
+            SimpleExoPlayer player = new SimpleExoPlayer.Builder(context).build();
+            holder.pv.setPlayer(player);
+
+            DataSource.Factory factory = new DefaultDataSourceFactory(context, "Ex98VideoAndExoPlayer");
+            Uri videoUri = Uri.parse(arrayList.get(position).getVideoUrl());
+            ProgressiveMediaSource mediaSource= new ProgressiveMediaSource.Factory(factory).createMediaSource(videoUri);
+
+            player.addMediaSource(mediaSource);
+            player.prepare();
+            player.setPlayWhenReady(false);
+        }
+        else {
+
+        }
     }
 
     @Override
@@ -126,7 +181,10 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public int getItemViewType(int position) {
         PostItem item = arrayList.get(position);
 
-        if(item.getVideoUrl() != null) {
+        if(item == null){
+            return ContentType.LOADING.ordinal();
+        }
+        else if(item.getVideoUrl() != null) {
             return ContentType.VIDEO.ordinal();
         }
         else if(item.getImageUrl() != null) {
@@ -146,6 +204,51 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         }
         return ContentType.NO.ordinal();
+    }
+
+      
+    public void initScrollListener(RecyclerView rv) {
+        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                if(!isLoading) {
+                    if(layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == arrayList.size() - 1) {
+                        loadMore();
+                        isLoading = true;
+                    }
+                }
+            }
+        });
+    }
+
+    private void loadMore() {
+        arrayList.add(null);
+        int tempSize = arrayList.size() - 1;
+        notifyItemInserted(tempSize);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                arrayList.remove(tempSize);
+                int scrollPosition = arrayList.size();
+                notifyItemRemoved(tempSize - 1);
+                int currentSize = scrollPosition;
+                page++;
+                itemReloadListener.reloadItem();
+                notifyDataSetChanged();
+                isLoading = false;
+            }
+        }, 500);
+
     }
 
 }

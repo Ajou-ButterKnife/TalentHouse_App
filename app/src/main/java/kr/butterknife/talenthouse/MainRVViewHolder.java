@@ -12,9 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.exoplayer2.ui.PlayerControlView;
+import com.google.android.exoplayer2.ui.PlayerView;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 
 //https://youngest-programming.tistory.com/69
@@ -285,20 +285,38 @@ public class MainRVViewHolder {
         }
     }
 
-
-
-    static class ContentMP4ViewHolder extends ContentRVHolder {
-        public ContentMP4ViewHolder(@NonNull View itemView) {
+    static class ContentMP3ViewHolder extends ContentRVHolder {
+        public ContentMP3ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
-}
 
-interface OnItemClickListener {
-    void onItemClick(View v, int pos);
+    static class ContentVideoViewHolder extends ContentRVHolder {
+        protected TextView title;
+        protected TextView writer;
+        protected TextView date;
+        protected TextView subject;
+        protected PlayerView pv;
+//        protected PlayerControlView pcv;
+
+        public ContentVideoViewHolder(@NonNull View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.rvvideo_video_tv_title);
+            writer = itemView.findViewById(R.id.rvvideo_video_tv_writer);
+            date = itemView.findViewById(R.id.rvvideo_video_tv_date);
+            subject = itemView.findViewById(R.id.rvvideo_video_tv_subject);
+            pv = itemView.findViewById(R.id.rvvideo_video_player);
+//            pcv = itemView.findViewById(R.id.rvvideo_video_controller);
+        }
+    }
+
+    static class ContentLoadingViewHolder extends ContentRVHolder {
+        public ContentLoadingViewHolder(@NonNull View itemView) { super(itemView);}
+    }
 }
 
 class ContentRVHolder extends RecyclerView.ViewHolder {
+
     private OnItemClickListener itemClickListener;
 
     void setOnItemClickListener(OnItemClickListener listener) {
@@ -310,7 +328,7 @@ class ContentRVHolder extends RecyclerView.ViewHolder {
 
         itemView.setOnClickListener(v -> {
             int pos = getAdapterPosition();
-            if (pos != RecyclerView.NO_POSITION) {
+            if(pos != RecyclerView.NO_POSITION) {
                 itemClickListener.onItemClick(v, pos);
             }
         });

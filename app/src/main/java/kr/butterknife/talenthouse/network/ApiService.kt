@@ -9,15 +9,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 //private const val BASE_URL = "http://3.137.162.68:4000/"
 private const val BASE_URL = "http://10.0.2.2:4000/"
-//private const val BASE_URL = "http://172.30.1.3:4000/"
-
+//private const val BASE_URL = "http://192.168.0.102:4000/"
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -50,9 +46,12 @@ interface ButterKnifeApiService {
     @POST("signup/social")
     fun socialAddUser(@Body user : SocialSignUpReq) : Call<SocialSignUpRes>
 
-    @GET("post")
-    fun getPosts() :Call<PostRes>
+    @GET("post/{page}")
+    fun getPosts(@Path("page") page: Int) : Call<PostRes>
   
+    @GET("post/category/{id}")
+    fun getCategories(@Path("id") key: String) : Call<CategoryRes>
+
     @POST("post/create")
     fun postCreate(@Body data : UploadPostReq) : Call<CommonResponse>
 
@@ -61,6 +60,12 @@ interface ButterKnifeApiService {
 
     @POST("post/comment/create")
     fun commentCreate(@Body data : UploadCommentReq) : Call<CommentRes>
+
+    @GET("user/{id}")
+    suspend fun getUserInfo(@Path("id") id : String) : MyPageRes
+
+    @GET("post/{id}/{page}")
+    suspend fun getMyPagePosts(@Path("id") id : String, @Path("page") page : Int) : PostRes
 }
 
 object ButterKnifeApi {
