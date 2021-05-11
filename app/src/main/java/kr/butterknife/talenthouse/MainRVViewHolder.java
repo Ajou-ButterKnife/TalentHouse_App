@@ -228,7 +228,7 @@ public class MainRVViewHolder {
                     .load(urlList.get(3))
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv5_4));
             Glide.with(context)
-                    .load(urlList.get(3))
+                    .load(urlList.get(4))
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv5_5));
         }
     }
