@@ -172,8 +172,7 @@ public class ContentFragment extends Fragment {
         }
 
         title.setText(item.getTitle());
-//        date.setText(Util.INSTANCE.getDate2String(item.getUpdateTime()));
-        date.setText(item.getUpdateTime());
+        date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(item.getUpdateTime())));
         writer.setText(item.getWriterNickname());
         subject.setText(item.getDescription());
     }
