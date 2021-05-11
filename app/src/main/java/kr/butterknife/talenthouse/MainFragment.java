@@ -68,7 +68,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 );
             }
         });
-
         rvAdapter.initScrollListener(rv);
         rvAdapter.setOnItemReloadListener(() -> getPosts());
 
@@ -204,4 +203,9 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         }
         return resultStr;
     }
+
+    public void clearPlayer(){
+        rvAdapter.clearPlayerList();
+    }
+
 }
