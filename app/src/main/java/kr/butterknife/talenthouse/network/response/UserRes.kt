@@ -60,3 +60,9 @@ data class CommentRes(
         val result : String,
         val data : CommentItem?,
 )
+
+data class MyPageRes(
+    val result : String,
+    val detail : String,
+    val data : CommonLoginRes?
+)

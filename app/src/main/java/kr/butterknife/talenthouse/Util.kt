@@ -10,7 +10,6 @@ import android.widget.Toast
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import java.text.SimpleDateFormat
-import java.util.*
 
 object SpinnerUtil {
     fun setCategorySpinner(spinner: Spinner, chipGroup: ChipGroup, context: Context) {
@@ -51,9 +50,13 @@ object SpinnerUtil {
 }
 
 object Util {
-    fun unixTime2String(timemillis : Long) : String {
+    fun unixTime2String(timemillis: Long) : String {
         val sdf = SimpleDateFormat("yyyy.MM.dd.hh:mm")
         val date = sdf.format(timemillis)
         return date
     }
+}
+
+interface OnItemClickListener {
+    fun onItemClick(v: View?, pos: Int)
 }
