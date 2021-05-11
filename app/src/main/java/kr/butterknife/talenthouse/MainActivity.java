@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -19,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private BottomNavigationView bottomNavigationView;
     private MainFragment mainFrag;
     private MyPageFragment myPageFrag;
+    private long BACK_PREESED_TIME = 2000L;
+    private long cur = 0L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,5 +96,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(System.currentTimeMillis() - cur < BACK_PREESED_TIME) {
+            if(!getVisibleFragment(mainFrag)) {
+                finish();
+            }
+            else
+                super.onBackPressed();
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            cur = System.currentTimeMillis();
+        }
     }
 }
