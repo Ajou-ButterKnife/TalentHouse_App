@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 finish();
                 return true;
             case R.id.btmnavi_mypage :
+                mainFrag.clearPlayer();
                 myPageFrag = new MyPageFragment();
                 replaceFragment(myPageFrag, "myPage");
                 return true;
