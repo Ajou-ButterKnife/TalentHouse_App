@@ -39,6 +39,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private MainCategoryRVAdapter rvCategoryAdapter;
     private ArrayList<String> categoryList;
     private String categorySet;
+    private String id;
 
     public MainFragment() {
         // Required empty public constructor
@@ -58,12 +59,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         rvCategory.setLayoutManager(layoutManager);
 
         categoryList = new ArrayList<>();
-        getCategories();
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         rvCategoryAdapter = new MainCategoryRVAdapter(getContext(), categoryList, onClickItem);
         rvCategory.setAdapter(rvCategoryAdapter);
         MyListDecoration decoration = new MyListDecoration();
@@ -87,7 +83,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
 
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvAdapter.doItemReload();
+        getCategories();
 
         return view;
     }
@@ -111,6 +107,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                                         else
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getCategory(), p.getComments()));
                                     }
+                                    Log.d("TESTTEST", String.valueOf(postList));
                                     rvAdapter.notifyDataSetChanged();
                                 }catch (Exception e){
                                     e.printStackTrace();
@@ -146,7 +143,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                                     for(String c : cateList) {
                                         categoryList.add(c);
                                     }
-                                    getPosts();
+                                    rvAdapter.doItemReload();
                                     rvCategoryAdapter.notifyDataSetChanged();
                                 }catch (Exception e){
                                     e.printStackTrace();
@@ -181,7 +178,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         public void onClick(View v) {
             String str = (String) v.getTag();
             categorySet = str;
-            Toast.makeText(getContext(), str, Toast.LENGTH_SHORT).show();
+            rvAdapter.setPage(0);
+            posts.clear();
+            getPosts();
+            rv.setAdapter(rvAdapter);
+            rvAdapter.initScrollListener(rv);
+
         }
     };
 

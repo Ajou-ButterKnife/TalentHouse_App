@@ -3,6 +3,7 @@ package kr.butterknife.talenthouse;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -171,6 +172,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if(!isLoading) {
                     if(layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == arrayList.size() - 1) {
                         loadMore();
+                        Log.d("TESTTEST","isloading");
                         isLoading = true;
                     }
                 }
@@ -192,13 +194,16 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 notifyItemRemoved(tempSize - 1);
                 int currentSize = scrollPosition;
                 page++;
-//                getPosts();
                 itemReloadListener.reloadItem();
                 notifyDataSetChanged();
                 isLoading = false;
             }
         }, 500);
 
+    }
+
+    public void setPage(int page){
+        this.page = page;
     }
 
 }
