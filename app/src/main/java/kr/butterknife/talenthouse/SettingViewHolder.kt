@@ -56,10 +56,7 @@ class SettingSwitchVH(private val context : Context, view : View) : RecyclerView
 
     fun bind(item : SettingItem) {
         title.text = item.name
-        switch.text = item.name
-        switch.showText = true
-        switch.textOn = item.listValue[0]
-        switch.textOff = item.listValue[1]
+        switch.text = item.strValue
         switch.isChecked = LoginInfo.getNotiPermission(context)
 
         switch.setOnCheckedChangeListener { buttonView, isChecked ->
