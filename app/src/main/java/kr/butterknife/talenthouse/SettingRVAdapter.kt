@@ -77,6 +77,11 @@ class SettingRVAdapter(private val context : Context, val items : MutableList<Se
         notifyItemInserted(items.size - 1)
     }
 
+    fun clearItem() {
+        items.clear()
+        notifyDataSetChanged()
+    }
+
 }
 
 data class SettingItem(val type: String, val name: String, var strValue: String = "", val listValue: List<String> = listOf(), val onClick: OnItemClickListener? = null)
