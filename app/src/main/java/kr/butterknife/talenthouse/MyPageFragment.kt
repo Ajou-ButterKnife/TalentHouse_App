@@ -14,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kr.butterknife.talenthouse.LoginInfo.logout
 import kr.butterknife.talenthouse.network.ButterKnifeApi
 import kr.butterknife.talenthouse.network.response.MyPageRes
 import kr.butterknife.talenthouse.network.response.PostRes
@@ -23,6 +24,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
     private lateinit var rvAdapter : MainRVAdapter
     private lateinit var posts : ArrayList<PostItem>
     private lateinit var coroutineScope : CoroutineScope
+    private lateinit var loginInfo : Array<String>
     private var userInfoRes : MyPageRes? = null
     private var postsRes : PostRes? = null
     private val INTENT_KEY = "SettingKey"
@@ -40,7 +42,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
 
         coroutineScope = CoroutineScope(Dispatchers.Main + Job())
 
-        val loginInfo = LoginInfo.getLoginInfo(requireContext())
+        loginInfo = LoginInfo.getLoginInfo(requireContext())
         posts = ArrayList()
         rvAdapter = MainRVAdapter(requireContext(), posts)
         rvAdapter.setOnItemClickListener(object : OnItemClickListener {
@@ -68,6 +70,11 @@ class MyPageFragment(var userId: String = "") : Fragment() {
                         val intent = Intent(requireContext(), SettingActivity::class.java)
                         startActivity(intent)
                     }
+                    R.id.my_page_logout -> {
+                        logout(requireContext())
+                        startActivity(Intent(requireContext(), SplashActivity::class.java))
+                        (requireActivity() as MainActivity).finish()
+                    }
                 }
                 true
             }
@@ -86,6 +93,12 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             Log.d(MyPageFragment::class.java.simpleName, loginInfo[0] + "\n" + userId);
             rvAdapter.doItemReload()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loginInfo = LoginInfo.getLoginInfo(requireContext())
+        setNickname(loginInfo[1])
     }
 
     private fun setNickname(name: String) {
