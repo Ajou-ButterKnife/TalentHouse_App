@@ -2,6 +2,7 @@ package kr.butterknife.talenthouse
 
 import android.content.Context
 import android.graphics.Color
+import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.widget.*
@@ -44,6 +45,9 @@ class SettingTextVH(view : View) : RecyclerView.ViewHolder(view) {
     val et = view.findViewById<TextInputEditText>(R.id.rvsetting_et_text)
 
     fun bind(item : SettingItem) {
+//        if(item.name == "password")
+//            et.inputType = InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
+
         title.text = item.name
         et.hint = item.name
         et.setText(item.strValue)
