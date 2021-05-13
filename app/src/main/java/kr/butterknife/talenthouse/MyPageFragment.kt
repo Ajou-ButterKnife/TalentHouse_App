@@ -63,7 +63,6 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             val inflater = popup.menuInflater
             inflater.inflate(R.menu.my_page, popup.menu)
             popup.setOnMenuItemClickListener { menuItem ->
-                val intent = Intent(requireContext(), SettingActivity::class.java)
                 when(menuItem.itemId) {
                     R.id.my_page_setting -> {
                         val intent = Intent(requireContext(), SettingActivity::class.java)
