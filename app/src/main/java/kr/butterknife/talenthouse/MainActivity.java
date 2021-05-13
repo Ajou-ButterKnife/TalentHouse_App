@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private BottomNavigationView bottomNavigationView;
     private MainFragment mainFrag;
     private MyPageFragment myPageFrag;
+    private SearchFragment searchFrag;
     private long BACK_PREESED_TIME = 2000L;
     private long cur = 0L;
 
@@ -71,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 replaceFragment(myPageFrag, "myPage");
                 return true;
             case R.id.btmnavi_search :
+                mainFrag.clearPlayer();
+                searchFrag = new SearchFragment();
+                replaceFragment(searchFrag, "search");
                 return true;
             default :
                 Log.e(TAG, "bottom navigation view clicked");
