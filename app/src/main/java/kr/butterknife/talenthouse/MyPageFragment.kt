@@ -65,17 +65,12 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             popup.setOnMenuItemClickListener { menuItem ->
                 val intent = Intent(requireContext(), SettingActivity::class.java)
                 when(menuItem.itemId) {
-                    R.id.my_page_privacy -> {
-                        intent.putExtra(INTENT_KEY, 0)
-                        Toast.makeText(requireContext(), "개인 정보", Toast.LENGTH_SHORT).show()
-                    }
                     R.id.my_page_setting -> {
                         val intent = Intent(requireContext(), SettingActivity::class.java)
-                        intent.putExtra(INTENT_KEY, 1)
                         Toast.makeText(requireContext(), "설정", Toast.LENGTH_SHORT).show()
+                        startActivity(intent)
                     }
                 }
-                startActivity(intent)
                 true
             }
             popup.show()
@@ -106,7 +101,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
     private fun getUserInfo() {
         coroutineScope.launch {
             try {
-                userInfoRes = ButterKnifeApi.retrofitService.getUserInfo(userId)
+                userInfoRes = ButterKnifeApi.retrofitService.getUserNickname(userId)
                 userInfoRes?.let {
                     if(it.data == null) {
                         Toast.makeText(context, it.detail, Toast.LENGTH_SHORT).show()
