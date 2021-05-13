@@ -66,3 +66,7 @@ data class MyPageRes(
     val detail : String,
     val data : CommonLoginRes?
 )
+
+data class SearchPostRes(
+    val data : List<PostItem>?,
+)
