@@ -1,5 +1,6 @@
 package kr.butterknife.talenthouse.network.response
 
+import com.squareup.moshi.Json
 import kr.butterknife.talenthouse.CommentItem
 import kr.butterknife.talenthouse.PostItem
 import java.util.*
@@ -65,4 +66,19 @@ data class MyPageRes(
     val result : String,
     val detail : String,
     val data : CommonLoginRes?
+)
+
+data class UserInfo(
+    @Json(name = "social_login_flag")
+    val isSocial : Boolean,
+    val category : List<String>,
+    @Json(name = "phone_num")
+    val phone : String,
+    val nickname : String,
+)
+
+data class UserInfoRes(
+    val result : String,
+    val detail : String?,
+    val data : UserInfo?
 )
