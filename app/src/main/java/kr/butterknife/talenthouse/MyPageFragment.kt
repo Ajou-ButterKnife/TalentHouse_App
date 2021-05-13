@@ -67,7 +67,6 @@ class MyPageFragment(var userId: String = "") : Fragment() {
                 when(menuItem.itemId) {
                     R.id.my_page_setting -> {
                         val intent = Intent(requireContext(), SettingActivity::class.java)
-                        Toast.makeText(requireContext(), "설정", Toast.LENGTH_SHORT).show()
                         startActivity(intent)
                     }
                 }
