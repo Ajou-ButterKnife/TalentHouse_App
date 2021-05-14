@@ -108,16 +108,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onBackPressed() {
-        if(System.currentTimeMillis() - cur < BACK_PREESED_TIME) {
-            if(!getVisibleFragment(mainFrag)) {
+        if(!getVisibleFragment(mainFrag)) {
+            if(System.currentTimeMillis() - cur < BACK_PREESED_TIME) {
                 finish();
             }
-            else
-                super.onBackPressed();
+            else {
+                Toast.makeText(getApplicationContext(), "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+                cur = System.currentTimeMillis();
+            }
         }
         else {
-            Toast.makeText(getApplicationContext(), "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
-            cur = System.currentTimeMillis();
+            super.onBackPressed();
+            FragmentManager fm = getSupportFragmentManager();
+            switch(fm.getBackStackEntryAt(0).getName()) {
+                case "Main" :
+                    bottomNavigationView.setSelectedItemId(R.id.btmnavi_home);
+                    break;
+                case "myPage" :
+                    bottomNavigationView.setSelectedItemId(R.id.btmnavi_mypage);
+                    break;
+                default :
+                    break;
+            }
         }
     }
 }
