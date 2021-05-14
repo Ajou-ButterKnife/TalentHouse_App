@@ -194,7 +194,6 @@ class SettingActivity : AppCompatActivity() {
             for(i in 0 until rvAdapter.itemCount)
                 if(items[i].type == "text" && items[i].name == "password") {
                     pw = (this.findViewHolderForAdapterPosition(i) as SettingTextVH).et.text.toString()
-                    Toast.makeText(applicationContext, pw, Toast.LENGTH_SHORT).show()
                     break
                 }
         }
