@@ -85,7 +85,8 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(token: String) {
         Log.d(TAG, token)
-        registerFCMToken(applicationContext, token)
+        if(LoginInfo.getLoginInfo(applicationContext)[0] != "")
+            registerFCMToken(applicationContext, token)
     }
 
 }
