@@ -75,8 +75,6 @@ object Util {
             }
             catch(e : Exception) { }
         }
-
-        coroutineScope.cancel()
     }
 }
 
