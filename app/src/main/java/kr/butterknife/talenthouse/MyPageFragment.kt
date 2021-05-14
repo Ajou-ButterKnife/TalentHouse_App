@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_my_page.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -84,6 +85,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             if(userId == "") {
                 userId = loginInfo[0]
                 setNickname(loginInfo[1])
+                getUserInfo()
                 setVisibility(true)
             }
             else {
@@ -121,6 +123,10 @@ class MyPageFragment(var userId: String = "") : Fragment() {
                     }
                     else {
                         setNickname(it.data.nickname)
+                        if(it.data.profile != "")
+                            Glide.with(requireContext())
+                                .load(it.data.profile)
+                                .into(mypage_image_profile)
                     }
                 }
             }
