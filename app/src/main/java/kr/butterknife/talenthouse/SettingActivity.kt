@@ -302,6 +302,7 @@ class SettingActivity : AppCompatActivity() {
                     rvAdapter.clearItem()
                     getUserInfo()
                     response = null
+                    profileImgFile = null
                 }
                 catch (e: Exception) {}
             }
