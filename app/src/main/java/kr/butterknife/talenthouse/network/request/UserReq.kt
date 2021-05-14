@@ -68,3 +68,7 @@ data class UserInfoUpdateReq(
 data class ProfileUpdateReq(
     val profile : String,
 )
+
+data class FCMTokenRegister(
+    val token : String,
+)

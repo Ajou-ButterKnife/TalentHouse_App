@@ -78,6 +78,9 @@ interface ButterKnifeApiService {
 
     @PUT("user/profile/{id}")
     suspend fun updateProfile(@Path("id") id : String, @Body data : ProfileUpdateReq) : CommonResponse
+
+    @POST("fcm/register/{id}")
+    suspend fun registerToken(@Path("id") id : String, @Body data : FCMTokenRegister) : CommonResponse
 }
 
 object ButterKnifeApi {
