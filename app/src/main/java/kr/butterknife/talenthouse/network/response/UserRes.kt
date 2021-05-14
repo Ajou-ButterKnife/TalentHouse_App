@@ -8,6 +8,7 @@ import java.util.*
 data class CommonLoginRes(
     val _id : String,
     val nickname : String,
+    val profile : String?,
 )
 
 data class CommonSignUpRes(
@@ -69,6 +70,7 @@ data class MyPageRes(
 )
 
 data class UserInfo(
+    val profile : String,
     @Json(name = "social_login_flag")
     val isSocial : Boolean,
     val category : List<String>,

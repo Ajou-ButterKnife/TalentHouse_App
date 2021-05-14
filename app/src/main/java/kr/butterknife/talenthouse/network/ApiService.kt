@@ -75,6 +75,9 @@ interface ButterKnifeApiService {
 
     @PUT("user/{id}")
     suspend fun updateInfo(@Path("id") id : String, @Body data : UserInfoUpdateReq) : CommonResponse
+
+    @PUT("user/profile/{id}")
+    suspend fun updateProfile(@Path("id") id : String, @Body data : ProfileUpdateReq) : CommonResponse
 }
 
 object ButterKnifeApi {

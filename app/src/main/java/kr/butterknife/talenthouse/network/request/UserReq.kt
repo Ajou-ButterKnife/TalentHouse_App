@@ -64,3 +64,7 @@ data class UserInfoUpdateReq(
     var nickname : String,
     var category : List<String>,
 )
+
+data class ProfileUpdateReq(
+    val profile : String,
+)
