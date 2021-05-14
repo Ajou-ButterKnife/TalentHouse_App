@@ -182,9 +182,7 @@ class SettingActivity : AppCompatActivity() {
                             ?: "알 수 없는 오류", Toast.LENGTH_SHORT).show()
                     }
                 }
-                rvAdapter.clearItem()
-                getUserInfo()
-                response = null
+                clearAll()
             }
             catch (e: Exception) {}
         }
@@ -216,9 +214,7 @@ class SettingActivity : AppCompatActivity() {
                             ?: "알 수 없는 오류", Toast.LENGTH_SHORT).show()
                     }
                 }
-                rvAdapter.clearItem()
-                getUserInfo()
-                response = null
+                clearAll()
             }
             catch (e: Exception) {}
         }
@@ -299,9 +295,7 @@ class SettingActivity : AppCompatActivity() {
                                 ?: "알 수 없는 오류", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    rvAdapter.clearItem()
-                    getUserInfo()
-                    response = null
+                    clearAll()
                     profileImgFile = null
                 }
                 catch (e: Exception) {}
@@ -310,5 +304,11 @@ class SettingActivity : AppCompatActivity() {
         else {
             Toast.makeText(applicationContext, "프로필 사진을 새로 선택해주세요.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun clearAll() {
+        rvAdapter.clearItem(setting_rv)
+        getUserInfo()
+        response = null
     }
 }
