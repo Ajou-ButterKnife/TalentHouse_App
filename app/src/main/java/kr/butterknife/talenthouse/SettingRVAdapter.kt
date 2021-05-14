@@ -1,7 +1,6 @@
 package kr.butterknife.talenthouse
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -30,11 +29,16 @@ class SettingRVAdapter(private val context : Context, val items : MutableList<Se
                 val vh = SettingSwitchVH(context, view)
                 vh
             }
-//            현재는 else부분이지만, 다른 항목이 추가된다면 아래 주석을 풀고 추가되는 것을 주석으로.
-//            SettingItemType.BUTTON.ordinal -> {
-            else -> {
+            SettingItemType.BUTTON.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_rvsetting_button, parent, false)
                 val vh = SettingButtonVH(view)
+                vh
+            }
+//            현재는 else부분이지만, 다른 항목이 추가된다면 아래 주석을 풀고 추가되는 것을 주석으로.
+            else -> {
+//            SettingItemType.PROFILE.ordinal -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_rvsetting_image, parent, false)
+                val vh = SettingImageVH(context, view)
                 vh
             }
         }
@@ -57,6 +61,9 @@ class SettingRVAdapter(private val context : Context, val items : MutableList<Se
             is SettingButtonVH -> {
                 holder.bind(items[position])
             }
+            is SettingImageVH -> {
+                holder.bind(items[position])
+            }
         }
     }
 
@@ -67,6 +74,7 @@ class SettingRVAdapter(private val context : Context, val items : MutableList<Se
             "text" -> SettingItemType.TEXT.ordinal
             "switch" -> SettingItemType.SWITCH.ordinal
             "button" -> SettingItemType.BUTTON.ordinal
+            "image" -> SettingItemType.IMAGE.ordinal
             else -> -1
         }
 
@@ -87,5 +95,5 @@ class SettingRVAdapter(private val context : Context, val items : MutableList<Se
 data class SettingItem(val type: String, val name: String, var strValue: String = "", val listValue: List<String> = listOf(), val onClick: OnItemClickListener? = null)
 
 enum class SettingItemType(num : Int) {
-    TITLE(0), SPINNER(1), TEXT(2), SWITCH(3), BUTTON(4)
+    TITLE(0), SPINNER(1), TEXT(2), SWITCH(3), BUTTON(4), IMAGE(5)
 }

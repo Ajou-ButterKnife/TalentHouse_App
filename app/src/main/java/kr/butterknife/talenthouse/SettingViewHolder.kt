@@ -1,5 +1,6 @@
 package kr.butterknife.talenthouse
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.text.InputType
@@ -8,6 +9,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
@@ -85,6 +87,7 @@ class SettingSpinnerVH(private val context : Context, private val view : View) :
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if(!findChip(arr[position]) && position != 0) {
+
                     addChip(arr[position])
                     parent?.setSelection(0)
                 }
@@ -119,5 +122,31 @@ class SettingSpinnerVH(private val context : Context, private val view : View) :
             if((chipGroup.getChildAt(idx) as Chip).text.toString() == str)
                 return true
         return false
+    }
+}
+
+class SettingImageVH(private val context : Context, view : View) : RecyclerView.ViewHolder(view) {
+    val profileImage = view.findViewById<ImageView>(R.id.rvsetting_profile)
+    private var onItemClickListener: OnItemClickListener? = null
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun bind(item : SettingItem) {
+        if(item.name == "profile") {
+            Glide.with(context)
+                .load(
+                    if(item.strValue != "") item.strValue
+                    else context.resources.getDrawable(R.drawable.logo_transparent, null)
+                )
+                .into(profileImage)
+
+            onItemClickListener = item.onClick
+            onItemClickListener?.let {
+                profileImage.setOnClickListener { view ->
+                    val pos = adapterPosition
+                    if (pos != RecyclerView.NO_POSITION)
+                        it.onItemClick(view, pos)
+                }
+            }
+        }
     }
 }
