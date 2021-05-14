@@ -1,9 +1,12 @@
 package kr.butterknife.talenthouse
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
 
 class SettingRVAdapter(private val context : Context, val items : MutableList<SettingItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -85,11 +88,21 @@ class SettingRVAdapter(private val context : Context, val items : MutableList<Se
         notifyItemInserted(items.size - 1)
     }
 
-    fun clearItem() {
+    fun clearItem(rv : RecyclerView) {
+        rv.apply {
+            for(i in 0 until items.size) {
+                if(items[i].type == "spinner") {
+                    val vh = (this.findViewHolderForAdapterPosition(i) as SettingSpinnerVH)
+                    for(j in 0 until vh.chipGroup.childCount) {
+                        val chip = vh.chipGroup.getChildAt(0) as Chip
+                        vh.chipGroup.removeView(chip)
+                    }
+                }
+            }
+        }
         items.clear()
         notifyDataSetChanged()
     }
-
 }
 
 data class SettingItem(val type: String, val name: String, var strValue: String = "", val listValue: List<String> = listOf(), val onClick: OnItemClickListener? = null)
