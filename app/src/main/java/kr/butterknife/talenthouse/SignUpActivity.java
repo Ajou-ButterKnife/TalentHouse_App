@@ -127,7 +127,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     if(response.body() != null){
                                         CommonResponse result = response.body();
                                         if(result.getResult().equals("Success")){
-                                            textInputLayoutEmail.setError(null);
+                                            textInputLayoutNickname.setError(null);
                                             isOverlapNickname = false;
                                         }
                                         else{
