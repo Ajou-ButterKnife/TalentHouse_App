@@ -2,13 +2,13 @@ package kr.butterknife.talenthouse.network.request
 
 data class NormalLoginReq(
     val email : String,
-    val password : String,
+    val password : String
 )
 
 data class SignUpReq(
     val email : String,
     val password : String,
-    val phone : String,
+    val phone : String
 )
 
 data class NormalSignUpReq(
@@ -16,22 +16,22 @@ data class NormalSignUpReq(
         val password : String,
         val phone : String,
         val nickname : String,
-        val category : List<String>,
+        val category : List<String>
 )
 
 data class SocialLoginReq(
-    val uid : String,
+    val uid : String
 )
 
 data class SocialSignUpReq(
     val phone : String,
     val nickname : String,
     val category : List<String>,
-    val uid : String,
+    val uid : String
 )
 
 data class OverlapEmail(
-    val email : String,
+    val email : String
 )
 
 data class OverlapNickname(
@@ -45,7 +45,7 @@ data class UploadPostReq(
     val description : String,
     val category : String,
     val imageUrl : List<String>?,
-    val videoUrl : String?,
+    val videoUrl : String?
 )
 
 data class UploadCommentReq(

@@ -10,13 +10,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import kr.butterknife.talenthouse.MainRVViewHolder.*;
+import kr.butterknife.talenthouse.network.ButterKnifeApi;
+import kr.butterknife.talenthouse.network.response.CommentRes;
+import kr.butterknife.talenthouse.network.response.CommonResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -168,6 +179,27 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             player.prepare();
             player.setPlayWhenReady(false);
             playerList.add(player);
+
+            boolean check = false;
+            for(String id : arrayList.get(position).getLikeIDs()){
+                if(id.equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])){
+                    check = true;
+                    break;
+                }
+            }
+            if(check)
+                holder.likeBtn.setText("좋아요 취소");
+            else
+                holder.likeBtn.setText("좋아요");
+            holder.likeCnt.setText("좋아요 " + arrayList.get(position).getLikeCnt() + "개");
+            holder.likeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.updateLike(arrayList.get(position).get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0]);
+                }
+            });
+
+
         }
         else {
 

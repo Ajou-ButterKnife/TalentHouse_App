@@ -60,6 +60,9 @@ interface ButterKnifeApiService {
     suspend fun getMyPagePosts(@Path("id") id : String, @Path("page") page : Int) : PostRes
 
 
+    @PUT("post/like/{postId}/{userId}")
+    fun putLike(@Path("postId") postId : String, @Path("userId") userId : String) : Call<LikeRes>
+
     @GET("user/category/{id}")
     fun getCategories(@Path("id") key: String) : Call<CategoryRes>
 
@@ -83,7 +86,6 @@ interface ButterKnifeApiService {
 
     @GET("post/search")
     fun getSearchPosts(@Query("search_type") search_type : Int, @Query("search_item") search_item : String, @Query("page") page: Int) : Call<SearchPostRes>
-
 }
 
 object ButterKnifeApi {

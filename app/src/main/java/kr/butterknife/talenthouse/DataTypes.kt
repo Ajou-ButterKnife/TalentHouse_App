@@ -21,15 +21,17 @@ data class PostItem(
     var imageUrl : List<String>? = null,
     @Json(name = "like_cnt")
     val likeCnt : Int,
+        @Json(name = "like_IDs")
+        val likeIDs : List<String>,
     val category : String,
     val comments : List<CommentItem>
 ) {
-    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
-            _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category, comments
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, likeIDs: List<String>, category : String, comments : List<CommentItem>) : this (
+            _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments
     )
 
-    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
-        _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, category, comments
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, likeIDs: List<String>, category : String, comments : List<CommentItem>) : this (
+        _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments
     ) {
         if(url.contains(".mp4"))
             this.videoUrl = url
@@ -37,8 +39,8 @@ data class PostItem(
             this.mp3Url = url
     }
 
-    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, imageUrl: List<String>, likesCnt : Int, category : String, comments : List<CommentItem>) : this (
-        _id, title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, category, comments
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, imageUrl: List<String>, likesCnt : Int, likeIDs: List<String>, category : String, comments : List<CommentItem>) : this (
+        _id, title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, likeIDs, category, comments
     )
 }
 
@@ -52,5 +54,5 @@ data class CommentItem(
     @Json(name = "writer_nickname")
     val writerNickname : String,
     val date : String,
-    val comment : String,
+    val comment : String
 )
