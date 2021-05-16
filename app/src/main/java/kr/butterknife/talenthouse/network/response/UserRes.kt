@@ -6,50 +6,50 @@ import java.util.*
 
 data class CommonLoginRes(
     val _id : String,
-    val nickname : String,
+    val nickname : String
 )
 
 data class CommonSignUpRes(
-    val _id : String,
+    val _id : String
 )
 
 data class NormalLoginRes(
     val result : String,
     val detail : String?,
-    val data : CommonLoginRes?,
+    val data : CommonLoginRes?
 )
 
 data class SignUpRes(
-    val email : String,
+    val email : String
 )
 
 data class NormalSignUpRes(
         val result : String,
-        val detail : String?,
+        val detail : String?
 )
 
 data class SocialLoginRes(
     val result : String,
     val detail : String?,
-    val data : CommonLoginRes?,
+    val data : CommonLoginRes?
 )
 
 data class SocialSignUpRes(
     val result : String,
     val detail : String?,
-    val data : CommonSignUpRes?,
+    val data : CommonSignUpRes?
 )
 
 data class PostRes(
-        val data : List<PostItem>?,
+        val data : List<PostItem>?
 )
 
 data class Category(
-    val category : List<String>?,
+    val category : List<String>?
 )
 
 data class CategoryRes(
-    val data : Category,
+    val data : Category
 )
 
 data class GetCommentsRes(
@@ -58,11 +58,16 @@ data class GetCommentsRes(
 
 data class CommentRes(
         val result : String,
-        val data : CommentItem?,
+        val data : CommentItem?
 )
 
 data class MyPageRes(
     val result : String,
     val detail : String,
     val data : CommonLoginRes?
+)
+
+data class LikeRes(
+        val result : String,
+        val likeCnt : Int
 )
