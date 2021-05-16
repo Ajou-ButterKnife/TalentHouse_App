@@ -9,6 +9,10 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
+import kotlinx.coroutines.*
+import kr.butterknife.talenthouse.network.ButterKnifeApi
+import kr.butterknife.talenthouse.network.request.FCMTokenRegister
+import kr.butterknife.talenthouse.network.response.CommonResponse
 import java.text.SimpleDateFormat
 
 object SpinnerUtil {
@@ -54,6 +58,23 @@ object Util {
         val sdf = SimpleDateFormat("yyyy.MM.dd.hh:mm")
         val date = sdf.format(timemillis)
         return date
+    }
+
+    fun registerFCMToken(context : Context, token : String) {
+        val coroutineScope = CoroutineScope(Dispatchers.Default + Job())
+        var response : CommonResponse? = null
+        coroutineScope.launch {
+            try {
+                while(true) {
+                    response = ButterKnifeApi.retrofitService.registerToken(LoginInfo.getLoginInfo(context)[0], FCMTokenRegister(token))
+
+                    if(response != null && response!!.result == "Success")
+                        break
+                    response = null
+                }
+            }
+            catch(e : Exception) { }
+        }
     }
 }
 

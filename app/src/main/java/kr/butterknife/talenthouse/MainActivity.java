@@ -9,14 +9,20 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
 
@@ -24,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private BottomNavigationView bottomNavigationView;
     private MainFragment mainFrag;
     private MyPageFragment myPageFrag;
+    private SearchFragment searchFrag;
     private long BACK_PREESED_TIME = 2000L;
     private long cur = 0L;
 
@@ -32,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initFCM();
+        getFirebaseToken();
 
         mainFrag = new MainFragment();
 
@@ -58,10 +68,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.btmnavi_favorite:
                 return true;
             case R.id.btmnavi_menu :
-                //임시로 로그아웃
-                LoginInfo.INSTANCE.logout(getApplicationContext());
-                startActivity(new Intent(getApplicationContext(), SplashActivity.class));
-                finish();
                 return true;
             case R.id.btmnavi_mypage :
                 mainFrag.clearPlayer();
@@ -69,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 replaceFragment(myPageFrag, "myPage");
                 return true;
             case R.id.btmnavi_search :
+                mainFrag.clearPlayer();
+                searchFrag = new SearchFragment();
+                replaceFragment(searchFrag, "search");
                 return true;
             default :
                 Log.e(TAG, "bottom navigation view clicked");
@@ -110,16 +119,60 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public void onBackPressed() {
-        if(System.currentTimeMillis() - cur < BACK_PREESED_TIME) {
-            if(!getVisibleFragment(mainFrag)) {
+        if(!getVisibleFragment(mainFrag)) {
+            if(System.currentTimeMillis() - cur < BACK_PREESED_TIME) {
                 finish();
             }
-            else
-                super.onBackPressed();
+            else {
+                Toast.makeText(getApplicationContext(), "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
+                cur = System.currentTimeMillis();
+            }
         }
         else {
-            Toast.makeText(getApplicationContext(), "한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT).show();
-            cur = System.currentTimeMillis();
+            super.onBackPressed();
+            FragmentManager fm = getSupportFragmentManager();
+            switch(fm.getBackStackEntryAt(0).getName()) {
+                case "Main" :
+                    bottomNavigationView.setSelectedItemId(R.id.btmnavi_home);
+                    break;
+                case "myPage" :
+                    bottomNavigationView.setSelectedItemId(R.id.btmnavi_mypage);
+                    break;
+                default :
+                    break;
+            }
         }
+    }
+
+    private void initFCM() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String channelId = getString(R.string.default_notification_channel_id);
+            String channelName = getString(R.string.default_notification_channel_name);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(
+                    new NotificationChannel(channelId,
+                            channelName, NotificationManager.IMPORTANCE_HIGH)
+            );
+        }
+    }
+
+    private void getFirebaseToken() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if(!task.isSuccessful()) {
+                    Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                    return;
+                }
+
+                String token = task.getResult();
+
+                if(token != null) {
+                    Util.INSTANCE.registerFCMToken(getApplicationContext(), token);
+                    Log.d("FCM", token);
+                }
+            }
+        });
     }
 }

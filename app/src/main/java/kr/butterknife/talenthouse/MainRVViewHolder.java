@@ -70,7 +70,7 @@ public class MainRVViewHolder {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
-            date.setText(postItem.getUpdateTime());
+            date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
             subject.setText(postItem.getDescription());
 
             boolean check = false;
@@ -159,7 +159,7 @@ public class MainRVViewHolder {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
-            date.setText(postItem.getUpdateTime());
+            date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
             subject.setText(postItem.getDescription());
 
             boolean check = false;
@@ -251,7 +251,7 @@ public class MainRVViewHolder {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
-            date.setText(postItem.getUpdateTime());
+            date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
             subject.setText(postItem.getDescription());
 
             boolean check = false;
@@ -345,7 +345,7 @@ public class MainRVViewHolder {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
-            date.setText(postItem.getUpdateTime());
+            date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
             subject.setText(postItem.getDescription());
 
             boolean check = false;
@@ -442,7 +442,7 @@ public class MainRVViewHolder {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
-            date.setText(postItem.getUpdateTime());
+            date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
             subject.setText(postItem.getDescription());
 
             boolean check = false;
@@ -542,7 +542,7 @@ public class MainRVViewHolder {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
-            date.setText(postItem.getUpdateTime());
+            date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
             subject.setText(postItem.getDescription());
 
             boolean check = false;

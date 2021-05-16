@@ -248,7 +248,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
       
     public void initScrollListener(RecyclerView rv) {
-        rv.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
