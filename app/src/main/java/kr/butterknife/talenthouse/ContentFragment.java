@@ -68,12 +68,6 @@ public class ContentFragment extends Fragment {
 
     public ContentFragment(PostItem item) {
         this.item = item;
-//        String tempVideoUrl = "https://talent-house-app.s3.ap-northeast-2.amazonaws.com/video/testIdScreen_Recording_20210225-172502_Samsung+Notes.mp4";
-//        this.item.setVideoUrl(tempVideoUrl);
-//        List<String> imageUrl = new ArrayList<>();
-//        imageUrl.add("https://talent-house-app.s3.ap-northeast-2.amazonaws.com/photo/608ce12de5955b344cc8f85c20210204_154101.jpg");
-//        imageUrl.add("https://talent-house-app.s3.ap-northeast-2.amazonaws.com/photo/608ce18a15d3bcb383e3678eIMG_20210425_170553.jpg");
-//        this.item.setImageUrl(imageUrl);
     }
 
     @Override
