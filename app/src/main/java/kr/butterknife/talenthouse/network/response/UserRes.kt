@@ -69,6 +69,7 @@ data class MyPageRes(
     val data : CommonLoginRes?
 )
 
+
 data class UserInfo(
     val profile : String,
     @Json(name = "social_login_flag")
@@ -83,4 +84,9 @@ data class UserInfoRes(
     val result : String,
     val detail : String?,
     val data : UserInfo?
+}
+  
+data class SearchPostRes(
+    val data : List<PostItem>?,
+
 )
