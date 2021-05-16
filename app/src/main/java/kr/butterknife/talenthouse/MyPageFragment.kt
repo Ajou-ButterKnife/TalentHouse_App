@@ -9,11 +9,13 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_my_page.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kr.butterknife.talenthouse.LoginInfo.logout
 import kr.butterknife.talenthouse.network.ButterKnifeApi
 import kr.butterknife.talenthouse.network.response.MyPageRes
 import kr.butterknife.talenthouse.network.response.PostRes
@@ -23,6 +25,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
     private lateinit var rvAdapter : MainRVAdapter
     private lateinit var posts : ArrayList<PostItem>
     private lateinit var coroutineScope : CoroutineScope
+    private lateinit var loginInfo : Array<String>
     private var userInfoRes : MyPageRes? = null
     private var postsRes : PostRes? = null
     private val INTENT_KEY = "SettingKey"
@@ -40,7 +43,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
 
         coroutineScope = CoroutineScope(Dispatchers.Main + Job())
 
-        val loginInfo = LoginInfo.getLoginInfo(requireContext())
+        loginInfo = LoginInfo.getLoginInfo(requireContext())
         posts = ArrayList()
         rvAdapter = MainRVAdapter(requireContext(), posts)
         rvAdapter.setOnItemClickListener(object : OnItemClickListener {
@@ -63,19 +66,17 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             val inflater = popup.menuInflater
             inflater.inflate(R.menu.my_page, popup.menu)
             popup.setOnMenuItemClickListener { menuItem ->
-                val intent = Intent(requireContext(), SettingActivity::class.java)
                 when(menuItem.itemId) {
-                    R.id.my_page_privacy -> {
-                        intent.putExtra(INTENT_KEY, 0)
-                        Toast.makeText(requireContext(), "개인 정보", Toast.LENGTH_SHORT).show()
-                    }
                     R.id.my_page_setting -> {
                         val intent = Intent(requireContext(), SettingActivity::class.java)
-                        intent.putExtra(INTENT_KEY, 1)
-                        Toast.makeText(requireContext(), "설정", Toast.LENGTH_SHORT).show()
+                        startActivity(intent)
+                    }
+                    R.id.my_page_logout -> {
+                        logout(requireContext())
+                        startActivity(Intent(requireContext(), SplashActivity::class.java))
+                        (requireActivity() as MainActivity).finish()
                     }
                 }
-                startActivity(intent)
                 true
             }
             popup.show()
@@ -84,6 +85,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             if(userId == "") {
                 userId = loginInfo[0]
                 setNickname(loginInfo[1])
+                getUserInfo()
                 setVisibility(true)
             }
             else {
@@ -92,6 +94,14 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             }
             Log.d(MyPageFragment::class.java.simpleName, loginInfo[0] + "\n" + userId);
             rvAdapter.doItemReload()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(userId == loginInfo[0]) {
+            loginInfo = LoginInfo.getLoginInfo(requireContext())
+            setNickname(loginInfo[1])
         }
     }
 
@@ -106,13 +116,17 @@ class MyPageFragment(var userId: String = "") : Fragment() {
     private fun getUserInfo() {
         coroutineScope.launch {
             try {
-                userInfoRes = ButterKnifeApi.retrofitService.getUserInfo(userId)
+                userInfoRes = ButterKnifeApi.retrofitService.getUserNickname(userId)
                 userInfoRes?.let {
                     if(it.data == null) {
                         Toast.makeText(context, it.detail, Toast.LENGTH_SHORT).show()
                     }
                     else {
                         setNickname(it.data.nickname)
+                        if(it.data.profile != "")
+                            Glide.with(requireContext())
+                                .load(it.data.profile)
+                                .into(mypage_image_profile)
                     }
                 }
             }
