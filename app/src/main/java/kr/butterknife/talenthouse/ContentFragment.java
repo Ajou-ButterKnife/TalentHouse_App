@@ -169,6 +169,10 @@ public class ContentFragment extends Fragment {
         date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(item.getUpdateTime())));
         writer.setText(item.getWriterNickname());
         subject.setText(item.getDescription());
+        writer.setOnClickListener(v -> {
+            ((MainActivity) getActivity()).setMyPageID(item.getWriterId());
+            ((MainActivity) getActivity()).outsideMyPageClick();
+        });
     }
 
     @Override

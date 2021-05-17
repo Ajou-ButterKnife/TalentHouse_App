@@ -86,14 +86,8 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             popup.show()
         }
         coroutineScope.launch {
-            if(userId == loginInfo[0]) {
-                getUserInfo()
-                setVisibility(true)
-            }
-            else {
-                getUserInfo()
-                setVisibility(false)
-            }
+            getUserInfo()
+            setVisibility(userId == loginInfo[0])
             Log.d(MyPageFragment::class.java.simpleName, loginInfo[0] + "\n" + userId);
             rvAdapter.doItemReload()
         }
