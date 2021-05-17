@@ -70,6 +70,9 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         });
         rvAdapter.initScrollListener(rv);
         rvAdapter.setOnItemReloadListener(() -> getPosts());
+        rvAdapter.setOnMyPageListener(writerId -> {
+            ((MainActivity) getActivity()).replaceFragment(new MyPageFragment(writerId), "myPage");
+        });
 
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));

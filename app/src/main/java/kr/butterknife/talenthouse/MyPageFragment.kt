@@ -44,6 +44,10 @@ class MyPageFragment(var userId: String = "") : Fragment() {
         coroutineScope = CoroutineScope(Dispatchers.Main + Job())
 
         loginInfo = LoginInfo.getLoginInfo(requireContext())
+        if(userId == "") {
+            userId = loginInfo[0]
+            setNickname(loginInfo[1])
+        }
         posts = ArrayList()
         rvAdapter = MainRVAdapter(requireContext(), posts)
         rvAdapter.setOnItemClickListener(object : OnItemClickListener {
@@ -82,9 +86,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             popup.show()
         }
         coroutineScope.launch {
-            if(userId == "") {
-                userId = loginInfo[0]
-                setNickname(loginInfo[1])
+            if(userId == loginInfo[0]) {
                 getUserInfo()
                 setVisibility(true)
             }
