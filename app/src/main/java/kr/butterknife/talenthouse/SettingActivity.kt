@@ -248,7 +248,7 @@ class SettingActivity : AppCompatActivity() {
     fun uploadProfileInS3() {
         profileImgFile?.let {
             // CredentialsProvider 객체 생성 (Cognito에서 자격 증명 풀 ID 제공)
-            val awsCredentials: AWSCredentials = BasicAWSCredentials("AKIAQUQIUUPFLLOMLQUD", "Yi6ph/MUh6ISRliH2mv0jlwkqtg5hZoJ5LjQU4Ia")
+            val awsCredentials: AWSCredentials = BasicAWSCredentials(getString(R.string.aws_access_key), getString(R.string.aws_secret_key))
             val s3Client = AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2))
 
             val transferUtility = TransferUtility.builder().s3Client(s3Client).context(applicationContext).build()

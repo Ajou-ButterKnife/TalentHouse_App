@@ -186,7 +186,7 @@ import retrofit2.Response;
 
      public void uploadWithTransferUtilty(List<File> files, String id) {
          // CredentialsProvider 객체 생성 (Cognito에서 자격 증명 풀 ID 제공)
-         AWSCredentials awsCredentials = new BasicAWSCredentials("AKIAQUQIUUPFLLOMLQUD", "Yi6ph/MUh6ISRliH2mv0jlwkqtg5hZoJ5LjQU4Ia");
+         AWSCredentials awsCredentials = new BasicAWSCredentials(getString(R.string.aws_access_key), getString(R.string.aws_secret_key));
          AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
 
          TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
@@ -225,7 +225,7 @@ import retrofit2.Response;
 
      public void uploadWithTransferUtilty(File file, String id) {
          // CredentialsProvider 객체 생성 (Cognito에서 자격 증명 풀 ID 제공)
-         AWSCredentials awsCredentials = new BasicAWSCredentials("AKIAQUQIUUPFLLOMLQUD", "Yi6ph/MUh6ISRliH2mv0jlwkqtg5hZoJ5LjQU4Ia");
+         AWSCredentials awsCredentials = new BasicAWSCredentials(getString(R.string.aws_access_key), getString(R.string.aws_secret_key));
          AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
 
          TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
