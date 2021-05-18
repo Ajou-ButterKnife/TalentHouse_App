@@ -119,7 +119,6 @@ public class MainRVViewHolder {
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
-                                return;
                             }
                         });
                     } catch (Exception e) {
@@ -212,7 +211,6 @@ public class MainRVViewHolder {
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
-                                return;
                             }
                         });
                     } catch (Exception e) {
@@ -306,7 +304,6 @@ public class MainRVViewHolder {
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
-                                return;
                             }
                         });
                     } catch (Exception e) {
@@ -403,7 +400,6 @@ public class MainRVViewHolder {
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
-                                return;
                             }
                         });
                     } catch (Exception e) {
@@ -503,7 +499,6 @@ public class MainRVViewHolder {
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
-                                return;
                             }
                         });
                     } catch (Exception e) {
@@ -609,7 +604,6 @@ public class MainRVViewHolder {
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
-                                return;
                             }
                         });
                     } catch (Exception e) {
@@ -663,7 +657,6 @@ public class MainRVViewHolder {
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
-                                return;
                             }
                         });
                     } catch (Exception e) {

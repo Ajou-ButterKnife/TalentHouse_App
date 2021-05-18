@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.chip.Chip;
@@ -78,6 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             if(result.getResult().equals("Success")){
                                                 textInputLayoutEmail.setError(null);
                                                 isOverlapEmail = false;
+                                                Toast.makeText(getApplicationContext(), "사용 가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
                                             }
                                             else{
                                                 textInputLayoutEmail.setError("중복된 이메일입니다");
@@ -129,6 +131,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         if(result.getResult().equals("Success")){
                                             textInputLayoutNickname.setError(null);
                                             isOverlapNickname = false;
+                                            Toast.makeText(getApplicationContext(), "사용 가능한 닉네임입니다.", Toast.LENGTH_SHORT).show();
                                         }
                                         else{
                                             textInputLayoutEmail.setError("중복된 닉네임입니다");
