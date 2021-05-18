@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,19 +24,26 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
     private String TAG = "MAIN_TAG";
     private BottomNavigationView bottomNavigationView;
     private MainFragment mainFrag;
     private MyPageFragment myPageFrag;
     private SearchFragment searchFrag;
-    private FavoriteFragment favoriteFragment;
+    private BoardFragment boardFrag;
+    private HotBoardFragment hotboardFrag;
+  
     private long BACK_PREESED_TIME = 2000L;
     private long cur = 0L;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private FavoriteFragment favoriteFragment;
     private String myPageID = "";
+
 
 
     @Override
@@ -50,6 +59,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationView = findViewById(R.id.main_bottomnavi);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setSelectedItemId(R.id.btmnavi_home);
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer_root);
+        navigationView = (NavigationView) findViewById(R.id.nv_main_navigation_root);
+
+        navigationView.setNavigationItemSelectedListener(this);
 
         if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
@@ -72,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 replaceFragment(favoriteFragment, "favorite");
                 return true;
             case R.id.btmnavi_menu :
+                drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.btmnavi_mypage :
                 mainFrag.clearPlayer();
@@ -84,6 +99,55 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 searchFrag = new SearchFragment();
                 replaceFragment(searchFrag, "search");
                 return true;
+            case R.id.hot_content:
+                mainFrag.clearPlayer();
+                hotboardFrag = new HotBoardFragment();
+                replaceFragment(boardFrag, "board");
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.all_content:
+                drawerLayout.closeDrawer(GravityCompat.START);
+                mainFrag.clearPlayer();
+                boardFrag = new BoardFragment();
+                replaceFragment(boardFrag, "board", "all");
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.dance_content:
+                mainFrag.clearPlayer();
+                boardFrag = new BoardFragment();
+                replaceFragment(boardFrag, "board", "춤");
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.song_content:
+                mainFrag.clearPlayer();
+                boardFrag = new BoardFragment();
+                replaceFragment(boardFrag, "board", "노래");
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.rap_content:
+                mainFrag.clearPlayer();
+                boardFrag = new BoardFragment();
+                replaceFragment(boardFrag, "board", "랩");
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.draw_content:
+                mainFrag.clearPlayer();
+                boardFrag = new BoardFragment();
+                replaceFragment(boardFrag, "board", "그림");
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.picture_content:
+                mainFrag.clearPlayer();
+                boardFrag = new BoardFragment();
+                replaceFragment(boardFrag, "board", "사진");
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.etc_content:
+                mainFrag.clearPlayer();
+                boardFrag = new BoardFragment();
+                replaceFragment(boardFrag, "board", "기타");
+                drawerLayout.closeDrawer(GravityCompat.START);
+                break;
             default :
                 Log.e(TAG, "bottom navigation view clicked");
         }
@@ -104,12 +168,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         fragmentTransaction.commit();
     }
 
+
+    public void replaceFragment(Fragment fragment, String backstackName, String category){
+        Bundle b = new Bundle();
+        b.putString("category", category);
+
+        fragment.setArguments(b);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_ll, fragment);
+        fragmentTransaction.addToBackStack(backstackName);
+        fragmentTransaction.commit();
+    }
+
     public void setMyPageID(String id) {
         myPageID = id;
     }
 
     public void outsideMyPageClick() {
         bottomNavigationView.setSelectedItemId(R.id.btmnavi_mypage);
+
     }
 
 
@@ -188,5 +266,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 }
             }
         });
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
