@@ -47,6 +47,9 @@ interface ButterKnifeApiService {
     @GET("post")
     fun getPosts(@Query("category") category: String, @Query("page") page: Int) : Call<PostRes>
 
+    @HTTP(method = "DELETE", path = "post/{id}", hasBody = true)
+    suspend fun deletePost(@Path("id") id : String, @Body data : IdReq) : CommonResponse
+
     @POST("post/create")
     fun postCreate(@Body data : UploadPostReq) : Call<CommonResponse>
 
