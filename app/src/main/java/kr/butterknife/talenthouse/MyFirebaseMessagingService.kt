@@ -38,13 +38,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 //        }
 
         if(LoginInfo.getNotiPermission(applicationContext)) {
-            remoteMessage.notification?.let {
-                it.title?.let { it1 ->
-                    it.body?.let { it2 ->
-                        sendNotification(it1, it2)
-                    }
-                }
-            }
+            sendNotification(
+                remoteMessage.data["title"] ?: "",
+                remoteMessage.data["body"] ?: ""
+            )
         }
         else {
             Log.d(TAG, "notification permission is denied")

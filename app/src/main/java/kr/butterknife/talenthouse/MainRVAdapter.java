@@ -64,6 +64,16 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         itemReloadListener = listener;
     }
 
+    interface OnMyPageListener {
+        void gotoMyPage(String writerId);
+    }
+
+    private OnMyPageListener myPageListener = null;
+
+    public void setOnMyPageListener(OnMyPageListener listener) {
+        myPageListener = listener;
+    }
+
     public void doItemReload() {
         if(itemReloadListener != null)
             itemReloadListener.reloadItem();
@@ -142,29 +152,37 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
 //            holder.date.setText(Util.INSTANCE.getDate2String(arrayList.get(position).getUpdateTime()));
             holder.subject.setText(arrayList.get(position).getDescription());
+            holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
         }
         else if(_holder instanceof ContentImageViewHolder_1) {
             ContentImageViewHolder_1 holder = (ContentImageViewHolder_1) _holder;
             holder.onBind(arrayList.get(position), context);
+            holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
         }else if(_holder instanceof ContentImageViewHolder_2) {
             ContentImageViewHolder_2 holder = (ContentImageViewHolder_2) _holder;
             holder.onBind(arrayList.get(position), context);
+            holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
         }else if(_holder instanceof ContentImageViewHolder_3) {
             ContentImageViewHolder_3 holder = (ContentImageViewHolder_3) _holder;
             holder.onBind(arrayList.get(position), context);
+            holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
         }else if(_holder instanceof ContentImageViewHolder_4) {
             ContentImageViewHolder_4 holder = (ContentImageViewHolder_4) _holder;
             holder.onBind(arrayList.get(position), context);
+            holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
         }else if(_holder instanceof ContentImageViewHolder_5) {
             ContentImageViewHolder_5 holder = (ContentImageViewHolder_5) _holder;
             holder.onBind(arrayList.get(position), context);
+            holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
         }else if(_holder instanceof ContentImageViewHolder_6) {
             ContentImageViewHolder_6 holder = (ContentImageViewHolder_6) _holder;
             holder.onBind(arrayList.get(position), context);
+            holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
         }
         else if(_holder instanceof ContentVideoViewHolder) {
             ContentVideoViewHolder holder = (ContentVideoViewHolder) _holder;
             holder.title.setText(arrayList.get(position).getTitle());
+            holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
             holder.writer.setText(arrayList.get(position).getWriterNickname());
             holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
             holder.subject.setText(arrayList.get(position).getDescription());
