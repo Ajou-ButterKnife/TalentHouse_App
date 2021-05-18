@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainFragment">
 
-    <Button
-        android:id="@+id/hot_date_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="날짜 선택 해라."
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/hot_board_rv"
         android:layout_width="match_parent"
@@ -22,5 +13,31 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hot_date_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/hot_submit_btn" />
+
+    <TextView
+        android:id="@+id/hot_startDate_tv"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/hot_endDate_tv"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/hot_startDate_tv"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/hot_submit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/hot_endDate_tv"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
