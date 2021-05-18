@@ -61,6 +61,14 @@ public class SearchFragment extends Fragment {
         });
         rvPostAdapter.initScrollListener(rvPost);
         rvPostAdapter.setOnItemReloadListener(() -> getSearchPosts());
+        rvPostAdapter.setOnSettingListener((v, postId) -> {
+            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (idx) -> {
+                posts.remove((int) idx);
+                rvPostAdapter.notifyItemRemoved(idx);
+
+                return true;
+            });
+        });
 
         rvPost.setAdapter(rvPostAdapter);
         rvPost.setLayoutManager(new LinearLayoutManager(getContext()));

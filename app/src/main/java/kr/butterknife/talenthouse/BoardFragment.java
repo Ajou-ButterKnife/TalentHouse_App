@@ -42,6 +42,14 @@ public class BoardFragment extends Fragment {
 
         rvAdapter.initScrollListener(rv);
         rvAdapter.setOnItemReloadListener(() -> getPosts());
+        rvAdapter.setOnSettingListener((v, postId) -> {
+            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (idx) -> {
+                posts.remove((int) idx);
+                rvAdapter.notifyItemRemoved(idx);
+
+                return true;
+            });
+        });
 
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
