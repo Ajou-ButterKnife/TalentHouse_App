@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private FavoriteFragment favoriteFragment;
     private long BACK_PREESED_TIME = 2000L;
     private long cur = 0L;
+    private String myPageID = "";
 
 
     @Override
@@ -74,8 +75,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return true;
             case R.id.btmnavi_mypage :
                 mainFrag.clearPlayer();
-                myPageFrag = new MyPageFragment();
+                myPageFrag = new MyPageFragment(myPageID);
                 replaceFragment(myPageFrag, "myPage");
+                myPageID = "";
                 return true;
             case R.id.btmnavi_search :
                 mainFrag.clearPlayer();
@@ -100,6 +102,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         fragmentTransaction.replace(R.id.main_ll, fragment);
         fragmentTransaction.addToBackStack(backstackName);
         fragmentTransaction.commit();
+    }
+
+    public void setMyPageID(String id) {
+        myPageID = id;
+    }
+
+    public void outsideMyPageClick() {
+        bottomNavigationView.setSelectedItemId(R.id.btmnavi_mypage);
     }
 
 
@@ -134,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         else {
             super.onBackPressed();
             FragmentManager fm = getSupportFragmentManager();
+            Log.d(TAG, fm.getBackStackEntryAt(0).getName());
             switch(fm.getBackStackEntryAt(0).getName()) {
                 case "Main" :
                     bottomNavigationView.setSelectedItemId(R.id.btmnavi_home);

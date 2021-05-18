@@ -287,6 +287,11 @@ public class ContentFragment extends Fragment {
                 }.run();
             }
 
+
+        writer.setOnClickListener(v -> {
+            ((MainActivity) getActivity()).setMyPageID(item.getWriterId());
+            ((MainActivity) getActivity()).outsideMyPageClick();
+
         });
     }
 
