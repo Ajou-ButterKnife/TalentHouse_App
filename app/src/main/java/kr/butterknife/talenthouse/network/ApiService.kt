@@ -50,15 +50,14 @@ interface ButterKnifeApiService {
     @POST("post/create")
     fun postCreate(@Body data : UploadPostReq) : Call<CommonResponse>
 
-    @GET("post/comment/{postId}")
-    fun getComments(@Path("postId") key: String): Call<GetCommentsRes>
+    @POST("post/comment")
+    fun getComments(@Body data: GetCommentReq): Call<GetCommentsRes>
 
     @POST("post/comment/create")
     fun commentCreate(@Body data : UploadCommentReq) : Call<CommentRes>
 
     @GET("post/{id}/{page}")
     suspend fun getMyPagePosts(@Path("id") id : String, @Path("page") page : Int) : PostRes
-
 
     @PUT("post/like/{postId}/{userId}")
     fun putLike(@Path("postId") postId : String, @Path("userId") userId : String) : Call<LikeRes>
@@ -86,6 +85,15 @@ interface ButterKnifeApiService {
 
     @GET("post/search")
     fun getSearchPosts(@Query("search_type") search_type : Int, @Query("search_item") search_item : String, @Query("page") page: Int) : Call<SearchPostRes>
+
+    @GET("user/post/{id}")
+    fun getFavoritePostIds(@Path("id") userId : String) : Call<FavoritePostIdRes>
+
+    @POST("post/favoritePost")
+    fun getFavoritePost(@Body data : FavoriteReq) : Call<FavoritePostRes>
+
+    @POST("post/favorite")
+    fun getPostFavoriteId(@Body data : FavoriteUserIdReq) : Call<FavoritePostUserIdRes>
 }
 
 object ButterKnifeApi {
