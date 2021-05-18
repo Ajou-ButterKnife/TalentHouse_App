@@ -182,6 +182,11 @@ public class ContentFragment extends Fragment {
         title.setText(item.getTitle());
         date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(item.getUpdateTime())));
         writer.setText(item.getWriterNickname());
+        writer.setOnClickListener(v -> {
+            ((MainActivity) getActivity()).setMyPageID(item.getWriterId());
+            ((MainActivity) getActivity()).outsideMyPageClick();
+
+        });
         subject.setText(item.getDescription());
 
         boolean check = false;
@@ -255,45 +260,40 @@ public class ContentFragment extends Fragment {
 //                }
 //                bottomAdapter.notifyDataSetChanged();
             }
-
-            public void getFavoriteUser(String postId){
-                new Runnable(){
-                    @Override
-                    public void run() {
-                        try{
-                            ButterKnifeApi.INSTANCE.getRetrofitService().getPostFavoriteId(new FavoriteUserIdReq(postId)).enqueue(new Callback<FavoritePostUserIdRes>() {
-                                @Override
-                                public void onResponse(Call<FavoritePostUserIdRes> call, Response<FavoritePostUserIdRes> response) {
-                                    if(response.body() != null){
-                                        List<String> userId =  response.body().getData();
-                                        for(String s : userId){
-                                            likePerson l = new likePerson(s);
-                                            bottomAdapter.addItem(l);
-                                        }
-                                        bottomAdapter.notifyDataSetChanged();
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<FavoritePostUserIdRes> call, Throwable t) {
-                                    // 서버쪽으로 아예 메시지를 보내지 못한 경우
-                                    Log.d("ERR", "SERVER CONNECTION ERROR");
-                                }
-                            });
-                        }catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
-                }.run();
-            }
-
-
-        writer.setOnClickListener(v -> {
-            ((MainActivity) getActivity()).setMyPageID(item.getWriterId());
-            ((MainActivity) getActivity()).outsideMyPageClick();
-
         });
     }
+
+        public void getFavoriteUser(String postId) {
+            new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        ButterKnifeApi.INSTANCE.getRetrofitService().getPostFavoriteId(new FavoriteUserIdReq(postId)).enqueue(new Callback<FavoritePostUserIdRes>() {
+                            @Override
+                            public void onResponse(Call<FavoritePostUserIdRes> call, Response<FavoritePostUserIdRes> response) {
+                                if (response.body() != null) {
+                                    List<String> userId = response.body().getData();
+                                    for (String s : userId) {
+                                        likePerson l = new likePerson(s);
+                                        bottomAdapter.addItem(l);
+                                    }
+                                    bottomAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<FavoritePostUserIdRes> call, Throwable t) {
+                                // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                                Log.d("ERR", "SERVER CONNECTION ERROR");
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.run();
+        }
+
 
     @Override
     public void onStart() {
