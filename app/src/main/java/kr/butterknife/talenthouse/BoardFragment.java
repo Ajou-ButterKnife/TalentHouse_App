@@ -40,6 +40,15 @@ public class BoardFragment extends Fragment {
 
         rvAdapter = new MainRVAdapter(getContext(), posts);
 
+        rvAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+                ((MainActivity) getActivity()).replaceFragment(
+                        new ContentFragment(posts.get(pos)),
+                        "Content"
+                );
+            }
+        });
         rvAdapter.initScrollListener(rv);
         rvAdapter.setOnItemReloadListener(() -> getPosts());
 
