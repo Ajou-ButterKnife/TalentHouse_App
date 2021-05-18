@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.hot_content:
                 mainFrag.clearPlayer();
                 hotboardFrag = new HotBoardFragment();
-                replaceFragment(boardFrag, "board");
+                replaceFragment(hotboardFrag, "board");
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case R.id.all_content:
