@@ -56,3 +56,7 @@ data class CommentItem(
     val date : String,
     val comment : String
 )
+
+data class likePerson(
+        val nickname : String,
+)

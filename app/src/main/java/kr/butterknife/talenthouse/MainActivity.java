@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private MainFragment mainFrag;
     private MyPageFragment myPageFrag;
     private SearchFragment searchFrag;
+    private FavoriteFragment favoriteFragment;
     private long BACK_PREESED_TIME = 2000L;
     private long cur = 0L;
     private String myPageID = "";
@@ -55,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch(item.getItemId()) {
@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 }
                 return true;
             case R.id.btmnavi_favorite:
+                mainFrag.clearPlayer();
+                favoriteFragment = new FavoriteFragment();
+                replaceFragment(favoriteFragment, "favorite");
                 return true;
             case R.id.btmnavi_menu :
                 return true;

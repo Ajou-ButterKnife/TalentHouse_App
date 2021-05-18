@@ -72,3 +72,15 @@ data class ProfileUpdateReq(
 data class FCMTokenRegister(
     val token : String,
 )
+
+data class FavoriteReq(
+        val postIdList : List<String>?,
+)
+
+data class FavoriteUserIdReq(
+        val postId : String,
+)
+
+data class GetCommentReq(
+        val postId : String,
+)
