@@ -49,8 +49,8 @@ data class UploadPostReq(
 )
 
 data class UploadCommentReq(
-        val _id : String,
-        val id : String,
+        val postId : String,
+        val userId : String,
         val nickname : String,
         val comment : String
 )
@@ -74,13 +74,20 @@ data class FCMTokenRegister(
 )
 
 data class FavoriteReq(
-        val postIdList : List<String>?,
+    val postIdList : List<String>?,
 )
 
 data class FavoriteUserIdReq(
-        val postId : String,
+    val postId : String,
 )
 
-data class GetCommentReq(
-        val postId : String,
+data class DeleteCommentReq(
+    val userId : String,
+    val date : String
+)
+
+data class UpdateCommentReq(
+    val userId : String,
+    val date : String,
+    val newComment : String
 )
