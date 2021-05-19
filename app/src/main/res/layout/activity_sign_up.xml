@@ -45,8 +45,8 @@
                 android:layout_weight="7"
                 android:text="중복확인"
                 android:textSize="15sp" />
-        </LinearLayout>
 
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/signup_til_password"
