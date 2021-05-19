@@ -41,6 +41,7 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
     private String endDate;
     private TextView startDateTv;
     private TextView endDateTv;
+    private Button submitBtn;
     private int startEndFlag = 0;   // 0 : start, 1 : end
 
     public HotBoardFragment() {
@@ -63,6 +64,7 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
                 getContext(), HotBoardFragment.this, year, month, day);
         startDateTv = (TextView) view.findViewById(R.id.hot_startDate_tv);
         endDateTv = (TextView) view.findViewById(R.id.hot_endDate_tv);
+        submitBtn = (Button) view.findViewById(R.id.hot_submit_btn);
 
         startDateTv.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -79,67 +81,70 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
                 endDatePickerDialog.show();
             }
         });
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startDate = (String) startDateTv.getText();
+                endDate = (String) endDateTv.getText();
+                getHotPosts();
+            }
+        });
         rv = view.findViewById(R.id.hot_board_rv);
         posts = new ArrayList<>();
 
         rvAdapter = new MainRVAdapter(getContext(), posts);
-
-        rvAdapter.initScrollListener(rv);
-//        rvAdapter.setOnItemReloadListener(() -> getPosts());
-
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-//        getPosts();
+        getHotPosts();
 
         return view;
     }
 
-//    public void getPosts(){
-//        new Runnable(){
-//            @Override
-//            public void run(){
-//                try{
-//                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(category, rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
-//                        @Override
-//                        public void onResponse(Call<PostRes> call, Response<PostRes> response) {
-//                            if(response.body() != null){
-//                                try{
-//                                    List<PostItem> postList = response.body().getData();
-//                                    for(PostItem p : postList){
-//                                        if(p.getVideoUrl() != null)
-//                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
-//                                        else if(p.getImageUrl().size() != 0)
-//                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
-//                                        else
-//                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
-//                                    }
-//                                    rvAdapter.notifyDataSetChanged();
-//                                }catch (Exception e){
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        }
-//                        @Override
-//                        public void onFailure(Call<PostRes> call, Throwable t) {
-//                            // 서버 쪽으로 메시지를 보내지 못한 경우
-//                            Log.d("err", "SERVER CONNECTION ERROR");
-//                        }
-//                    });
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        }.run();
-//    }
+    public void getHotPosts(){
+        new Runnable(){
+            @Override
+            public void run(){
+                try{
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getPostHotBoard(startDate,endDate).enqueue(new Callback<PostRes>() {
+                        @Override
+                        public void onResponse(Call<PostRes> call, Response<PostRes> response) {
+                            if(response.body() != null){
+                                try{
+                                    List<PostItem> postList = response.body().getData();
+                                    for(PostItem p : postList){
+                                        if(p.getVideoUrl() != null)
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
+                                        else if(p.getImageUrl().size() != 0)
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
+                                        else
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
+                                    }
+                                    rvAdapter.notifyDataSetChanged();
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<PostRes> call, Throwable t) {
+                            // 서버 쪽으로 메시지를 보내지 못한 경우
+                            Log.d("err", "SERVER CONNECTION ERROR");
+                        }
+                    });
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        }.run();
+    }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         if(startEndFlag == 0) {     // start
-            startDate = String.valueOf(year) + "/" + String.valueOf(month) + "/" + String.valueOf(dayOfMonth);
-            startDateTv.setText(startDate);
+            startDateTv.setText(String.valueOf(year) + "/" + String.valueOf(month+1) + "/" + String.valueOf(dayOfMonth));
         }else if(startEndFlag == 1){     // end
-            endDate = String.valueOf(year) + "/" + String.valueOf(month) + "/" + String.valueOf(dayOfMonth);
-            endDateTv.setText(endDate);
+            endDateTv.setText(String.valueOf(year) + "/" + String.valueOf(month+1) + "/" + String.valueOf(dayOfMonth));
         }
     }
 }
