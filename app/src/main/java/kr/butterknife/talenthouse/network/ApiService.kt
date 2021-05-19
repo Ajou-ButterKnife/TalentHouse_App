@@ -53,6 +53,9 @@ interface ButterKnifeApiService {
     @POST("post/create")
     fun postCreate(@Body data : UploadPostReq) : Call<CommonResponse>
 
+    @PUT("post")
+    fun postUpdate(@Body data : UploadPostReq) : Call<CommonResponse>
+
     @POST("post/comment")
     fun getComments(@Body data: GetCommentReq): Call<GetCommentsRes>
 
