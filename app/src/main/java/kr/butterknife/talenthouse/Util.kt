@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -87,26 +86,33 @@ object Util {
                     view: View,
                     postId: String,
                     list: ArrayList<PostItem>,
-                    action : (idx : Int) -> Boolean)  {
+                    updateAction : (item : PostItem) -> Boolean,
+                    deleteAction : (idx : Int) -> Boolean)  {
         val popup = PopupMenu(context, view)
         val menuInflater = popup.menuInflater
         menuInflater.inflate(R.menu.post_menu, popup.menu)
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.post_menu_update -> {
+                    var updateIndex = 0
+                    while(updateIndex < list.size) {
+                        if(list[updateIndex]._id == postId) break
+                        updateIndex++
+                    }
+                    updateAction(list[updateIndex])
                 }
                 R.id.post_menu_delete -> {
                     val builder = AlertDialog.Builder(context)
                     builder.setTitle("게시글 삭제")
                     builder.setMessage("게시글을 삭제하시겠습니까?")
                     builder.setPositiveButton("삭제") { dialog: DialogInterface?, which: Int ->
-                        deletePost(postId, context, )
+                        deletePost(postId, context)
                         var deleteIndex = 0
                         while (deleteIndex < list.size) {
                             if (list[deleteIndex]._id == postId) break
                             deleteIndex++
                         }
-                        action(deleteIndex)
+                        deleteAction(deleteIndex)
                     }
                     builder.setNegativeButton("취소") { dialog: DialogInterface?, which: Int -> Toast.makeText(context, "negative", Toast.LENGTH_SHORT).show() }
                     builder.show()
