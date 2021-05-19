@@ -181,6 +181,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         fragmentTransaction.commit();
     }
 
+    public void replaceFragment(Fragment fragment, String backstackName, PostItem item){
+        Bundle b = new Bundle();
+        b.putSerializable("update", item);
+
+        fragment.setArguments(b);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_ll, fragment);
+        fragmentTransaction.addToBackStack(backstackName);
+        fragmentTransaction.commit();
+    }
+
     public void setMyPageID(String id) {
         myPageID = id;
     }
