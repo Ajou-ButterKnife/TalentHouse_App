@@ -107,6 +107,9 @@ interface ButterKnifeApiService {
     @POST("post/favorite")
     fun getPostFavoriteId(@Body data : FavoriteUserIdReq) : Call<FavoritePostUserIdRes>
 
+    @GET("post/hot")
+    fun getPostHotBoard(@Query("startDate") startDate : String, @Query("endDate") endDate : String) : Call<PostRes>
+
     @FormUrlEncoded
     @HTTP(method="DELETE", hasBody = true, path="post/delete/comment")
     fun deleteComment(@Field("postId") postId : String, @Field("userId") userId : String, @Field("date") date : String) : Call<CommonResponse>
