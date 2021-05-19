@@ -82,7 +82,6 @@ public class SignUpActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 textInputLayoutNickname.setError("중복확인을 해주세요");
