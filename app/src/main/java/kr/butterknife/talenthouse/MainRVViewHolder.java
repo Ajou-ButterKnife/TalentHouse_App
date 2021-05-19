@@ -648,7 +648,7 @@ public class MainRVViewHolder {
             likeCnt = itemView.findViewById(R.id.rvvideo_tv_like);
             likeBtn = itemView.findViewById(R.id.rvvideo_btn_like);
 //            pcv = itemView.findViewById(R.id.rvvideo_video_controller);
-            settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
+            settingBtn = itemView.findViewById(R.id.rvvideo_btn_setting);
         }
         void updateLike(String postId, String userId) {
             new Runnable() {
