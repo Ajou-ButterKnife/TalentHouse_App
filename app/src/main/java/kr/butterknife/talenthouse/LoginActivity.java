@@ -370,13 +370,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private void socialSignUpWithServer(String uid, String nickname, String phone, List<String> category) {
         try {
-            ButterKnifeApi.INSTANCE.getRetrofitService().socialAddUser(new SocialSignUpReq(phone, nickname, category, uid)).enqueue(new Callback<SocialSignUpRes>() {
+            ButterKnifeApi.INSTANCE.getRetrofitService().socialAddUser(new SocialSignUpReq(phone, nickname, category, uid)).enqueue(new Callback<SocialLoginRes>() {
                 @Override
-                public void onResponse(Call<SocialSignUpRes> call, Response<SocialSignUpRes> response) {
+                public void onResponse(Call<SocialLoginRes> call, Response<SocialLoginRes> response) {
                     String result = response.body().getResult();
-                    CommonSignUpRes data = response.body().getData();
+                    CommonLoginRes data = response.body().getData();
                     if(result.equals("Success")) {   // 회원가입 성공
                         Intent i2 = new Intent(getApplicationContext(), MainActivity.class);
+                        LoginInfo.INSTANCE.setLoginInfo(data.get_id(), data.getNickname(), getApplicationContext());
                         startActivity(i2);
                         finish();
                     }
@@ -386,7 +387,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<SocialSignUpRes> call, Throwable t) {
+                public void onFailure(Call<SocialLoginRes> call, Throwable t) {
                     // 서버쪽으로 아예 메시지를 보내지 못한 경우
                     Log.d(TAG, "SERVER CONNECTION ERROR");
                 }
