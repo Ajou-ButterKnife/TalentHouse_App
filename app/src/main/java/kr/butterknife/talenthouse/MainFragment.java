@@ -85,10 +85,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             ((MainActivity) getActivity()).outsideMyPageClick();
         });
         rvAdapter.setOnSettingListener((v, postId) -> {
-            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (idx) -> {
+            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (item) -> {
+                ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", item);
+                return true;
+            }, (idx) -> {
                 posts.remove((int) idx);
                 rvAdapter.notifyItemRemoved(idx);
-
                 return true;
             });
         });
@@ -179,7 +181,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()){
             case R.id.main_fab_write:
                 WriteFragment writeFragment = new WriteFragment();
-                ((MainActivity)getActivity()).replaceFragment(writeFragment, "Write");
+                ((MainActivity)getActivity()).replaceFragment(writeFragment, "Write", (PostItem) null);
                 break;
         }
     }
