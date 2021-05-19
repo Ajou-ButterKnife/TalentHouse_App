@@ -7,11 +7,14 @@ import kr.butterknife.talenthouse.network.response.*
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
-private const val BASE_URL = "http://10.0.2.2:4000/"
+//private const val BASE_URL = "http://10.0.2.2:4000/"
+//private const val BASE_URL = "http://172.31.192.1:4000/"
+private const val BASE_URL = "http://192.168.25.14:4000/"
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -59,8 +62,11 @@ interface ButterKnifeApiService {
     @POST("post/comment")
     fun getComments(@Body data: GetCommentReq): Call<GetCommentsRes>
 
-    @POST("post/comment/create")
-    fun commentCreate(@Body data : UploadCommentReq) : Call<CommentRes>
+    @POST("post/comment/{id}")
+    fun getComments(@Path("id") id : String) : Call<GetCommentsRes>
+
+    @POST("post/create/comment")
+    fun createComment(@Body data : UploadCommentReq) : Call<CommentRes>
 
     @GET("post/{id}/{page}")
     suspend fun getMyPagePosts(@Path("id") id : String, @Path("page") page : Int) : PostRes
@@ -100,6 +106,14 @@ interface ButterKnifeApiService {
 
     @POST("post/favorite")
     fun getPostFavoriteId(@Body data : FavoriteUserIdReq) : Call<FavoritePostUserIdRes>
+
+    @FormUrlEncoded
+    @HTTP(method="DELETE", hasBody = true, path="post/delete/comment")
+    fun deleteComment(@Field("postId") postId : String, @Field("userId") userId : String, @Field("date") date : String) : Call<CommonResponse>
+
+    @PUT("post/update/comment/{postId}")
+    fun updateComment(@Path("postId") postId: String, @Body data : UpdateCommentReq) : Call<UpdateCommentRes>
+
 }
 
 object ButterKnifeApi {

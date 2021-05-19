@@ -113,14 +113,14 @@ import retrofit2.Response;
          linearLayout = view.findViewById(R.id.fw_ll_image);
          horizontalScrollView = view.findViewById(R.id.fw_hsv);
 
-
+         category = "카테고리";
          List<String> spinner_items = Arrays.asList(getResources().getStringArray(R.array.category_spinner));
          // 스피너와 리스트를 연결하기 위해 사용되는 어댑터
          ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinner_items);
          spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
          // 스피너의 어댑터 지정
          spinner.setAdapter(spinner_adapter);
-
+        
          spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
              @Override
              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
