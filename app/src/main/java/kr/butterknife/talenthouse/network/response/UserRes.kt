@@ -95,13 +95,18 @@ data class SearchPostRes(
 )
 
 data class FavoritePostIdRes(
-        val data : List<String>?,
+    val data : List<String>?,
 )
 
 data class FavoritePostUserIdRes(
-        val data : List<String>?,
+    val data : List<String>?,
 )
 
 data class FavoritePostRes(
-        val data : List<PostItem>?,
+    val data : List<PostItem>?,
+)
+
+data class UpdateCommentRes(
+    val result : String,
+    val data : CommentItem?
 )

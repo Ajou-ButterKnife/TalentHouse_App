@@ -49,6 +49,8 @@ enum class ContentType(type : Int) {
 }
 
 data class CommentItem(
+    @Json(name = "post_id")
+    val postId : String,
     @Json(name = "writer_id")
     val writerId : String,
     @Json(name = "writer_nickname")
