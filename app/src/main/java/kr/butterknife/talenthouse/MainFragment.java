@@ -1,18 +1,29 @@
 package kr.butterknife.talenthouse;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
+import android.widget.Toast;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
+
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
+import kr.butterknife.talenthouse.network.request.IdReq;
 import kr.butterknife.talenthouse.network.response.CategoryRes;
+import kr.butterknife.talenthouse.network.response.CommonResponse;
 import kr.butterknife.talenthouse.network.response.PostRes;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +34,6 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private RecyclerView rv;
     private MainRVAdapter rvAdapter;
     private ArrayList<PostItem> posts;
-
 
     private RecyclerView rvCategory;
     private MainCategoryRVAdapter rvCategoryAdapter;
@@ -73,6 +83,16 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         rvAdapter.setOnMyPageListener(writerId -> {
             ((MainActivity) getActivity()).setMyPageID(writerId);
             ((MainActivity) getActivity()).outsideMyPageClick();
+        });
+        rvAdapter.setOnSettingListener((v, postId) -> {
+            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (item) -> {
+                ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", item);
+                return true;
+            }, (idx) -> {
+                posts.remove((int) idx);
+                rvAdapter.notifyItemRemoved(idx);
+                return true;
+            });
         });
 
         rv.setAdapter(rvAdapter);
@@ -161,7 +181,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()){
             case R.id.main_fab_write:
                 WriteFragment writeFragment = new WriteFragment();
-                ((MainActivity)getActivity()).replaceFragment(writeFragment, "Write");
+                ((MainActivity)getActivity()).replaceFragment(writeFragment, "Write", (PostItem) null);
                 break;
         }
     }
@@ -210,5 +230,4 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     public void clearPlayer(){
         rvAdapter.clearPlayerList();
     }
-
 }

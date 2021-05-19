@@ -81,6 +81,15 @@ data class FavoriteUserIdReq(
     val postId : String,
 )
 
+
+data class GetCommentReq(
+        val postId : String,
+)
+
+data class IdReq(
+    val _id : String,
+)
+  
 data class DeleteCommentReq(
     val userId : String,
     val date : String

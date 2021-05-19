@@ -49,6 +49,16 @@ public class FavoriteFragment extends Fragment {
                 );
             }
         });
+        rvAdapter.setOnSettingListener((v, postId) -> {
+            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (item) -> {
+                ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", item);
+                return true;
+            }, (idx) -> {
+                posts.remove((int) idx);
+                rvAdapter.notifyItemRemoved(idx);
+                return true;
+            });
+        });
 //        rvAdapter.initScrollListener(rv);
 //        rvAdapter.setOnItemReloadListener(() -> getFavortePosts());
 

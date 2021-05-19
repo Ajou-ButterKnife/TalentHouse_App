@@ -79,6 +79,16 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemReloadListener.reloadItem();
     }
 
+    interface OnSettingListener {
+        void onSetting(View view, String postId);
+    }
+
+    private OnSettingListener onSettingListener = null;
+
+    public void setOnSettingListener(OnSettingListener listener) {
+        onSettingListener = listener;
+    }
+
     public int getPageNum() {
         return page;
     }
@@ -158,26 +168,62 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ContentImageViewHolder_1 holder = (ContentImageViewHolder_1) _holder;
             holder.onBind(arrayList.get(position), context);
             holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
+            if(arrayList.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
+                holder.settingBtn.setVisibility(View.VISIBLE);
+                holder.settingBtn.setOnClickListener((v) -> {
+                    onSettingListener.onSetting(v, arrayList.get(position).get_id());
+                });
+            }
         }else if(_holder instanceof ContentImageViewHolder_2) {
             ContentImageViewHolder_2 holder = (ContentImageViewHolder_2) _holder;
             holder.onBind(arrayList.get(position), context);
             holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
+            if(arrayList.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
+                holder.settingBtn.setVisibility(View.VISIBLE);
+                holder.settingBtn.setOnClickListener((v) -> {
+                    onSettingListener.onSetting(v, arrayList.get(position).get_id());
+                });
+            }
         }else if(_holder instanceof ContentImageViewHolder_3) {
             ContentImageViewHolder_3 holder = (ContentImageViewHolder_3) _holder;
             holder.onBind(arrayList.get(position), context);
             holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
+            if(arrayList.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
+                holder.settingBtn.setVisibility(View.VISIBLE);
+                holder.settingBtn.setOnClickListener((v) -> {
+                    onSettingListener.onSetting(v, arrayList.get(position).get_id());
+                });
+            }
         }else if(_holder instanceof ContentImageViewHolder_4) {
             ContentImageViewHolder_4 holder = (ContentImageViewHolder_4) _holder;
             holder.onBind(arrayList.get(position), context);
             holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
+            if(arrayList.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
+                holder.settingBtn.setVisibility(View.VISIBLE);
+                holder.settingBtn.setOnClickListener((v) -> {
+                    onSettingListener.onSetting(v, arrayList.get(position).get_id());
+                });
+            }
         }else if(_holder instanceof ContentImageViewHolder_5) {
             ContentImageViewHolder_5 holder = (ContentImageViewHolder_5) _holder;
             holder.onBind(arrayList.get(position), context);
             holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
+            if(arrayList.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
+                holder.settingBtn.setVisibility(View.VISIBLE);
+                holder.settingBtn.setOnClickListener((v) -> {
+                    onSettingListener.onSetting(v, arrayList.get(position).get_id());
+                });
+            }
         }else if(_holder instanceof ContentImageViewHolder_6) {
             ContentImageViewHolder_6 holder = (ContentImageViewHolder_6) _holder;
             holder.onBind(arrayList.get(position), context);
             holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
+            if(arrayList.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
+                holder.settingBtn.setVisibility(View.VISIBLE);
+                holder.settingBtn.setOnClickListener((v) -> {
+                    onSettingListener.onSetting(v, arrayList.get(position).get_id());
+                });
+            }
         }
         else if(_holder instanceof ContentVideoViewHolder) {
             ContentVideoViewHolder holder = (ContentVideoViewHolder) _holder;
@@ -186,6 +232,12 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.writer.setText(arrayList.get(position).getWriterNickname());
             holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
             holder.subject.setText(arrayList.get(position).getDescription());
+            if(arrayList.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
+                holder.settingBtn.setVisibility(View.VISIBLE);
+                holder.settingBtn.setOnClickListener((v) -> {
+                    onSettingListener.onSetting(v, arrayList.get(position).get_id());
+                });
+            }
 
             SimpleExoPlayer player = new SimpleExoPlayer.Builder(context).build();
             holder.pv.setPlayer(player);

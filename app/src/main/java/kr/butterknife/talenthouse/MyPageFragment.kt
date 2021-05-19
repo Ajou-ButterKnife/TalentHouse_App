@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kr.butterknife.talenthouse.LoginInfo.logout
+import kr.butterknife.talenthouse.Util.postSetting
 import kr.butterknife.talenthouse.network.ButterKnifeApi
 import kr.butterknife.talenthouse.network.response.MyPageRes
 import kr.butterknife.talenthouse.network.response.PostRes
@@ -62,6 +63,18 @@ class MyPageFragment(var userId: String = "") : Fragment() {
         rvAdapter.initScrollListener(mypage_rv)
         rvAdapter.setOnItemReloadListener {
             getUserPosts()
+        }
+        rvAdapter.setOnSettingListener { v: View, postId: String ->
+            postSetting(requireContext(), v, postId, posts,
+                { item: PostItem ->
+                (activity as MainActivity?)!!.replaceFragment(WriteFragment(), "Write", item)
+                true
+                },
+                { idx: Int ->
+                    posts.removeAt(idx as Int)
+                    rvAdapter.notifyItemRemoved(idx)
+                    true
+                })
         }
         mypage_rv.adapter = rvAdapter
 
