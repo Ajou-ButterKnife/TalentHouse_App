@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -264,6 +266,19 @@ public class LoginActivity extends AppCompatActivity {
 
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        nickname.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                isOverlapNickname[0] = false;
+                nickname.setError("닉네임 중복 확인을 해주세요.");
+            }
+        });
         // 스피너의 어댑터 지정
         spinner.setAdapter(spinner_adapter);
 
@@ -289,6 +304,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if(result.getResult().equals("Success")) {
                                             nickname.setError(null);
                                             isOverlapNickname[0] = true;
+                                            Toast.makeText(getApplicationContext(), "사용 가능한 닉네임입니다.", Toast.LENGTH_SHORT).show();
                                         }
                                         else {
                                             nickname.setError("중복된 닉네임입니다.");

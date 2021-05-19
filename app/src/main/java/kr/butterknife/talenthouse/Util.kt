@@ -1,10 +1,14 @@
 package kr.butterknife.talenthouse
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
+import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.PopupMenu
 import android.widget.Spinner
 import android.widget.Toast
 import com.google.android.material.chip.Chip
@@ -12,6 +16,7 @@ import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.*
 import kr.butterknife.talenthouse.network.ButterKnifeApi
 import kr.butterknife.talenthouse.network.request.FCMTokenRegister
+import kr.butterknife.talenthouse.network.request.IdReq
 import kr.butterknife.talenthouse.network.response.CommonResponse
 import java.text.SimpleDateFormat
 
@@ -54,26 +59,89 @@ object SpinnerUtil {
 }
 
 object Util {
-    fun unixTime2String(timemillis: Long) : String {
+    fun unixTime2String(timemillis: Long): String {
         val sdf = SimpleDateFormat("yyyy.MM.dd.hh:mm")
         val date = sdf.format(timemillis)
         return date
     }
 
-    fun registerFCMToken(context : Context, token : String) {
+    fun registerFCMToken(context: Context, token: String) {
         val coroutineScope = CoroutineScope(Dispatchers.Default + Job())
-        var response : CommonResponse? = null
+        var response: CommonResponse? = null
         coroutineScope.launch {
             try {
-                while(true) {
+                while (true) {
                     response = ButterKnifeApi.retrofitService.registerToken(LoginInfo.getLoginInfo(context)[0], FCMTokenRegister(token))
 
-                    if(response != null && response!!.result == "Success")
+                    if (response != null && response!!.result == "Success")
                         break
                     response = null
                 }
+            } catch (e: Exception) {
             }
-            catch(e : Exception) { }
+        }
+    }
+
+    fun postSetting(context: Context,
+                    view: View,
+                    postId: String,
+                    list: ArrayList<PostItem>,
+                    updateAction : (item : PostItem) -> Boolean,
+                    deleteAction : (idx : Int) -> Boolean)  {
+        val popup = PopupMenu(context, view)
+        val menuInflater = popup.menuInflater
+        menuInflater.inflate(R.menu.post_menu, popup.menu)
+        popup.setOnMenuItemClickListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.post_menu_update -> {
+                    var updateIndex = 0
+                    while(updateIndex < list.size) {
+                        if(list[updateIndex]._id == postId) break
+                        updateIndex++
+                    }
+                    updateAction(list[updateIndex])
+                }
+                R.id.post_menu_delete -> {
+                    val builder = AlertDialog.Builder(context)
+                    builder.setTitle("게시글 삭제")
+                    builder.setMessage("게시글을 삭제하시겠습니까?")
+                    builder.setPositiveButton("삭제") { dialog: DialogInterface?, which: Int ->
+                        deletePost(postId, context)
+                        var deleteIndex = 0
+                        while (deleteIndex < list.size) {
+                            if (list[deleteIndex]._id == postId) break
+                            deleteIndex++
+                        }
+                        deleteAction(deleteIndex)
+                    }
+                    builder.setNegativeButton("취소") { dialog: DialogInterface?, which: Int -> Toast.makeText(context, "negative", Toast.LENGTH_SHORT).show() }
+                    builder.show()
+                }
+            }
+            true
+        }
+        popup.show()
+    }
+
+    private fun deletePost(postId: String, context: Context) {
+        val coroutineScope = CoroutineScope(Dispatchers.Default + Job())
+        var response: CommonResponse? = null
+        coroutineScope.launch {
+            try {
+                response = ButterKnifeApi.retrofitService.deletePost(LoginInfo.getLoginInfo(context)[0], IdReq(postId))
+                var toastMsg = "서버로 부터 받아오지 못하였습니다."
+
+                response?.let {
+                    toastMsg = if(it.result == "Success") "삭제가 완료되었습니다."
+                    else it.detail ?: ""
+                }
+
+                Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT).show()
+
+            }
+            catch (e: Exception) {
+
+            }
         }
     }
 }

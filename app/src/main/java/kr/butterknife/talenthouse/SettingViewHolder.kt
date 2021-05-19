@@ -135,7 +135,7 @@ class SettingImageVH(private val context : Context, view : View) : RecyclerView.
             Glide.with(context)
                 .load(
                     if(item.strValue != "") item.strValue
-                    else context.resources.getDrawable(R.drawable.logo_transparent, null)
+                    else context.resources.getDrawable(R.drawable.no_image, null)
                 )
                 .into(profileImage)
 

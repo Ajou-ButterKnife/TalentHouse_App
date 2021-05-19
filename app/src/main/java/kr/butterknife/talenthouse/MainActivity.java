@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -68,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
@@ -172,6 +175,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void replaceFragment(Fragment fragment, String backstackName, String category){
         Bundle b = new Bundle();
         b.putString("category", category);
+
+        fragment.setArguments(b);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.main_ll, fragment);
+        fragmentTransaction.addToBackStack(backstackName);
+        fragmentTransaction.commit();
+    }
+
+    public void replaceFragment(Fragment fragment, String backstackName, PostItem item){
+        Bundle b = new Bundle();
+        b.putSerializable("update", item);
 
         fragment.setArguments(b);
         FragmentManager fragmentManager = getSupportFragmentManager();

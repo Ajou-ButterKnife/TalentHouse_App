@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.Locale;
 
 import kr.butterknife.talenthouse.network.request.FavoriteUserIdReq;
-import kr.butterknife.talenthouse.network.request.GetCommentReq;
 import kr.butterknife.talenthouse.network.response.FavoritePostUserIdRes;
 import kr.butterknife.talenthouse.network.response.LikeRes;
 import me.relex.circleindicator.CircleIndicator;
@@ -111,7 +110,7 @@ public class ContentFragment extends Fragment {
             @Override
             public void run(){
                 try{
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getComments(new GetCommentReq(item.get_id())).enqueue(new Callback<GetCommentsRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getComments(item.get_id()).enqueue(new Callback<GetCommentsRes>() {
                         @Override
                         public void onResponse(Call<GetCommentsRes> call, Response<GetCommentsRes> response) {
                             if(response.body() != null){
@@ -175,8 +174,8 @@ public class ContentFragment extends Fragment {
             date = inflated.findViewById(R.id.rvtext_tv_date);
             writer = inflated.findViewById(R.id.rvtext_tv_writer);
             subject = inflated.findViewById(R.id.rvtext_tv_subject);
-            like = inflated.findViewById(R.id.content_tv_like);
-            likeBtn = inflated.findViewById(R.id.content_btn_like);
+            like = inflated.findViewById(R.id.rvtext_tv_like);
+            likeBtn = inflated.findViewById(R.id.rvtext_btn_like);
         }
 
         title.setText(item.getTitle());
@@ -253,12 +252,6 @@ public class ContentFragment extends Fragment {
                 recyclerView.setAdapter(bottomAdapter);
 
                 getFavoriteUser(item.get_id());
-
-//                for(int i =0;i<5;i++){
-//                    likePerson l = new likePerson("nickname   :   " + i);
-//                    bottomAdapter.addItem(l);
-//                }
-//                bottomAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -329,12 +322,12 @@ public class ContentFragment extends Fragment {
         postComment(item.get_id(), LoginInfo.INSTANCE.getLoginInfo(getContext())[0], LoginInfo.INSTANCE.getLoginInfo(getContext())[1], comment.getText().toString());
         comment.setText("");
     }
-    public void postComment(String _id, String id, String nickname, String comment){
+    public void postComment(String postId, String userId, String nickname, String comment){
         new Runnable(){
             @Override
             public void run() {
                 try {
-                    ButterKnifeApi.INSTANCE.getRetrofitService().commentCreate(new UploadCommentReq(_id, id, nickname, comment)).enqueue(new Callback<CommentRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().createComment(new UploadCommentReq(postId, userId, nickname, comment)).enqueue(new Callback<CommentRes>() {
 
                         @Override
                         public void onResponse(Call<CommentRes> call, Response<CommentRes> response) {

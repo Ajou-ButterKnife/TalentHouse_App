@@ -1,7 +1,7 @@
 package kr.butterknife.talenthouse
 
 import com.squareup.moshi.Json
-import java.util.*
+import java.io.Serializable
 
 data class PostItem(
         val _id : String,
@@ -25,7 +25,7 @@ data class PostItem(
         val likeIDs : List<String>,
     val category : String,
     val comments : List<CommentItem>
-) {
+) : Serializable {
     constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, likeIDs: List<String>, category : String, comments : List<CommentItem>) : this (
             _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments
     )
@@ -49,6 +49,8 @@ enum class ContentType(type : Int) {
 }
 
 data class CommentItem(
+    @Json(name = "post_id")
+    val postId : String,
     @Json(name = "writer_id")
     val writerId : String,
     @Json(name = "writer_nickname")

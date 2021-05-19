@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -51,6 +53,41 @@ public class SignUpActivity extends AppCompatActivity {
 
         Spinner spinner = findViewById(R.id.signup_spinner);
         ChipGroup chipGroup = findViewById(R.id.signup_chipgroup);
+        textInputLayoutEmail = (TextInputLayout)findViewById(R.id.signup_til_email);
+        textInputLayoutEmail.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                textInputLayoutEmail.setError("중복확인을 해주세요");
+                isOverlapEmail = true;
+            }
+        });
+        textInputLayoutNickname = (TextInputLayout)findViewById(R.id.signup_til_nickname);
+        textInputLayoutNickname.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                textInputLayoutNickname.setError("중복확인을 해주세요");
+                isOverlapNickname = true;
+            }
+        });
 
         SpinnerUtil.INSTANCE.setCategorySpinner(spinner, chipGroup, getApplicationContext());
 
@@ -60,7 +97,6 @@ public class SignUpActivity extends AppCompatActivity {
         btnEmailCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textInputLayoutEmail = (TextInputLayout)findViewById(R.id.signup_til_email);
                 String textEmail = textInputLayoutEmail.getEditText().getText().toString();
                 if(textEmail.equals("")){
                     textInputLayoutEmail.setError("이메일을 입력해주세요");
@@ -79,7 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             if(result.getResult().equals("Success")){
                                                 textInputLayoutEmail.setError(null);
                                                 isOverlapEmail = false;
-                                                Toast.makeText(getApplicationContext(), "사용 가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getApplicationContext(), "사용가능한 이메일입니다.", Toast.LENGTH_SHORT).show();
                                             }
                                             else{
                                                 textInputLayoutEmail.setError("중복된 이메일입니다");
@@ -112,7 +148,6 @@ public class SignUpActivity extends AppCompatActivity {
         btnNicknameCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textInputLayoutNickname = (TextInputLayout)findViewById(R.id.signup_til_nickname);
                 String textNickname = textInputLayoutNickname.getEditText().getText().toString();
                 if(textNickname.equals("")){
                     textInputLayoutNickname.setError("닉네임을 입력해주세요");
@@ -134,7 +169,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             Toast.makeText(getApplicationContext(), "사용 가능한 닉네임입니다.", Toast.LENGTH_SHORT).show();
                                         }
                                         else{
-                                            textInputLayoutEmail.setError("중복된 닉네임입니다");
+                                            textInputLayoutNickname.setError("중복된 닉네임입니다");
                                             isOverlapNickname = true;
                                         }
                                     }

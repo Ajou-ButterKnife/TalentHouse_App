@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +37,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.bumptech.glide.Glide;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
@@ -47,10 +47,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
-import kr.butterknife.talenthouse.network.request.NormalLoginReq;
 import kr.butterknife.talenthouse.network.request.UploadPostReq;
 import kr.butterknife.talenthouse.network.response.CommonResponse;
-import kr.butterknife.talenthouse.network.response.NormalLoginRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,6 +75,7 @@ import retrofit2.Response;
      private TextInputEditText descEt;
 
      private LinearLayout imageContainer, videoContainer;
+     private PostItem beforeItem;
 
 
      HorizontalScrollView horizontalScrollView;
@@ -111,18 +110,17 @@ import retrofit2.Response;
          btnUploadVideo.setOnClickListener(this);
          btnUpPost.setOnClickListener(this);
 
-
          linearLayout = view.findViewById(R.id.fw_ll_image);
          horizontalScrollView = view.findViewById(R.id.fw_hsv);
 
-
+         category = "카테고리";
          List<String> spinner_items = Arrays.asList(getResources().getStringArray(R.array.category_spinner));
          // 스피너와 리스트를 연결하기 위해 사용되는 어댑터
          ArrayAdapter<String> spinner_adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, spinner_items);
          spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
          // 스피너의 어댑터 지정
          spinner.setAdapter(spinner_adapter);
-
+        
          spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
              @Override
              public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -141,6 +139,56 @@ import retrofit2.Response;
          });
 
          images = new ArrayList<>();
+
+         beforeItem = (PostItem) getArguments().getSerializable("update");
+         if(beforeItem != null) {
+             titleEt.setText(beforeItem.getTitle());
+             descEt.setText(beforeItem.getDescription());
+//             spinner 아이템 세팅
+             String[] temp = getResources().getStringArray(R.array.category_spinner);
+             int initIdx = 0;
+             for(; initIdx < temp.length; initIdx++) {
+                 if (temp[initIdx].equals(beforeItem.getCategory()))
+                     break;
+             }
+
+             spinner.setSelection(initIdx);
+
+             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
+             layoutParams.rightMargin = 5;
+             layoutParams.gravity = Gravity.CENTER;
+
+             if(beforeItem.getVideoUrl() != null) {
+                 MediaController mc = new MediaController(getContext());
+                 videoView.setVideoPath(beforeItem.getVideoUrl());
+                 videoView.setMediaController(mc);
+                 videoView.setBackground(null);
+                 videoView.requestFocus();
+                 videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                     @Override
+                     public void onPrepared(MediaPlayer mp) {
+                         videoView.start();
+                         videoView.postDelayed(new Runnable() {
+                             @Override
+                             public void run() {
+                                 videoView.pause();
+                             }
+                         }, 100);
+                     }
+                 });
+             }
+             else {
+                 for (int i = 0; i < beforeItem.getImageUrl().size(); i++) {
+                     Log.d("TAG", beforeItem.getImageUrl().get(i));
+                     ImageView tempImage = new ImageView(getContext());
+                     tempImage.setLayoutParams(layoutParams);
+                     tempImage.setScaleType(ImageView.ScaleType.FIT_XY);
+                     linearLayout.addView(tempImage);
+                     Glide.with(requireContext()).load(beforeItem.getImageUrl().get(i)).into(tempImage);
+                 }
+             }
+
+         }
 
          return view;
      }
@@ -167,17 +215,42 @@ import retrofit2.Response;
                  String postId = LoginInfo.INSTANCE.getLoginInfo(getActivity().getApplicationContext())[0];
                  Log.d("TESTTEST", postId);
                  //String postId = "testId";
-                 if (video == null) {     // video 업로드일 경우
-                     uploadWithTransferUtilty(images, postId);
-                     ArrayList<String> postImageUrl = new ArrayList<>();
-                     for (File file : images) {
-                         postImageUrl.add("https://talent-house-app.s3.ap-northeast-2.amazonaws.com/photo/" + postId + file.getName());
+                 if(beforeItem == null) {
+                     if (video == null) {     // video 업로드일 경우
+                         uploadWithTransferUtilty(images, postId);
+                         ArrayList<String> postImageUrl = new ArrayList<>();
+                         for (File file : images) {
+                             postImageUrl.add("https://talent-house-app.s3.ap-northeast-2.amazonaws.com/photo/" + postId + file.getName());
+                         }
+                         postPost(postTitle, postDesc, postCategory, postId, postImageUrl, null);
+                     } else {      // image 업로드일 경우
+                         uploadWithTransferUtilty(video, postId);
+                         String postVideoUrl = "https://talent-house-app.s3.ap-northeast-2.amazonaws.com/video/" + postId + video.getName();
+                         postPost(postTitle, postDesc, postCategory, postId, null, postVideoUrl);
                      }
-                     postPost(postTitle, postDesc, postCategory, postId, postImageUrl, null);
-                 } else {      // image 업로드일 경우
-                     uploadWithTransferUtilty(video, postId);
-                     String postVideoUrl = "https://talent-house-app.s3.ap-northeast-2.amazonaws.com/video/" + postId + video.getName();
-                     postPost(postTitle, postDesc, postCategory, postId, null, postVideoUrl);
+                 }
+                 else {
+                     if(beforeItem.getVideoUrl() == null) { // image
+                        if(images.size() != 0)
+                            uploadWithTransferUtilty(images, postId);
+                         ArrayList<String> postImageUrl = new ArrayList<>(beforeItem.getImageUrl());
+                        for(int i = 0; i < images.size(); i++) {
+                            String tempUrl = "https://talent-house-app.s3.ap-northeast-2.amazonaws.com/photo/" + postId + images.get(i).getName();
+                            if(!postImageUrl.contains(tempUrl))
+                                postImageUrl.add(tempUrl);
+                        }
+                         // post
+                         modifyPost(postTitle, postDesc, postCategory, beforeItem.get_id(), postImageUrl, null);
+                     }
+                     else { // video
+                         String postVideoUrl = beforeItem.getVideoUrl();
+                         if(video != null) {
+                             uploadWithTransferUtilty(video, postId);
+                             postVideoUrl = "https://talent-house-app.s3.ap-northeast-2.amazonaws.com/video/" + postId + video.getName();
+                         }
+                         // post
+                         modifyPost(postTitle, postDesc, postCategory, beforeItem.get_id(), null, postVideoUrl);
+                     }
                  }
                  break;
 
@@ -328,7 +401,6 @@ import retrofit2.Response;
 
      public void postPost(String title, String description, String category, String id, ArrayList<String> imageUrl, String videoUrl) {
          new Runnable() {
-
              @Override
              public void run() {
                  try {
@@ -353,6 +425,52 @@ import retrofit2.Response;
                              }
                          }
 
+                         @Override
+                         public void onFailure(Call<CommonResponse> call, Throwable t) {
+                             // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                             Toast.makeText(getActivity().getApplicationContext(), "서버와 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                             Log.d(TAG, "SERVER CONNECTION ERROR");
+                         }
+                     });
+                 } catch (Exception e) {
+                     e.printStackTrace();
+                 }
+             }
+         }.run();
+     }
+
+     public void modifyPost(String title, String description, String category, String id, ArrayList<String> imageUrl, String videoUrl) {
+         new Runnable() {
+             @Override
+             public void run() {
+                 try {
+                     ButterKnifeApi.INSTANCE.getRetrofitService().postUpdate(new UploadPostReq(
+                             id,
+                             LoginInfo.INSTANCE.getLoginInfo(getContext())[1],
+                             title,
+                             description,
+                             category,
+                             imageUrl,
+                             videoUrl
+                     )).enqueue(new Callback<CommonResponse>() {
+                         @Override
+                         public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                             // 정상 출력이 되면 아래 로그가 출력됨
+                             if (response.body() != null) {
+                                 CommonResponse result = response.body();
+                                 if (result.getResult().equals("Success")) {
+                                     ((MainActivity) getActivity()).finishFragment(WriteFragment.this);
+                                 } else {
+
+                                 }
+                             }
+                             // 정상 출력이 되지 않을 때 서버에서의 response
+                             else {
+                                 Log.d(TAG, response.errorBody().toString());
+                                 Log.d(TAG, response.message());
+                                 Log.d(TAG, String.valueOf(response.code()));
+                             }
+                         }
                          @Override
                          public void onFailure(Call<CommonResponse> call, Throwable t) {
                              // 서버쪽으로 아예 메시지를 보내지 못한 경우

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class MainRVViewHolder {
         protected TextView likeCnt;
         protected Button likeBtn;
         protected PostItem postItem;
+        protected ImageButton settingBtn;
         View inflated;
 
         public ContentImageViewHolder_1(@NonNull View itemView, ViewStub viewStub) {
@@ -60,6 +62,7 @@ public class MainRVViewHolder {
             subject = itemView.findViewById(R.id.rvimage_tv_subject);
             likeCnt = itemView.findViewById(R.id.rvimage_tv_like);
             likeBtn = itemView.findViewById(R.id.rvimage_btn_like);
+            settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
 
             this.viewStubImage = viewStub;
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_1);
@@ -139,6 +142,7 @@ public class MainRVViewHolder {
         protected PostItem postItem;
         protected TextView likeCnt;
         protected Button likeBtn;
+        protected ImageButton settingBtn;
         View inflated;
 
         public ContentImageViewHolder_2(@NonNull View itemView, ViewStub viewStub) {
@@ -152,6 +156,7 @@ public class MainRVViewHolder {
             this.viewStubImage = viewStub;
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_2);
             inflated = viewStubImage.inflate();
+            settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -230,6 +235,7 @@ public class MainRVViewHolder {
         protected PostItem postItem;
         protected TextView likeCnt;
         protected Button likeBtn;
+        protected ImageButton settingBtn;
         View inflated;
 
         public ContentImageViewHolder_3(@NonNull View itemView, ViewStub viewStub) {
@@ -243,6 +249,7 @@ public class MainRVViewHolder {
             this.viewStubImage = viewStub;
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_3);
             inflated = viewStubImage.inflate();
+            settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -323,6 +330,7 @@ public class MainRVViewHolder {
         protected PostItem postItem;
         protected TextView likeCnt;
         protected Button likeBtn;
+        protected ImageButton settingBtn;
         View inflated;
 
         public ContentImageViewHolder_4(@NonNull View itemView, ViewStub viewStub) {
@@ -336,6 +344,7 @@ public class MainRVViewHolder {
             this.viewStubImage = viewStub;
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_4);
             inflated = viewStubImage.inflate();
+            settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -419,6 +428,7 @@ public class MainRVViewHolder {
         protected PostItem postItem;
         protected TextView likeCnt;
         protected Button likeBtn;
+        protected ImageButton settingBtn;
         View inflated;
 
         public ContentImageViewHolder_5(@NonNull View itemView, ViewStub viewStub) {
@@ -432,6 +442,7 @@ public class MainRVViewHolder {
             this.viewStubImage = viewStub;
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_5);
             inflated = viewStubImage.inflate();
+            settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -518,6 +529,7 @@ public class MainRVViewHolder {
         protected PostItem postItem;
         protected TextView likeCnt;
         protected Button likeBtn;
+        protected ImageButton settingBtn;
         View inflated;
 
         public ContentImageViewHolder_6(@NonNull View itemView, ViewStub viewStub) {
@@ -531,6 +543,7 @@ public class MainRVViewHolder {
             this.viewStubImage = viewStub;
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_5);
             inflated = viewStubImage.inflate();
+            settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -622,6 +635,7 @@ public class MainRVViewHolder {
         protected PlayerView pv;
         protected TextView likeCnt;
         protected Button likeBtn;
+        protected ImageButton settingBtn;
 //        protected PlayerControlView pcv;
 
         public ContentVideoViewHolder(@NonNull View itemView) {
@@ -634,6 +648,7 @@ public class MainRVViewHolder {
             likeCnt = itemView.findViewById(R.id.rvvideo_tv_like);
             likeBtn = itemView.findViewById(R.id.rvvideo_btn_like);
 //            pcv = itemView.findViewById(R.id.rvvideo_video_controller);
+            settingBtn = itemView.findViewById(R.id.rvvideo_btn_setting);
         }
         void updateLike(String postId, String userId) {
             new Runnable() {
