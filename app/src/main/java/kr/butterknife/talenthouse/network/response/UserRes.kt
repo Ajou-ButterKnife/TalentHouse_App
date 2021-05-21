@@ -94,10 +94,6 @@ data class SearchPostRes(
     val data : List<PostItem>?,
 )
 
-data class FavoritePostIdRes(
-    val data : List<String>?,
-)
-
 data class FavoritePostUserIdRes(
     val data : List<String>?,
 )
