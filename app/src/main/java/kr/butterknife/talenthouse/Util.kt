@@ -1,16 +1,17 @@
 package kr.butterknife.talenthouse
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.ColorDrawable
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
+import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.PopupMenu
-import android.widget.Spinner
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.CoroutineScope
@@ -165,6 +166,40 @@ object Util {
             }
             catch (e: Exception) {
 
+            }
+        }
+    }
+}
+
+object LoadingDialog {
+    var loadingDialog: AppCompatDialog? = null
+
+    fun onLoadingDialog(activity: Activity?) {
+        if(activity == null || activity.isFinishing)
+            return
+
+        loadingDialog?.let {
+            if(it.isShowing)
+                return
+        }
+
+        loadingDialog = AppCompatDialog(activity).apply {
+            setCancelable(false)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setContentView(R.layout.dialog_loading)
+        }
+
+        loadingDialog?.show()
+
+        val loadingImage = loadingDialog?.findViewById<ImageView>(R.id.loading_img)
+        val loadingAni = loadingImage!!.background as AnimationDrawable
+        loadingImage.post { loadingAni.start() }
+    }
+
+    fun offLoadingDialog() {
+        loadingDialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
             }
         }
     }
