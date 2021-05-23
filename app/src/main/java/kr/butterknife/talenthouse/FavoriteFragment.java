@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -19,8 +18,8 @@ import java.util.List;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.request.FavoriteReq;
-import kr.butterknife.talenthouse.network.response.FavoritePostIdRes;
 import kr.butterknife.talenthouse.network.response.FavoritePostRes;
+import kr.butterknife.talenthouse.network.response.PostRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,75 +58,48 @@ public class FavoriteFragment extends Fragment {
                 return true;
             });
         });
-//        rvAdapter.initScrollListener(rv);
-//        rvAdapter.setOnItemReloadListener(() -> getFavortePosts());
+        rvAdapter.initScrollListener(rv);
+        rvAdapter.setOnItemReloadListener(() -> getFavoritePosts());
 
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        getFavortePosts();
+        rvAdapter.doItemReload();
+//        getFavortePosts();
         return view;
     }
-    
-    // UserDB 로부터 likePostId를 가져옴
-    public void getFavortePosts(){
+
+    public void getFavoritePosts(){
         new Runnable(){
             @Override
             public void run() {
                 try{
                     String userId = LoginInfo.INSTANCE.getLoginInfo(getContext())[0];
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getFavoritePostIds(userId).enqueue(new Callback<FavoritePostIdRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getFavoritePost(userId, String.valueOf(rvAdapter.getPageNum())).enqueue(new Callback<PostRes>() {
                         @Override
-                        public void onResponse(Call<FavoritePostIdRes> call, Response<FavoritePostIdRes> response) {
-                            if(response.body() != null){
-                                List<String> postIdList = response.body().getData();
-                                if(postIdList.size() != 0){
-                                    getPostById(postIdList);
-                                }else{
-
-                                }
-                            }
-                        }
-                        @Override
-                        public void onFailure(Call<FavoritePostIdRes> call, Throwable t) {
-                            Log.d("err", "SERVER CONNECTION ERROR");
-                        }
-                    });
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        }.run();
-    }
-
-    public void getPostById(List<String> postIdList){
-        new Runnable(){
-            @Override
-            public void run() {
-                try{
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getFavoritePost(new FavoriteReq(postIdList)).enqueue(new Callback<FavoritePostRes>() {
-                        @Override
-                        public void onResponse(Call<FavoritePostRes> call, Response<FavoritePostRes> response) {
+                        public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
                                 List<PostItem> postItemList = response.body().getData();
-                                for(PostItem p : postItemList){
-                                    if(p.getVideoUrl() != null)
-                                        posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
-                                    else if(p.getImageUrl().size() != 0)
-                                        posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
-                                    else
-                                        posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
+                                if(postItemList.size() != 0){
+                                    for(PostItem p : postItemList) {
+                                        if(p.getVideoUrl() != null)
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
+                                        else if(p.getImageUrl().size() != 0)
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
+                                        else
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
+                                    }
+                                    rvAdapter.notifyDataSetChanged();
                                 }
-                                rvAdapter.notifyDataSetChanged();
                             }
                         }
-
                         @Override
-                        public void onFailure(Call<FavoritePostRes> call, Throwable t) {
+                        public void onFailure(Call<PostRes> call, Throwable t) {
                             Log.d("err", "SERVER CONNECTION ERROR");
                         }
                     });
-                }catch (Exception e){
+                }
+                catch (Exception e){
                     e.printStackTrace();
                 }
             }
