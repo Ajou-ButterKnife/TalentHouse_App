@@ -18,6 +18,9 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -87,6 +90,7 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
             public void onClick(View v) {
                 startDate = (String) startDateTv.getText();
                 endDate = (String) endDateTv.getText();
+                posts.clear();
                 getHotPosts();
             }
         });
@@ -96,6 +100,11 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
         rvAdapter = new MainRVAdapter(getContext(), posts);
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        calendar.setTime(new Date());
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        endDate = df.format(calendar.getTime());
+        calendar.add(Calendar.DATE, -7);
+        startDate = df.format(calendar.getTime());
         getHotPosts();
 
         return view;

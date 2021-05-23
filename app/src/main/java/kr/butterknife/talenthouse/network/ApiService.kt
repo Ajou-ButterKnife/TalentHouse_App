@@ -12,7 +12,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
-private const val BASE_URL = "http://10.0.2.2:4000/"
+private const val BASE_URL = "http://192.168.0.104:5000/"
+
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -47,6 +48,9 @@ interface ButterKnifeApiService {
 
     @GET("post")
     fun getPosts(@Query("category") category: String, @Query("page") page: Int) : Call<PostRes>
+
+    @GET("post/board")
+    fun getBoardPosts(@Query("category") category: String, @Query("flag") flag: Int, @Query("page") page: Int) : Call<PostRes>
 
     @HTTP(method = "DELETE", path = "post/{id}", hasBody = true)
     suspend fun deletePost(@Path("id") id : String, @Body data : IdReq) : CommonResponse
