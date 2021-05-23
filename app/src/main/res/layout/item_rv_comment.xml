@@ -5,40 +5,58 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <ImageView
+        android:id="@+id/rvcomment_iv_profile"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@drawable/no_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY" />
+
+
     <TextView
         android:id="@+id/rvcomment_tv_writer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="8dp"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="writer"
+        app:layout_constraintStart_toEndOf="@+id/rvcomment_iv_profile"
         app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/rvcomment_tv_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="comment"
+            android:layout_marginLeft="12dp"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@+id/rvcomment_tv_writer"
+            app:layout_constraintStart_toEndOf="@+id/rvcomment_iv_profile" />
 
     <TextView
         android:id="@+id/rvcomment_tv_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/rvcomment_tv_writer"
+        android:text="2000.00.00"
+        android:textSize="10sp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rvcomment_tv_writer" />
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="3dp"/>
 
+    <ImageButton
+        android:id="@+id/rvcomment_btn_menu"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/btm_navigation_menu"
+        app:layout_constraintTop_toBottomOf="@+id/rvcomment_tv_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="7dp"/>
 
-    <TextView
-        android:id="@+id/rvcomment_tv_comment"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/rvcomment_tv_date"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/rvcomment_tv_writer"
-        app:layout_constraintTop_toBottomOf="@+id/rvcomment_tv_writer"
-        app:layout_constraintVertical_bias="1.0" />
 
     <LinearLayout
         android:id="@+id/rvcomment_ll_modify"
@@ -46,7 +64,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="@+id/rvcomment_tv_comment"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rvcomment_tv_writer"
         android:visibility="invisible">
 
         <EditText
@@ -54,7 +72,7 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:textSize="20sp"
+            android:textSize="13sp"
             android:layout_weight="4"/>
 
         <TextView
@@ -76,17 +94,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/tv_border"
             android:layout_weight="1" />
-
     </LinearLayout>
 
-    <ImageButton
-        android:id="@+id/rvcomment_btn_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/btm_navigation_menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

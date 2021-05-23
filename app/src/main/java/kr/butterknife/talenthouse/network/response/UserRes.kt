@@ -3,6 +3,7 @@ package kr.butterknife.talenthouse.network.response
 import com.squareup.moshi.Json
 import kr.butterknife.talenthouse.CommentItem
 import kr.butterknife.talenthouse.PostItem
+import kr.butterknife.talenthouse.idNickname
 import java.util.*
 
 data class CommonLoginRes(
@@ -95,7 +96,7 @@ data class SearchPostRes(
 )
 
 data class FavoritePostUserIdRes(
-    val data : List<String>?,
+    val data : List<idNickname>?,
 )
 
 data class FavoritePostRes(
@@ -105,4 +106,9 @@ data class FavoritePostRes(
 data class UpdateCommentRes(
     val result : String,
     val data : CommentItem?
+)
+
+data class GetPostLikeIds(
+    val likeCnt : Int,
+    val likeIds : List<idNickname>?
 )

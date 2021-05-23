@@ -160,9 +160,27 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.title.setText(arrayList.get(position).getTitle());
             holder.writer.setText(arrayList.get(position).getWriterNickname());
             holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
-//            holder.date.setText(Util.INSTANCE.getDate2String(arrayList.get(position).getUpdateTime()));
             holder.subject.setText(arrayList.get(position).getDescription());
             holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
+
+            boolean check = false;
+            for (idNickname temp : arrayList.get(position).getLikeIDs()) {
+                if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
+                    check = true;
+                    break;
+                }
+            }
+            if(check)
+                holder.likeBtn.setText("좋아요 취소");
+            else
+                holder.likeBtn.setText("좋아요");
+            holder.likeCnt.setText("좋아요 " + arrayList.get(position).getLikeCnt() + "개");
+            holder.likeBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    holder.updateLike(arrayList.get(position).get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
+                }
+            });
         }
         else if(_holder instanceof ContentImageViewHolder_1) {
             ContentImageViewHolder_1 holder = (ContentImageViewHolder_1) _holder;
@@ -251,8 +269,8 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             playerList.add(player);
 
             boolean check = false;
-            for(String id : arrayList.get(position).getLikeIDs()){
-                if(id.equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])){
+            for (idNickname temp : arrayList.get(position).getLikeIDs()) {
+                if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
                 }
@@ -265,11 +283,9 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.updateLike(arrayList.get(position).get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0]);
+                    holder.updateLike(arrayList.get(position).get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
-
-
         }
         else {
 

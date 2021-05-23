@@ -52,6 +52,7 @@ data class UploadCommentReq(
         val postId : String,
         val userId : String,
         val nickname : String,
+        val profile : String?,
         val comment : String
 )
 
@@ -99,4 +100,10 @@ data class UpdateCommentReq(
     val userId : String,
     val date : String,
     val newComment : String
+)
+
+data class PutLikeReq(
+    val userId : String,
+    val nickname: String,
+    val profile : String
 )
