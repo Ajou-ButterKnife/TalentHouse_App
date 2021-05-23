@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +27,9 @@ public class BoardFragment extends Fragment {
     private MainRVAdapter rvAdapter;
     private ArrayList<PostItem> posts;
     private String category;
+    private Button sortToTime;
+    private Button sortToLike;
+    private Integer sortFlag = 1;
 
 
     public BoardFragment() {
@@ -65,8 +71,31 @@ public class BoardFragment extends Fragment {
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         category = getArguments().getString("category");
-        getPosts();
 
+        rvAdapter.doItemReload();
+
+        sortToTime = (Button) view.findViewById(R.id.board_date_sort_btn);
+        sortToLike = (Button) view.findViewById(R.id.board_like_sort_btn);
+
+        sortToTime.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                posts.clear();
+                rvAdapter.setPage(0);
+                sortFlag = 1;
+                rvAdapter.doItemReload();
+            }
+        });
+
+        sortToLike.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                posts.clear();
+                rvAdapter.setPage(0);
+                sortFlag = 2;
+                rvAdapter.doItemReload();
+            }
+        });
         return view;
     }
 
@@ -75,7 +104,7 @@ public class BoardFragment extends Fragment {
             @Override
             public void run(){
                 try{
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(category, rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getBoardPosts(category, sortFlag, rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
                         @Override
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
