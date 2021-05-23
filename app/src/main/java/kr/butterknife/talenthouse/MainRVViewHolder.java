@@ -20,6 +20,7 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import java.util.List;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
+import kr.butterknife.talenthouse.network.request.PutLikeReq;
 import kr.butterknife.talenthouse.network.response.LikeRes;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,6 +33,8 @@ public class MainRVViewHolder {
         protected TextView writer;
         protected TextView date;
         protected TextView subject;
+        protected TextView likeCnt;
+        protected Button likeBtn;
 
         public ContentNOViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -39,6 +42,40 @@ public class MainRVViewHolder {
             writer = itemView.findViewById(R.id.rvtext_tv_writer);
             date = itemView.findViewById(R.id.rvtext_tv_date);
             subject = itemView.findViewById(R.id.rvtext_tv_subject);
+            likeCnt = itemView.findViewById(R.id.rvtext_tv_like);
+            likeBtn = itemView.findViewById(R.id.rvtext_btn_like);
+        }
+        void updateLike(String postId, String userId, String nickname, String profile) {
+            new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
+                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
+                            @Override
+                            public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
+                                if (response.body() != null) {
+                                    if (response.body().getResult().equals("Plus")) {
+                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeBtn.setText("좋아요 취소");
+                                    } else if (response.body().getResult().equals("Minus")) {
+                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeBtn.setText("좋아요");
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<LikeRes> call, Throwable t) {
+                                // 서버 쪽으로 메시지를 보내지 못한 경우
+                                Log.d("err", "SERVER CONNECTION ERROR");
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }.run();
         }
     }
 
@@ -77,13 +114,13 @@ public class MainRVViewHolder {
             subject.setText(postItem.getDescription());
 
             boolean check = false;
-            for(String id : postItem.getLikeIDs()){
-                if(id.equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])){
+            for (idNickname temp : postItem.getLikeIDs()) {
+                if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
                 }
             }
-            if(check)
+            if (check)
                 likeBtn.setText("좋아요 취소");
             else
                 likeBtn.setText("좋아요");
@@ -91,7 +128,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0]);
+                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
             List<String> urlList = postItem.getImageUrl();
@@ -100,24 +137,26 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv_1));
         }
 
-        void updateLike(String postId, String userId) {
+        void updateLike(String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, userId).enqueue(new Callback<LikeRes>() {
+                        PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
+                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요 취소");
-                                    }else if(response.body().getResult().equals("Minus")){
+                                    } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요");
                                     }
                                 }
                             }
+
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
@@ -131,7 +170,6 @@ public class MainRVViewHolder {
             }.run();
         }
     }
-
 
     static class ContentImageViewHolder_2 extends ContentRVHolder {
         protected TextView title;
@@ -167,13 +205,13 @@ public class MainRVViewHolder {
             subject.setText(postItem.getDescription());
 
             boolean check = false;
-            for(String id : postItem.getLikeIDs()){
-                if(id.equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])){
+            for (idNickname temp : postItem.getLikeIDs()) {
+                if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
                 }
             }
-            if(check)
+            if (check)
                 likeBtn.setText("좋아요 취소");
             else
                 likeBtn.setText("좋아요");
@@ -181,7 +219,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0]);
+                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
 
@@ -194,24 +232,26 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv2_2));
         }
 
-        void updateLike(String postId, String userId) {
+        void updateLike(String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, userId).enqueue(new Callback<LikeRes>() {
+                        PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
+                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요 취소");
-                                    }else if(response.body().getResult().equals("Minus")){
+                                    } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요");
                                     }
                                 }
                             }
+
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
@@ -260,13 +300,13 @@ public class MainRVViewHolder {
             subject.setText(postItem.getDescription());
 
             boolean check = false;
-            for(String id : postItem.getLikeIDs()){
-                if(id.equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])){
+            for (idNickname temp : postItem.getLikeIDs()) {
+                if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
                 }
             }
-            if(check)
+            if (check)
                 likeBtn.setText("좋아요 취소");
             else
                 likeBtn.setText("좋아요");
@@ -274,7 +314,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0]);
+                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
 
@@ -289,24 +329,27 @@ public class MainRVViewHolder {
                     .load(urlList.get(2))
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv3_3));
         }
-        void updateLike(String postId, String userId) {
+
+        void updateLike(String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, userId).enqueue(new Callback<LikeRes>() {
+                        PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
+                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요 취소");
-                                    }else if(response.body().getResult().equals("Minus")){
+                                    } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요");
                                     }
                                 }
                             }
+
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
@@ -355,13 +398,13 @@ public class MainRVViewHolder {
             subject.setText(postItem.getDescription());
 
             boolean check = false;
-            for(String id : postItem.getLikeIDs()){
-                if(id.equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])){
+            for (idNickname temp : postItem.getLikeIDs()) {
+                if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
                 }
             }
-            if(check)
+            if (check)
                 likeBtn.setText("좋아요 취소");
             else
                 likeBtn.setText("좋아요");
@@ -369,7 +412,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0]);
+                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
 
@@ -387,24 +430,27 @@ public class MainRVViewHolder {
                     .load(urlList.get(3))
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv4_4));
         }
-        void updateLike(String postId, String userId) {
+
+        void updateLike(String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, userId).enqueue(new Callback<LikeRes>() {
+                        PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
+                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요 취소");
-                                    }else if(response.body().getResult().equals("Minus")){
+                                    } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요");
                                     }
                                 }
                             }
+
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
@@ -453,13 +499,13 @@ public class MainRVViewHolder {
             subject.setText(postItem.getDescription());
 
             boolean check = false;
-            for(String id : postItem.getLikeIDs()){
-                if(id.equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])){
+            for (idNickname temp : postItem.getLikeIDs()) {
+                if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
                 }
             }
-            if(check)
+            if (check)
                 likeBtn.setText("좋아요 취소");
             else
                 likeBtn.setText("좋아요");
@@ -467,7 +513,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0]);
+                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
 
@@ -488,24 +534,27 @@ public class MainRVViewHolder {
                     .load(urlList.get(4))
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv5_5));
         }
-        void updateLike(String postId, String userId) {
+
+        void updateLike(String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, userId).enqueue(new Callback<LikeRes>() {
+                        PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
+                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요 취소");
-                                    }else if(response.body().getResult().equals("Minus")){
+                                    } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요");
                                     }
                                 }
                             }
+
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
@@ -554,13 +603,13 @@ public class MainRVViewHolder {
             subject.setText(postItem.getDescription());
 
             boolean check = false;
-            for(String id : postItem.getLikeIDs()){
-                if(id.equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])){
+            for (idNickname temp : postItem.getLikeIDs()) {
+                if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
                 }
             }
-            if(check)
+            if (check)
                 likeBtn.setText("좋아요 취소");
             else
                 likeBtn.setText("좋아요");
@@ -568,7 +617,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0]);
+                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
 
@@ -595,24 +644,27 @@ public class MainRVViewHolder {
             textView.setText("+" + tempNum + "개 이상");
             imageView.setColorFilter(Color.parseColor("#55050900"));
         }
-        void updateLike(String postId, String userId) {
+
+        void updateLike(String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, userId).enqueue(new Callback<LikeRes>() {
+                        PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
+                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요 취소");
-                                    }else if(response.body().getResult().equals("Minus")){
+                                    } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요");
                                     }
                                 }
                             }
+
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
@@ -650,24 +702,27 @@ public class MainRVViewHolder {
 //            pcv = itemView.findViewById(R.id.rvvideo_video_controller);
             settingBtn = itemView.findViewById(R.id.rvvideo_btn_setting);
         }
-        void updateLike(String postId, String userId) {
+
+        void updateLike(String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, userId).enqueue(new Callback<LikeRes>() {
+                        PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
+                        ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요 취소");
-                                    }else if(response.body().getResult().equals("Minus")){
+                                    } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setText("좋아요");
                                     }
                                 }
                             }
+
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
