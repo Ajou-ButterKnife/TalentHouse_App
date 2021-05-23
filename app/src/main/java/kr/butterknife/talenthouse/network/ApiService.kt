@@ -13,8 +13,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
 //private const val BASE_URL = "http://10.0.2.2:4000/"
-//private const val BASE_URL = "http://172.31.192.1:4000/"
-private const val BASE_URL = "http://192.168.25.14:4000/"
+//private const val BASE_URL = "http://172.21.16.1:4000/"
+private const val BASE_URL = "http://192.168.0.105:4000/"
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -71,8 +71,8 @@ interface ButterKnifeApiService {
     @GET("post/{id}/{page}")
     suspend fun getMyPagePosts(@Path("id") id : String, @Path("page") page : Int) : PostRes
 
-    @PUT("post/like/{postId}/{userId}")
-    fun putLike(@Path("postId") postId : String, @Path("userId") userId : String) : Call<LikeRes>
+    @POST("post/like/{postId}")
+    fun putLike(@Path("postId") postId : String, @Body data : PutLikeReq) : Call<LikeRes>
 
     @GET("user/category/{id}")
     fun getCategories(@Path("id") key: String) : Call<CategoryRes>
@@ -116,6 +116,9 @@ interface ButterKnifeApiService {
 
     @PUT("post/update/comment/{postId}")
     fun updateComment(@Path("postId") postId: String, @Body data : UpdateCommentReq) : Call<UpdateCommentRes>
+
+    @GET("post/get/favorite/{postId}")
+    fun getPostLikeIds(@Path("postId") postId: String) : Call<GetPostLikeIds>
 
 }
 
