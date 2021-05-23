@@ -81,7 +81,7 @@ data class UserInfo(
     val isSocial : Boolean,
     val category : List<String>,
     @Json(name = "phone_num")
-    val phone : String,
+    val phone : String?,
     val nickname : String,
 )
 
