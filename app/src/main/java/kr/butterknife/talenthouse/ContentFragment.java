@@ -112,6 +112,7 @@ public class ContentFragment extends Fragment {
             @Override
             public void run() {
                 try {
+                    LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                     ButterKnifeApi.INSTANCE.getRetrofitService().getComments(item.get_id()).enqueue(new Callback<GetCommentsRes>() {
                         @Override
                         public void onResponse(Call<GetCommentsRes> call, Response<GetCommentsRes> response) {
@@ -125,16 +126,19 @@ public class ContentFragment extends Fragment {
                                     e.printStackTrace();
                                 }
                             }
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
 
                         @Override
                         public void onFailure(Call<GetCommentsRes> call, Throwable t) {
                             // 서버 쪽으로 메시지를 보내지 못한 경우
                             Log.d("err", "SERVER CONNECTION ERROR");
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             }
         }.run();
@@ -191,6 +195,7 @@ public class ContentFragment extends Fragment {
             @Override
             public void run() {
                 try {
+                    LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                     ButterKnifeApi.INSTANCE.getRetrofitService().getPostLikeIds(item.get_id()).enqueue(new Callback<GetPostLikeIds>() {
                         @Override
                         public void onResponse(Call<GetPostLikeIds> call, Response<GetPostLikeIds> response) {
@@ -212,16 +217,19 @@ public class ContentFragment extends Fragment {
                                     likeBtn.setText("좋아요");
                                 likeCnt.setText("좋아요 " + currentLikeCnt + "개");
                             }
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
 
                         @Override
                         public void onFailure(Call<GetPostLikeIds> call, Throwable t) {
                             // 서버 쪽으로 메시지를 보내지 못한 경우
                             Log.d("err", "SERVER CONNECTION ERROR");
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             }
         }.run();
@@ -238,6 +246,7 @@ public class ContentFragment extends Fragment {
                             String nickname = LoginInfo.INSTANCE.getLoginInfo(getContext())[1];
                             String profile = LoginInfo.INSTANCE.getLoginInfo(getContext())[2];
                             PutLikeReq putLikeReq = new PutLikeReq(user_id, nickname, profile);
+                            LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                             ButterKnifeApi.INSTANCE.getRetrofitService().putLike(post_id, putLikeReq).enqueue(new Callback<LikeRes>() {
                                 @Override
                                 public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
@@ -250,16 +259,19 @@ public class ContentFragment extends Fragment {
                                             likeBtn.setText("좋아요");
                                         }
                                     }
+                                    LoadingDialog.INSTANCE.offLoadingDialog();
                                 }
 
                                 @Override
                                 public void onFailure(Call<LikeRes> call, Throwable t) {
                                     // 서버 쪽으로 메시지를 보내지 못한 경우
                                     Log.d("err", "SERVER CONNECTION ERROR");
+                                    LoadingDialog.INSTANCE.offLoadingDialog();
                                 }
                             });
                         } catch (Exception e) {
                             e.printStackTrace();
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     }
                 }.run();
@@ -293,6 +305,7 @@ public class ContentFragment extends Fragment {
             @Override
             public void run() {
                 try {
+                    LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                     ButterKnifeApi.INSTANCE.getRetrofitService().getPostFavoriteId(new FavoriteUserIdReq(postId)).enqueue(new Callback<FavoritePostUserIdRes>() {
                         @Override
                         public void onResponse(Call<FavoritePostUserIdRes> call, Response<FavoritePostUserIdRes> response) {
@@ -304,16 +317,19 @@ public class ContentFragment extends Fragment {
                                 }
                                 bottomAdapter.notifyDataSetChanged();
                             }
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
 
                         @Override
                         public void onFailure(Call<FavoritePostUserIdRes> call, Throwable t) {
                             // 서버쪽으로 아예 메시지를 보내지 못한 경우
                             Log.d("ERR", "SERVER CONNECTION ERROR");
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             }
         }.run();
@@ -360,8 +376,8 @@ public class ContentFragment extends Fragment {
             @Override
             public void run() {
                 try {
+                    LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                     ButterKnifeApi.INSTANCE.getRetrofitService().createComment(new UploadCommentReq(postId, userId, nickname, profile, comment)).enqueue(new Callback<CommentRes>() {
-
                         @Override
                         public void onResponse(Call<CommentRes> call, Response<CommentRes> response) {
                             // 정상 출력이 되면 아래 로그가 출력됨
@@ -373,23 +389,25 @@ public class ContentFragment extends Fragment {
 
                                 }
                             }
-
                             // 정상 출력이 되지 않을 때 서버에서의 response
                             else {
                                 Log.d("ERR", response.errorBody().toString());
                                 Log.d("ERR", response.message());
                                 Log.d("ERR", String.valueOf(response.code()));
                             }
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
 
                         @Override
                         public void onFailure(Call<CommentRes> call, Throwable t) {
                             // 서버쪽으로 아예 메시지를 보내지 못한 경우
                             Log.d("ERR", "SERVER CONNECTION ERROR");
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             }
         }.run();

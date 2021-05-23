@@ -115,6 +115,7 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
             @Override
             public void run(){
                 try{
+                    LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                     ButterKnifeApi.INSTANCE.getRetrofitService().getPostHotBoard(startDate,endDate).enqueue(new Callback<PostRes>() {
                         @Override
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
@@ -134,15 +135,18 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
                                     e.printStackTrace();
                                 }
                             }
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                         @Override
                         public void onFailure(Call<PostRes> call, Throwable t) {
                             // 서버 쪽으로 메시지를 보내지 못한 경우
                             Log.d("err", "SERVER CONNECTION ERROR");
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     });
                 }catch (Exception e){
                     e.printStackTrace();
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             }
         }.run();

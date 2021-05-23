@@ -62,7 +62,7 @@ public class SearchFragment extends Fragment {
         rvPostAdapter.initScrollListener(rvPost);
         rvPostAdapter.setOnItemReloadListener(() -> getSearchPosts());
         rvPostAdapter.setOnSettingListener((v, postId) -> {
-            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (item) -> {
+            Util.INSTANCE.postSetting(requireActivity(), requireContext(), v, postId, posts, (item) -> {
                 ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", item);
                 return true;
             }, (idx) -> {
@@ -116,6 +116,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void run(){
                 try{
+                    LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                     ButterKnifeApi.INSTANCE.getRetrofitService().getSearchPosts(spinner_item, searchItem, rvPostAdapter.getPageNum()).enqueue(new Callback<SearchPostRes>() {
                         @Override
                         public void onResponse(Call<SearchPostRes> call, retrofit2.Response<SearchPostRes> response) {
@@ -136,16 +137,19 @@ public class SearchFragment extends Fragment {
                                     e.printStackTrace();
                                 }
                             }
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
 
                         @Override
                         public void onFailure(Call<SearchPostRes> call, Throwable t) {
                             // 서버 쪽으로 메시지를 보내지 못한 경우
                             Log.d("err", "SERVER CONNECTION ERROR");
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     });
                 }catch (Exception e){
                     e.printStackTrace();
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             }
         }.run();

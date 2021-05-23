@@ -107,7 +107,8 @@ object Util {
         }
     }
 
-    fun postSetting(context: Context,
+    fun postSetting(activity : Activity?,
+                    context: Context,
                     view: View,
                     postId: String,
                     list: ArrayList<PostItem>,
@@ -131,7 +132,7 @@ object Util {
                     builder.setTitle("게시글 삭제")
                     builder.setMessage("게시글을 삭제하시겠습니까?")
                     builder.setPositiveButton("삭제") { dialog: DialogInterface?, which: Int ->
-                        deletePost(postId, context)
+                        deletePost(activity, postId, context)
                         var deleteIndex = 0
                         while (deleteIndex < list.size) {
                             if (list[deleteIndex]._id == postId) break
@@ -148,11 +149,12 @@ object Util {
         popup.show()
     }
 
-    private fun deletePost(postId: String, context: Context) {
+    private fun deletePost(activity : Activity?, postId: String, context: Context) {
         val coroutineScope = CoroutineScope(Dispatchers.Default + Job())
         var response: CommonResponse? = null
         coroutineScope.launch {
             try {
+                LoadingDialog.onLoadingDialog(activity)
                 response = ButterKnifeApi.retrofitService.deletePost(LoginInfo.getLoginInfo(context)[0], IdReq(postId))
                 var toastMsg = "서버로 부터 받아오지 못하였습니다."
 
@@ -162,10 +164,10 @@ object Util {
                 }
 
                 Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT).show()
-
+                LoadingDialog.offLoadingDialog()
             }
             catch (e: Exception) {
-
+                LoadingDialog.offLoadingDialog()
             }
         }
     }

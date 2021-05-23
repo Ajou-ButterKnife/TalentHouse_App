@@ -49,7 +49,7 @@ public class FavoriteFragment extends Fragment {
             }
         });
         rvAdapter.setOnSettingListener((v, postId) -> {
-            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (item) -> {
+            Util.INSTANCE.postSetting(requireActivity(), requireContext(), v, postId, posts, (item) -> {
                 ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", item);
                 return true;
             }, (idx) -> {
@@ -74,6 +74,7 @@ public class FavoriteFragment extends Fragment {
             @Override
             public void run() {
                 try{
+                    LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                     String userId = LoginInfo.INSTANCE.getLoginInfo(getContext())[0];
                     ButterKnifeApi.INSTANCE.getRetrofitService().getFavoritePost(userId, String.valueOf(rvAdapter.getPageNum())).enqueue(new Callback<PostRes>() {
                         @Override
@@ -92,15 +93,18 @@ public class FavoriteFragment extends Fragment {
                                     rvAdapter.notifyDataSetChanged();
                                 }
                             }
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                         @Override
                         public void onFailure(Call<PostRes> call, Throwable t) {
                             Log.d("err", "SERVER CONNECTION ERROR");
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     });
                 }
                 catch (Exception e){
                     e.printStackTrace();
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             }
         }.run();
