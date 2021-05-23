@@ -5,15 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/content_video_iv_profile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="7dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/no_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/content_video_tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
         android:text="대충 제목"
         android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/content_video_iv_profile"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -21,10 +31,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
         android:text="2021.01.01"
         android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintStart_toEndOf="@+id/content_video_iv_profile"
         app:layout_constraintTop_toBottomOf="@+id/content_video_tv_title" />
 
     <TextView
@@ -33,29 +43,31 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="김아무개"
-        android:textSize="10sp"
-        app:layout_constraintStart_toStartOf="@+id/content_video_tv_title"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_tv_title" />
+        android:textStyle="bold"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="@+id/content_video_iv_profile"
+        app:layout_constraintTop_toBottomOf="@+id/content_video_iv_profile" />
 
     <TextView
         android:id="@+id/content_video_tv_subject"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="asdlfjkafklwaefklawnflk;awejfklaewjflkawejflk;aewfjawekl;efjaweklfjaklfjaklwfe;jawef"
+        android:text="asdlfjkafklwaefklawnflk;awejfklaewjf;efjaweklfjaklfjaklwfe;jawef"
         android:textSize="13sp"
-        app:layout_constraintEnd_toEndOf="@+id/content_video_tv_date"
         app:layout_constraintStart_toStartOf="@+id/content_video_tv_writer"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_player" />
+        app:layout_constraintTop_toBottomOf="@+id/content_video_tv_writer"
+        app:layout_constraintEnd_toEndOf="@+id/content_video_player"/>
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/content_video_player"
         android:layout_width="0dp"
         android:layout_height="300dp"
         android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="@+id/content_video_tv_date"
-        app:layout_constraintStart_toStartOf="@+id/content_video_tv_writer"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_tv_writer"  />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="10dp"
+        app:layout_constraintStart_toStartOf="@+id/content_video_iv_profile"
+        app:layout_constraintTop_toBottomOf="@+id/content_video_tv_subject"  />
 
     <com.google.android.exoplayer2.ui.PlayerControlView
         android:id="@+id/content_video_controller"
@@ -70,17 +82,19 @@
         android:id="@+id/content_tv_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="좋아요 0개"
         android:textSize="13sp"
-        app:layout_constraintStart_toStartOf="@+id/content_video_tv_subject"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_tv_subject" />
+        app:layout_constraintStart_toStartOf="@+id/content_video_iv_profile"
+        app:layout_constraintTop_toBottomOf="@+id/content_video_controller" />
 
     <Button
         android:id="@+id/content_btn_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
         android:text="좋아요"
         app:layout_constraintStart_toEndOf="@+id/content_tv_like"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_tv_subject" />
+        app:layout_constraintTop_toBottomOf="@+id/content_video_controller" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
