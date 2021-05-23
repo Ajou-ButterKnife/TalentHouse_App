@@ -116,7 +116,7 @@ class SettingActivity : AppCompatActivity() {
                             }))
 
                             rvAdapter.addItem(SettingItem("title", "개인 정보 수정"))
-                            rvAdapter.addItem(SettingItem("text", "phone", data.phone))
+                            rvAdapter.addItem(SettingItem("text", "phone", data.phone ?: ""))
                             rvAdapter.addItem(SettingItem("text", "nickname", data.nickname))
                             rvAdapter.addItem(SettingItem("spinner", "category", listValue = data.category))
                             rvAdapter.addItem(SettingItem("button", "저장하기", onClick = object : OnItemClickListener {
