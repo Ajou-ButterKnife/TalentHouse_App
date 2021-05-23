@@ -20,12 +20,12 @@
         android:id="@+id/main_bottomnavi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#Ffb26b"
+        app:itemIconTint="@drawable/navigation_view_colored"
+        app:itemTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/main_bottom"
-        app:itemBackground="@color/design_default_color_primary"
-        app:itemTextColor="@color/white"
-        app:itemIconTint="@drawable/navigation_view_colored"/>
+        app:menu="@menu/main_bottom" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
