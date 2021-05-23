@@ -17,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,8 +46,10 @@ public class CommentRVAdapter extends RecyclerView.Adapter<CommentRVAdapter.Comm
         EditText editComment;
         LinearLayout modifyLayout;
         String dateText;
+        Context mainContext;
+        ImageView profile;
 
-        public CommentRVHolder(@NonNull View itemView) {
+        public CommentRVHolder(@NonNull View itemView, Context context) {
             super(itemView);
             writer = itemView.findViewById(R.id.rvcomment_tv_writer);
             date = itemView.findViewById(R.id.rvcomment_tv_date);
@@ -55,6 +59,8 @@ public class CommentRVAdapter extends RecyclerView.Adapter<CommentRVAdapter.Comm
             modifyLayout = itemView.findViewById(R.id.rvcomment_ll_modify);
             commentModify = itemView.findViewById(R.id.rvcomment_tv_modify);
             modifyCancel = itemView.findViewById(R.id.rvcomment_tv_cancel);
+            profile = itemView.findViewById(R.id.rvcomment_iv_profile);
+            this.mainContext = context;
         }
     }
 
@@ -62,8 +68,8 @@ public class CommentRVAdapter extends RecyclerView.Adapter<CommentRVAdapter.Comm
     @Override
     public CommentRVHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_comment, parent, false);
-        CommentRVHolder vh = new CommentRVHolder(view);
-        this.context = parent.getContext();
+        context = parent.getContext();
+        CommentRVHolder vh = new CommentRVHolder(view, context);
         return vh;
     }
 
@@ -71,9 +77,21 @@ public class CommentRVAdapter extends RecyclerView.Adapter<CommentRVAdapter.Comm
     public void onBindViewHolder(@NonNull CommentRVHolder holder, int position) {
         holder.writer.setText(comments.get(position).getWriterNickname());
         holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(comments.get(position).getDate())));
-//        holder.date.setText(comments.get(position).getDate());
         holder.comment.setText(comments.get(position).getComment());
         holder.dateText = comments.get(position).getDate();
+
+        if(comments.get(position).getProfile().equals("") == false){
+            Glide.with(context).load(comments.get(position).getProfile()).into(holder.profile);
+        }
+
+        holder.writer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity mainActivity = (MainActivity) holder.mainContext;
+                mainActivity.setMyPageID(comments.get(position).getWriterId());
+                mainActivity.outsideMyPageClick();
+            }
+        });
 
 
         if (comments.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
