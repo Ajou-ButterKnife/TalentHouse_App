@@ -87,13 +87,12 @@ class SettingSpinnerVH(private val context : Context, private val view : View) :
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if(!findChip(arr[position]) && position != 0) {
-
                     addChip(arr[position])
-                    parent?.setSelection(0)
                 }
                 else if(position != 0) {
                     Toast.makeText(context, "이미 선택된 카테고리입니다.", Toast.LENGTH_SHORT).show()
                 }
+                parent?.setSelection(0)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -101,8 +100,10 @@ class SettingSpinnerVH(private val context : Context, private val view : View) :
             }
         }
 
-        for(category in item.listValue)
-            addChip(category)
+        for(category in item.listValue) {
+            if(!findChip(category))
+                addChip(category)
+        }
     }
 
     fun addChip(str : String) {

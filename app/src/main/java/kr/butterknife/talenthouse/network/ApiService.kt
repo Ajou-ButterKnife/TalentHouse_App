@@ -12,9 +12,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
-//private const val BASE_URL = "http://10.0.2.2:4000/"
-//private const val BASE_URL = "http://172.21.16.1:4000/"
-private const val BASE_URL = "http://192.168.0.105:4000/"
+private const val BASE_URL = "http://10.0.2.2:4000/"
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -98,11 +96,8 @@ interface ButterKnifeApiService {
     @GET("post/search")
     fun getSearchPosts(@Query("search_type") search_type : Int, @Query("search_item") search_item : String, @Query("page") page: Int) : Call<SearchPostRes>
 
-    @GET("user/post/{id}")
-    fun getFavoritePostIds(@Path("id") userId : String) : Call<FavoritePostIdRes>
-
-    @POST("post/favoritePost")
-    fun getFavoritePost(@Body data : FavoriteReq) : Call<FavoritePostRes>
+    @GET("post/favorite/")
+    fun getFavoritePost(@Query("id") id : String, @Query("page") page : String) : Call<PostRes>
 
     @POST("post/favorite")
     fun getPostFavoriteId(@Body data : FavoriteUserIdReq) : Call<FavoritePostUserIdRes>

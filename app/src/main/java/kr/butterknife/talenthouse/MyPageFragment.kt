@@ -109,8 +109,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
     override fun onResume() {
         super.onResume()
         if(userId == loginInfo[0]) {
-            loginInfo = LoginInfo.getLoginInfo(requireContext())
-            setNickname(loginInfo[1])
+            getUserInfo()
         }
     }
 
