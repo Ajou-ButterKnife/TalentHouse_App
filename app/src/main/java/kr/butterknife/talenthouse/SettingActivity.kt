@@ -1,6 +1,10 @@
 package kr.butterknife.talenthouse
 
+import android.app.Activity
+import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -63,6 +67,7 @@ class SettingActivity : AppCompatActivity() {
         getUserInfo()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when(requestCode) {
@@ -73,7 +78,7 @@ class SettingActivity : AppCompatActivity() {
                         val img = BitmapFactory.decodeStream(inputStream)
                         inputStream?.close()
                         setImage(img)
-                        val uri = data.clipData?.getItemAt(0)?.uri
+                        val uri = data.data
                         profileImgFile = File(getRealPathFromURI(uri))
                     } catch (e: Exception) {
                     }
@@ -235,7 +240,7 @@ class SettingActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun getRealPathFromURI(contentUri: Uri?): String? {
         val proj = arrayOf(MediaStore.Images.Media.DATA)
-        var cursor = this.contentResolver.query(contentUri!!, proj, null, null)
+        var cursor = applicationContext.contentResolver.query(contentUri!!, proj, null, null, null)
         cursor?.let {
             cursor.moveToNext()
             val path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA))
