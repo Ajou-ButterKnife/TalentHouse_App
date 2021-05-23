@@ -30,6 +30,7 @@ import retrofit2.Response;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
@@ -256,6 +257,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     onSettingListener.onSetting(v, arrayList.get(position).get_id());
                 });
             }
+            holder.pv.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH);
 
             SimpleExoPlayer player = new SimpleExoPlayer.Builder(context).build();
             holder.pv.setPlayer(player);
