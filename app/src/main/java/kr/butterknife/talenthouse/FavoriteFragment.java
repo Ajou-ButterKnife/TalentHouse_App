@@ -59,8 +59,6 @@ public class FavoriteFragment extends Fragment {
                 return true;
             });
         });
-//        rvAdapter.initScrollListener(rv);
-//        rvAdapter.setOnItemReloadListener(() -> getFavortePosts());
 
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
