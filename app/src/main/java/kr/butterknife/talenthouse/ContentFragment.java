@@ -40,7 +40,9 @@ import java.util.List;
 import java.util.Locale;
 
 import kr.butterknife.talenthouse.network.request.FavoriteUserIdReq;
+import kr.butterknife.talenthouse.network.request.PutLikeReq;
 import kr.butterknife.talenthouse.network.response.FavoritePostUserIdRes;
+import kr.butterknife.talenthouse.network.response.GetPostLikeIds;
 import kr.butterknife.talenthouse.network.response.LikeRes;
 import me.relex.circleindicator.CircleIndicator;
 
@@ -60,7 +62,7 @@ public class ContentFragment extends Fragment {
 
     PostItem item;
     ViewStub content;
-    TextView title, date, writer, subject, addComment, like;
+    TextView title, date, writer, subject, addComment, likeCnt;
     EditText comment;
     RecyclerView commentRV;
     ArrayList<CommentItem> commentList;
@@ -105,21 +107,21 @@ public class ContentFragment extends Fragment {
         return view;
     }
 
-    public void getComments(){
-        new Runnable(){
+    public void getComments() {
+        new Runnable() {
             @Override
-            public void run(){
-                try{
+            public void run() {
+                try {
                     ButterKnifeApi.INSTANCE.getRetrofitService().getComments(item.get_id()).enqueue(new Callback<GetCommentsRes>() {
                         @Override
                         public void onResponse(Call<GetCommentsRes> call, Response<GetCommentsRes> response) {
-                            if(response.body() != null){
-                                try{
+                            if (response.body() != null) {
+                                try {
                                     List<CommentItem> commentList = response.body().getData();
-                                    for(CommentItem c : commentList){
+                                    for (CommentItem c : commentList) {
                                         rvAdapter.addNewComment(c);
                                     }
-                                }catch (Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -131,7 +133,7 @@ public class ContentFragment extends Fragment {
                             Log.d("err", "SERVER CONNECTION ERROR");
                         }
                     });
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -140,7 +142,7 @@ public class ContentFragment extends Fragment {
 
 
     public void setIncludeLayout() {
-        if(item.getImageUrl() != null) {
+        if (item.getImageUrl() != null) {
             content.setLayoutResource(R.layout.viewstub_content_image);
             View inflated = content.inflate();
             title = inflated.findViewById(R.id.content_image_title);
@@ -152,10 +154,9 @@ public class ContentFragment extends Fragment {
             viewPager.setAdapter(adapter);
             indicator = inflated.findViewById(R.id.content_indicator);
             indicator.setViewPager(viewPager);
-            like = inflated.findViewById(R.id.content_tv_like);
+            likeCnt = inflated.findViewById(R.id.content_tv_like);
             likeBtn = inflated.findViewById(R.id.content_btn_like);
-        }
-        else if(item.getVideoUrl() != null) {
+        } else if (item.getVideoUrl() != null) {
             content.setLayoutResource(R.layout.viewstub_content_video);
             View inflated = content.inflate();
             title = inflated.findViewById(R.id.content_video_tv_title);
@@ -164,17 +165,16 @@ public class ContentFragment extends Fragment {
             subject = inflated.findViewById(R.id.content_video_tv_subject);
             pv = inflated.findViewById(R.id.content_video_player);
             pcv = inflated.findViewById(R.id.content_video_controller);
-            like = inflated.findViewById(R.id.content_tv_like);
+            likeCnt = inflated.findViewById(R.id.content_tv_like);
             likeBtn = inflated.findViewById(R.id.content_btn_like);
-        }
-        else {
+        } else {
             content.setLayoutResource(R.layout.item_rv_text);
             View inflated = content.inflate();
             title = inflated.findViewById(R.id.rvtext_tv_title);
             date = inflated.findViewById(R.id.rvtext_tv_date);
             writer = inflated.findViewById(R.id.rvtext_tv_writer);
             subject = inflated.findViewById(R.id.rvtext_tv_subject);
-            like = inflated.findViewById(R.id.rvtext_tv_like);
+            likeCnt = inflated.findViewById(R.id.rvtext_tv_like);
             likeBtn = inflated.findViewById(R.id.rvtext_btn_like);
         }
 
@@ -184,50 +184,81 @@ public class ContentFragment extends Fragment {
         writer.setOnClickListener(v -> {
             ((MainActivity) getActivity()).setMyPageID(item.getWriterId());
             ((MainActivity) getActivity()).outsideMyPageClick();
-
         });
         subject.setText(item.getDescription());
 
-        boolean check = false;
-        for(String id : item.getLikeIDs()){
-            if(id.equals(LoginInfo.INSTANCE.getLoginInfo(getContext())[0])){
-                check = true;
-                break;
-            }
-        }
-        if(check)
-            likeBtn.setText("좋아요 취소");
-        else
-            likeBtn.setText("좋아요");
+        new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getPostLikeIds(item.get_id()).enqueue(new Callback<GetPostLikeIds>() {
+                        @Override
+                        public void onResponse(Call<GetPostLikeIds> call, Response<GetPostLikeIds> response) {
+                            if (response.body() != null) {
+                                int currentLikeCnt = response.body().getLikeCnt();
 
-        like.setText("좋아요 " + item.getLikeCnt() + "개");
+                                List<idNickname> newIdNickname = response.body().getLikeIds();
+
+                                boolean check = false;
+                                for (idNickname temp : newIdNickname) {
+                                    if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(getContext())[0])) {
+                                        check = true;
+                                        break;
+                                    }
+                                }
+                                if (check)
+                                    likeBtn.setText("좋아요 취소");
+                                else
+                                    likeBtn.setText("좋아요");
+                                likeCnt.setText("좋아요 " + currentLikeCnt + "개");
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<GetPostLikeIds> call, Throwable t) {
+                            // 서버 쪽으로 메시지를 보내지 못한 경우
+                            Log.d("err", "SERVER CONNECTION ERROR");
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.run();
+
         likeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Runnable(){
+                new Runnable() {
                     @Override
                     public void run() {
-                        try{
-                            ButterKnifeApi.INSTANCE.getRetrofitService().putLike(item.get_id(), LoginInfo.INSTANCE.getLoginInfo(getContext())[0]).enqueue(new Callback<LikeRes>() {
+                        try {
+                            String post_id = item.get_id();
+                            String user_id = LoginInfo.INSTANCE.getLoginInfo(getContext())[0];
+                            String nickname = LoginInfo.INSTANCE.getLoginInfo(getContext())[1];
+                            String profile = LoginInfo.INSTANCE.getLoginInfo(getContext())[2];
+                            PutLikeReq putLikeReq = new PutLikeReq(user_id, nickname, profile);
+                            ButterKnifeApi.INSTANCE.getRetrofitService().putLike(post_id, putLikeReq).enqueue(new Callback<LikeRes>() {
                                 @Override
                                 public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
-                                    if(response.body() != null){
+                                    if (response.body() != null) {
                                         if (response.body().getResult().equals("Plus")) {
-                                            like.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                            likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                             likeBtn.setText("좋아요 취소");
-                                        }else if(response.body().getResult().equals("Minus")){
-                                            like.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        } else if (response.body().getResult().equals("Minus")) {
+                                            likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
                                             likeBtn.setText("좋아요");
                                         }
                                     }
                                 }
+
                                 @Override
                                 public void onFailure(Call<LikeRes> call, Throwable t) {
                                     // 서버 쪽으로 메시지를 보내지 못한 경우
                                     Log.d("err", "SERVER CONNECTION ERROR");
                                 }
                             });
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -235,9 +266,10 @@ public class ContentFragment extends Fragment {
             }
         });
 
-        like.setOnClickListener(new View.OnClickListener() {
+        likeCnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 bottomSheetDialog = new BottomSheetDialog(getContext());
                 View v = getLayoutInflater().inflate(R.layout.bottom_content, null);
                 bottomSheetDialog.setContentView(v);
@@ -248,7 +280,7 @@ public class ContentFragment extends Fragment {
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(linearLayoutManager);
 
-                bottomAdapter = new FavoriteRVAdapter();
+                bottomAdapter = new FavoriteRVAdapter(bottomSheetDialog);
                 recyclerView.setAdapter(bottomAdapter);
 
                 getFavoriteUser(item.get_id());
@@ -256,49 +288,49 @@ public class ContentFragment extends Fragment {
         });
     }
 
-        public void getFavoriteUser(String postId) {
-            new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        ButterKnifeApi.INSTANCE.getRetrofitService().getPostFavoriteId(new FavoriteUserIdReq(postId)).enqueue(new Callback<FavoritePostUserIdRes>() {
-                            @Override
-                            public void onResponse(Call<FavoritePostUserIdRes> call, Response<FavoritePostUserIdRes> response) {
-                                if (response.body() != null) {
-                                    List<String> userId = response.body().getData();
-                                    for (String s : userId) {
-                                        likePerson l = new likePerson(s);
-                                        bottomAdapter.addItem(l);
-                                    }
-                                    bottomAdapter.notifyDataSetChanged();
+    public void getFavoriteUser(String postId) {
+        new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getPostFavoriteId(new FavoriteUserIdReq(postId)).enqueue(new Callback<FavoritePostUserIdRes>() {
+                        @Override
+                        public void onResponse(Call<FavoritePostUserIdRes> call, Response<FavoritePostUserIdRes> response) {
+                            if(response.body() != null){
+                                List<idNickname> idNicknames = response.body().getData();
+                                for(idNickname tempData : idNicknames){
+                                    likePerson l = new likePerson(tempData.getUserId(), tempData.getNickname(), tempData.getProfile());
+                                    bottomAdapter.addItem(l);
                                 }
+                                bottomAdapter.notifyDataSetChanged();
                             }
+                        }
 
-                            @Override
-                            public void onFailure(Call<FavoritePostUserIdRes> call, Throwable t) {
-                                // 서버쪽으로 아예 메시지를 보내지 못한 경우
-                                Log.d("ERR", "SERVER CONNECTION ERROR");
-                            }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        @Override
+                        public void onFailure(Call<FavoritePostUserIdRes> call, Throwable t) {
+                            // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                            Log.d("ERR", "SERVER CONNECTION ERROR");
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }.run();
-        }
+            }
+        }.run();
+    }
 
 
     @Override
     public void onStart() {
         super.onStart();
-        if(item.getVideoUrl() != null) {
+        if (item.getVideoUrl() != null) {
             player = new SimpleExoPlayer.Builder(getContext()).build();
             pv.setPlayer(player);
             pcv.setPlayer(player);
 
             DataSource.Factory factory = new DefaultDataSourceFactory(getContext(), "Ex98VideoAndExoPlayer");
             Uri videoUri = Uri.parse(item.getVideoUrl());
-            ProgressiveMediaSource mediaSource= new ProgressiveMediaSource.Factory(factory).createMediaSource(videoUri);
+            ProgressiveMediaSource mediaSource = new ProgressiveMediaSource.Factory(factory).createMediaSource(videoUri);
 
             player.addMediaSource(mediaSource);
             player.prepare();
@@ -310,7 +342,7 @@ public class ContentFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if(item.getVideoUrl() != null) {
+        if (item.getVideoUrl() != null) {
             pv.setPlayer(null);
             player.release();
             player = null;
@@ -319,15 +351,16 @@ public class ContentFragment extends Fragment {
 
     public void writeComment() {
         //network 작업
-        postComment(item.get_id(), LoginInfo.INSTANCE.getLoginInfo(getContext())[0], LoginInfo.INSTANCE.getLoginInfo(getContext())[1], comment.getText().toString());
+        postComment(item.get_id(), LoginInfo.INSTANCE.getLoginInfo(getContext())[0], LoginInfo.INSTANCE.getLoginInfo(getContext())[1], LoginInfo.INSTANCE.getLoginInfo(getContext())[2], comment.getText().toString());
         comment.setText("");
     }
-    public void postComment(String postId, String userId, String nickname, String comment){
-        new Runnable(){
+
+    public void postComment(String postId, String userId, String nickname, String profile, String comment) {
+        new Runnable() {
             @Override
             public void run() {
                 try {
-                    ButterKnifeApi.INSTANCE.getRetrofitService().createComment(new UploadCommentReq(postId, userId, nickname, comment)).enqueue(new Callback<CommentRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().createComment(new UploadCommentReq(postId, userId, nickname, profile, comment)).enqueue(new Callback<CommentRes>() {
 
                         @Override
                         public void onResponse(Call<CommentRes> call, Response<CommentRes> response) {
@@ -348,6 +381,7 @@ public class ContentFragment extends Fragment {
                                 Log.d("ERR", String.valueOf(response.code()));
                             }
                         }
+
                         @Override
                         public void onFailure(Call<CommentRes> call, Throwable t) {
                             // 서버쪽으로 아예 메시지를 보내지 못한 경우

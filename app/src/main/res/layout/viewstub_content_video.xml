@@ -70,7 +70,7 @@
         android:id="@+id/content_tv_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="좋아요 1000개"
+        android:text="좋아요 0개"
         android:textSize="13sp"
         app:layout_constraintStart_toStartOf="@+id/content_video_tv_subject"
         app:layout_constraintTop_toBottomOf="@+id/content_video_tv_subject" />

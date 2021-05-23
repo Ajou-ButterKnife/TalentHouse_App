@@ -169,7 +169,7 @@ class SettingActivity : AppCompatActivity() {
                     }
             }
         }
-        LoginInfo.setLoginInfo(loginInfo[0], req.nickname, applicationContext)
+        LoginInfo.setLoginInfo(loginInfo[0], req.nickname, loginInfo[2], applicationContext)
         loginInfo = LoginInfo.getLoginInfo(applicationContext)
         coroutineScope.launch {
             try {
@@ -288,6 +288,7 @@ class SettingActivity : AppCompatActivity() {
                     response?.let {
                         if(it.result == "Success") {
                             Toast.makeText(applicationContext, "프로필 사진 변경 완료", Toast.LENGTH_SHORT).show()
+                            LoginInfo.setLoginInfo(loginInfo[0], loginInfo[1], imgUrl, applicationContext)
                         }
                         else {
                             Toast.makeText(applicationContext, it.detail

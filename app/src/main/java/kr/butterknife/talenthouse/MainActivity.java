@@ -237,15 +237,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         else {
             super.onBackPressed();
             FragmentManager fm = getSupportFragmentManager();
-            Log.d(TAG, fm.getBackStackEntryAt(0).getName());
-            switch(fm.getBackStackEntryAt(0).getName()) {
+            int count = fm.getBackStackEntryCount();
+
+            for(int i = 0; i < 5; i++) {
+                bottomNavigationView.getMenu().getItem(i).setChecked(false);
+            }
+            switch(fm.getBackStackEntryAt(count - 1).getName()) {
                 case "Main" :
-                    bottomNavigationView.setSelectedItemId(R.id.btmnavi_home);
+                    bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                    break;
+                case "favorite" :
+                    bottomNavigationView.getMenu().getItem(3).setChecked(true);
                     break;
                 case "myPage" :
-                    bottomNavigationView.setSelectedItemId(R.id.btmnavi_mypage);
+                    bottomNavigationView.getMenu().getItem(4).setChecked(true);
                     break;
-                default :
+                case "search" :
+                    bottomNavigationView.getMenu().getItem(1).setChecked(true);
                     break;
             }
         }
