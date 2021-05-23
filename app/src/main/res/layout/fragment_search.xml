@@ -36,6 +36,7 @@
         android:layout_height="35dp"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="#Ffb26b"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
