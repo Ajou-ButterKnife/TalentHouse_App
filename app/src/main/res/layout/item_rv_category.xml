@@ -3,7 +3,7 @@
     android:id="@+id/rvcategory_tv_category"
     android:layout_width="100dp"
     android:layout_height="50dp"
-    android:background="#f1c00a"
+    android:background="@drawable/category_border"
     android:gravity="center"
     android:textColor="@android:color/black"
     android:textSize="30sp" />
