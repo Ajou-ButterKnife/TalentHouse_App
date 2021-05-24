@@ -9,7 +9,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/fw_btn_post"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -74,8 +74,7 @@
                     android:ems="15"
                     android:hint="Description"
                     android:inputType="textMultiLine"
-                    android:maxLines="15"
-                    android:minLines="5" />
+                    android:minLines="15" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,7 +90,7 @@
                     android:id="@+id/fw_btn_uploadImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="add Image"
+                    android:text="사진 올리기"
                     android:textAllCaps="false"/>
 
                 <HorizontalScrollView
@@ -120,13 +119,13 @@
                     android:id="@+id/fw_btn_uploadVideo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="add Video"
+                    android:text="동영상 올리기"
                     android:textAllCaps="false"/>
                 <VideoView
                     android:id="@+id/fw_vv"
-                    android:layout_width="250dp"
-                    android:layout_height="250dp"
-                    android:background="@android:drawable/presence_video_away" />
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:background="@drawable/upload_video" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -134,13 +133,10 @@
 
     <Button
         android:id="@+id/fw_btn_post"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="8dp"
         android:text="글 작성"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
