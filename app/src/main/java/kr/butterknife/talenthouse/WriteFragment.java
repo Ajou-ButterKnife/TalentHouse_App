@@ -386,7 +386,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
                         ImageView tempImage = new ImageView(getContext());
                         tempImage.setScaleType(ImageView.ScaleType.FIT_XY);
                         relativeLayout.addView(tempImage);
-                        RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(200, 200);
+                        RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(700, 700);
                         imageParams.setMargins(0, 10, 10, 10);
                         tempImage.setLayoutParams(imageParams);
                         tempImage.setId((int) currentTime);
