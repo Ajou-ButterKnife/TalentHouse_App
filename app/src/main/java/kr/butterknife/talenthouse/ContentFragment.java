@@ -1,9 +1,13 @@
 package kr.butterknife.talenthouse;
 
+import android.app.Dialog;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,15 +20,14 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.exoplayer2.ExoPlayer;
-import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -74,6 +77,9 @@ public class ContentFragment extends Fragment {
     ViewPager viewPager;
     CircleIndicator indicator;
     Button likeBtn;
+    ImageView fullScreenBtn;
+    Dialog fullScreenDialog;
+    Boolean isFullScreen = false;
 
     BottomSheetDialog bottomSheetDialog;
     FavoriteRVAdapter bottomAdapter;
@@ -171,6 +177,16 @@ public class ContentFragment extends Fragment {
             pcv = inflated.findViewById(R.id.content_video_controller);
             likeCnt = inflated.findViewById(R.id.content_tv_like);
             likeBtn = inflated.findViewById(R.id.content_btn_like);
+            fullScreenBtn = pv.findViewById(R.id.exo_fullscreen_icon);
+            fullScreenBtn.setOnClickListener(v -> {
+                if(!isFullScreen) {
+                    initFullscreenDialog(inflated);
+                    openFullscreenDialog();
+                }
+                else {
+                    closeFullscreenDialog(inflated);
+                }
+            });
         } else {
             content.setLayoutResource(R.layout.item_rv_text);
             View inflated = content.inflate();
@@ -414,4 +430,29 @@ public class ContentFragment extends Fragment {
 
     }
 
+    private void initFullscreenDialog(View view) {
+        fullScreenDialog = new Dialog(requireContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen) {
+            public void onBackPressed() {
+                if (isFullScreen)
+                    closeFullscreenDialog(view);
+                super.onBackPressed();
+            }
+        };
+    }
+
+    private void openFullscreenDialog() {
+        ((ViewGroup) pv.getParent()).removeView(pv);
+        fullScreenDialog.addContentView(pv, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        fullScreenBtn.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.exo_controls_fullscreen_exit));
+        isFullScreen = true;
+        fullScreenDialog.show();
+    }
+
+    private void closeFullscreenDialog(View view) {
+        ((ViewGroup) pv.getParent()).removeView(pv);
+        ((FrameLayout) view.findViewById(R.id.content_video_fl)).addView(pv);
+        isFullScreen = false;
+        fullScreenDialog.dismiss();
+        fullScreenBtn.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.exo_controls_fullscreen_enter));
+    }
 }
