@@ -88,6 +88,7 @@ public class MainRVViewHolder {
         protected ImageButton likeBtn;
         protected PostItem postItem;
         protected ImageButton settingBtn;
+        protected ImageView profile;
         View inflated;
 
         public ContentImageViewHolder_1(@NonNull View itemView, ViewStub viewStub) {
@@ -98,6 +99,7 @@ public class MainRVViewHolder {
             likeCnt = itemView.findViewById(R.id.rvimage_tv_like);
             likeBtn = itemView.findViewById(R.id.rvimage_btn_like);
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
+            profile = itemView.findViewById(R.id.rvvideo_iv_profile);
 
             this.viewStubImage = viewStub;
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_1);
@@ -109,7 +111,9 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-
+            Glide.with(context)
+                    .load(postItem.getProfile())
+                    .into(profile);
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
@@ -669,6 +673,7 @@ public class MainRVViewHolder {
         protected TextView likeCnt;
         protected ImageButton likeBtn;
         protected ImageButton settingBtn;
+        protected ImageView profile;
 
         public ContentVideoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -679,6 +684,7 @@ public class MainRVViewHolder {
             likeCnt = itemView.findViewById(R.id.rvvideo_tv_like);
             likeBtn = itemView.findViewById(R.id.rvvideo_btn_like);
             settingBtn = itemView.findViewById(R.id.rvvideo_btn_setting);
+            profile = itemView.findViewById(R.id.rvvideo_iv_profile);
         }
 
         void updateLike(String postId, String userId, String nickname, String profile) {
