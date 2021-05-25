@@ -237,9 +237,11 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
             holder.writer.setText(arrayList.get(position).getWriterNickname());
             holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
-            Glide.with(context)
-                    .load(arrayList.get(position).getProfile())
-                    .into(holder.profile);
+            if(arrayList.get(position).getProfile().equals("") == false){
+                Glide.with(context)
+                        .load(arrayList.get(position).getProfile())
+                        .into(holder.profile);
+            }
             if(arrayList.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                 holder.settingBtn.setVisibility(View.VISIBLE);
                 holder.settingBtn.setOnClickListener((v) -> {
