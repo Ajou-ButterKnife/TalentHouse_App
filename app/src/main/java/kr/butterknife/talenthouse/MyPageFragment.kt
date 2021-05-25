@@ -65,7 +65,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             getUserPosts()
         }
         rvAdapter.setOnSettingListener { v: View, postId: String ->
-            postSetting(requireContext(), v, postId, posts,
+            postSetting(requireActivity(), requireContext(), v, postId, posts,
                 { item: PostItem ->
                 (activity as MainActivity?)!!.replaceFragment(WriteFragment(), "Write", item)
                 true
@@ -124,6 +124,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
     private fun getUserInfo() {
         coroutineScope.launch {
             try {
+                LoadingDialog.onLoadingDialog(activity)
                 userInfoRes = ButterKnifeApi.retrofitService.getUserNickname(userId)
                 userInfoRes?.let {
                     if(it.data == null) {
@@ -137,9 +138,11 @@ class MyPageFragment(var userId: String = "") : Fragment() {
                                 .into(mypage_image_profile)
                     }
                 }
+                LoadingDialog.offLoadingDialog()
             }
             catch (e: Exception) {
                 e.printStackTrace()
+                LoadingDialog.offLoadingDialog()
             }
         }
     }
@@ -147,6 +150,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
     private fun getUserPosts() {
         coroutineScope.launch {
             try {
+                LoadingDialog.onLoadingDialog(activity)
                 postsRes = ButterKnifeApi.retrofitService.getMyPagePosts(userId, rvAdapter.pageNum)
                 postsRes?.data?.let {
                     for(p in it) {
@@ -160,9 +164,10 @@ class MyPageFragment(var userId: String = "") : Fragment() {
                     rvAdapter.notifyDataSetChanged()
                 }
                 //평소에는 게시물이 없습니다. 이런거 표시해주기
+                LoadingDialog.offLoadingDialog()
             }
             catch (e: Exception) {
-
+                LoadingDialog.offLoadingDialog()
             }
         }
     }

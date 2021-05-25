@@ -159,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
         String uid = user.getUid();
 
         try {
+            LoadingDialog.INSTANCE.onLoadingDialog(this);
             ButterKnifeApi.INSTANCE.getRetrofitService().socialLogin(new SocialLoginReq(uid)).enqueue(new Callback<SocialLoginRes>() {
                 @Override
                 public void onResponse(Call<SocialLoginRes> call, Response<SocialLoginRes> response) {
@@ -170,6 +171,7 @@ public class LoginActivity extends AppCompatActivity {
                             LoginInfo.INSTANCE.setLoginInfo(data.get_id(), data.getNickname(), data.getProfile(), getApplicationContext());
                             Intent i2 = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(i2);
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                             finish();
                         } else {
                             System.out.println("2");
@@ -182,12 +184,14 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(TAG, response.message());
                         Log.d(TAG, String.valueOf(response.code()));
                     }
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
 
                 @Override
                 public void onFailure(Call<SocialLoginRes> call, Throwable t) {
                     // 서버쪽으로 아예 메시지를 보내지 못한 경우
                     Log.d(TAG, "SERVER CONNECTION ERROR");
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             });
         }
@@ -201,6 +205,7 @@ public class LoginActivity extends AppCompatActivity {
         String pw = ((EditText) findViewById(R.id.login_et_password)).getText().toString();
 
         try {
+            LoadingDialog.INSTANCE.onLoadingDialog(this);
             ButterKnifeApi.INSTANCE.getRetrofitService().login(new NormalLoginReq(id, pw)).enqueue(new Callback<NormalLoginRes>() {
                 @Override
                 public void onResponse(Call<NormalLoginRes> call, Response<NormalLoginRes> response) {
@@ -210,10 +215,12 @@ public class LoginActivity extends AppCompatActivity {
                         if(result.getResult().equals("Success")) {
                             LoginInfo.INSTANCE.setLoginInfo(result.getData().get_id(), result.getData().getNickname(), result.getData().getProfile(), getApplicationContext());
                             startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                             finish();
                         }
                         else {
                             Toast.makeText(getApplicationContext(), result.getDetail(), Toast.LENGTH_SHORT).show();
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     }
 
@@ -222,6 +229,7 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d(TAG, response.errorBody().toString());
                         Log.d(TAG, response.message());
                         Log.d(TAG, String.valueOf(response.code()));
+                        LoadingDialog.INSTANCE.offLoadingDialog();
                     }
                 }
 
@@ -231,11 +239,13 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "서버와 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
 
                     Log.d(TAG, "SERVER CONNECTION ERROR");
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             });
         }
         catch(Exception e) {
             e.printStackTrace();
+            LoadingDialog.INSTANCE.offLoadingDialog();
         }
     }
 
@@ -295,6 +305,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         try {
+                            LoadingDialog.INSTANCE.onLoadingDialog(LoginActivity.this);
                             ButterKnifeApi.INSTANCE.getRetrofitService().overlapCheck(new OverlapNickname(tempNickname)).enqueue(new Callback<CommonResponse>() {
                                 @Override
                                 public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -317,17 +328,20 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.d(TAG, response.message());
                                         Log.d(TAG, String.valueOf(response.code()));
                                     }
+                                    LoadingDialog.INSTANCE.offLoadingDialog();
                                 }
 
                                 @Override
                                 public void onFailure(Call<CommonResponse> call, Throwable t) {
                                     // 서버쪽으로 아예 메시지를 보내지 못한 경우
                                     Log.d(TAG, "SERVER CONNECTION ERROR");
+                                    LoadingDialog.INSTANCE.offLoadingDialog();
                                 }
                             });
                         }
                         catch(Exception e) {
                             e.printStackTrace();
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     }
                 }.run();
@@ -370,6 +384,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void socialSignUpWithServer(String uid, String nickname, String phone, List<String> category) {
         try {
+            LoadingDialog.INSTANCE.onLoadingDialog(this);
             ButterKnifeApi.INSTANCE.getRetrofitService().socialAddUser(new SocialSignUpReq(phone, nickname, category, uid)).enqueue(new Callback<SocialLoginRes>() {
                 @Override
                 public void onResponse(Call<SocialLoginRes> call, Response<SocialLoginRes> response) {
@@ -379,10 +394,12 @@ public class LoginActivity extends AppCompatActivity {
                         Intent i2 = new Intent(getApplicationContext(), MainActivity.class);
                         LoginInfo.INSTANCE.setLoginInfo(data.get_id(), data.getNickname(), data.getProfile(), getApplicationContext());
                         startActivity(i2);
+                        LoadingDialog.INSTANCE.offLoadingDialog();
                         finish();
                     }
                     else {      // 회원가입 실패
                         Toast.makeText(getApplicationContext(), "서버와 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
+                        LoadingDialog.INSTANCE.offLoadingDialog();
                     }
                 }
 
@@ -390,11 +407,13 @@ public class LoginActivity extends AppCompatActivity {
                 public void onFailure(Call<SocialLoginRes> call, Throwable t) {
                     // 서버쪽으로 아예 메시지를 보내지 못한 경우
                     Log.d(TAG, "SERVER CONNECTION ERROR");
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             });
         }
         catch(Exception e) {
             e.printStackTrace();
+            LoadingDialog.INSTANCE.offLoadingDialog();
         }
     }
 }
