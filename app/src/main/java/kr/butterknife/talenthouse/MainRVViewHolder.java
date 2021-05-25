@@ -99,7 +99,7 @@ public class MainRVViewHolder {
             likeCnt = itemView.findViewById(R.id.rvimage_tv_like);
             likeBtn = itemView.findViewById(R.id.rvimage_btn_like);
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
-            profile = itemView.findViewById(R.id.rvvideo_iv_profile);
+            profile = itemView.findViewById(R.id.rvimage_iv_profile);
 
             this.viewStubImage = viewStub;
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_1);
