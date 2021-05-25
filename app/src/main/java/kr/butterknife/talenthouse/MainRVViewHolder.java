@@ -2,7 +2,6 @@ package kr.butterknife.talenthouse;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
@@ -45,6 +44,7 @@ public class MainRVViewHolder {
             likeCnt = itemView.findViewById(R.id.rvtext_tv_like);
             likeBtn = itemView.findViewById(R.id.rvtext_btn_like);
         }
+
         void updateLike(String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
@@ -83,12 +83,12 @@ public class MainRVViewHolder {
         protected TextView title;
         protected TextView writer;
         protected TextView date;
-        protected TextView subject;
         protected ViewStub viewStubImage;
         protected TextView likeCnt;
-        protected Button likeBtn;
+        protected ImageButton likeBtn;
         protected PostItem postItem;
         protected ImageButton settingBtn;
+        protected ImageView profile;
         View inflated;
 
         public ContentImageViewHolder_1(@NonNull View itemView, ViewStub viewStub) {
@@ -96,10 +96,10 @@ public class MainRVViewHolder {
             title = itemView.findViewById(R.id.rvimage_tv_title);
             writer = itemView.findViewById(R.id.rvimage_tv_writer);
             date = itemView.findViewById(R.id.rvimage_tv_date);
-            subject = itemView.findViewById(R.id.rvimage_tv_subject);
             likeCnt = itemView.findViewById(R.id.rvimage_tv_like);
             likeBtn = itemView.findViewById(R.id.rvimage_btn_like);
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
+            profile = itemView.findViewById(R.id.rvvideo_iv_profile);
 
             this.viewStubImage = viewStub;
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_1);
@@ -111,8 +111,9 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-            subject.setText(postItem.getDescription());
-
+            Glide.with(context)
+                    .load(postItem.getProfile())
+                    .into(profile);
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
@@ -121,9 +122,9 @@ public class MainRVViewHolder {
                 }
             }
             if (check)
-                likeBtn.setText("좋아요 취소");
+                likeBtn.setImageResource(R.drawable.btn_after_like);
             else
-                likeBtn.setText("좋아요");
+                likeBtn.setImageResource(R.drawable.btn_before_like);
             likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -149,10 +150,10 @@ public class MainRVViewHolder {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요 취소");
+                                        likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요");
+                                        likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
                             }
@@ -175,11 +176,10 @@ public class MainRVViewHolder {
         protected TextView title;
         protected TextView writer;
         protected TextView date;
-        protected TextView subject;
         protected ViewStub viewStubImage;
         protected PostItem postItem;
         protected TextView likeCnt;
-        protected Button likeBtn;
+        protected ImageButton likeBtn;
         protected ImageButton settingBtn;
         View inflated;
 
@@ -188,7 +188,6 @@ public class MainRVViewHolder {
             title = itemView.findViewById(R.id.rvimage_tv_title);
             writer = itemView.findViewById(R.id.rvimage_tv_writer);
             date = itemView.findViewById(R.id.rvimage_tv_date);
-            subject = itemView.findViewById(R.id.rvimage_tv_subject);
             likeCnt = itemView.findViewById(R.id.rvimage_tv_like);
             likeBtn = itemView.findViewById(R.id.rvimage_btn_like);
             this.viewStubImage = viewStub;
@@ -202,7 +201,6 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-            subject.setText(postItem.getDescription());
 
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
@@ -212,9 +210,9 @@ public class MainRVViewHolder {
                 }
             }
             if (check)
-                likeBtn.setText("좋아요 취소");
+                likeBtn.setImageResource(R.drawable.btn_after_like);
             else
-                likeBtn.setText("좋아요");
+                likeBtn.setImageResource(R.drawable.btn_before_like);
             likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -244,10 +242,10 @@ public class MainRVViewHolder {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요 취소");
+                                        likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요");
+                                        likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
                             }
@@ -270,11 +268,10 @@ public class MainRVViewHolder {
         protected TextView title;
         protected TextView writer;
         protected TextView date;
-        protected TextView subject;
         protected ViewStub viewStubImage;
         protected PostItem postItem;
         protected TextView likeCnt;
-        protected Button likeBtn;
+        protected ImageButton likeBtn;
         protected ImageButton settingBtn;
         View inflated;
 
@@ -283,7 +280,6 @@ public class MainRVViewHolder {
             title = itemView.findViewById(R.id.rvimage_tv_title);
             writer = itemView.findViewById(R.id.rvimage_tv_writer);
             date = itemView.findViewById(R.id.rvimage_tv_date);
-            subject = itemView.findViewById(R.id.rvimage_tv_subject);
             likeCnt = itemView.findViewById(R.id.rvimage_tv_like);
             likeBtn = itemView.findViewById(R.id.rvimage_btn_like);
             this.viewStubImage = viewStub;
@@ -297,7 +293,6 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-            subject.setText(postItem.getDescription());
 
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
@@ -307,9 +302,9 @@ public class MainRVViewHolder {
                 }
             }
             if (check)
-                likeBtn.setText("좋아요 취소");
+                likeBtn.setImageResource(R.drawable.btn_after_like);
             else
-                likeBtn.setText("좋아요");
+                likeBtn.setImageResource(R.drawable.btn_before_like);
             likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -342,10 +337,10 @@ public class MainRVViewHolder {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요 취소");
+                                        likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요");
+                                        likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
                             }
@@ -368,11 +363,10 @@ public class MainRVViewHolder {
         protected TextView title;
         protected TextView writer;
         protected TextView date;
-        protected TextView subject;
         protected ViewStub viewStubImage;
         protected PostItem postItem;
         protected TextView likeCnt;
-        protected Button likeBtn;
+        protected ImageButton likeBtn;
         protected ImageButton settingBtn;
         View inflated;
 
@@ -381,7 +375,6 @@ public class MainRVViewHolder {
             title = itemView.findViewById(R.id.rvimage_tv_title);
             writer = itemView.findViewById(R.id.rvimage_tv_writer);
             date = itemView.findViewById(R.id.rvimage_tv_date);
-            subject = itemView.findViewById(R.id.rvimage_tv_subject);
             likeCnt = itemView.findViewById(R.id.rvimage_tv_like);
             likeBtn = itemView.findViewById(R.id.rvimage_btn_like);
             this.viewStubImage = viewStub;
@@ -395,7 +388,6 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-            subject.setText(postItem.getDescription());
 
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
@@ -405,9 +397,9 @@ public class MainRVViewHolder {
                 }
             }
             if (check)
-                likeBtn.setText("좋아요 취소");
+                likeBtn.setImageResource(R.drawable.btn_after_like);
             else
-                likeBtn.setText("좋아요");
+                likeBtn.setImageResource(R.drawable.btn_before_like);
             likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -443,10 +435,10 @@ public class MainRVViewHolder {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요 취소");
+                                        likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요");
+                                        likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
                             }
@@ -469,11 +461,10 @@ public class MainRVViewHolder {
         protected TextView title;
         protected TextView writer;
         protected TextView date;
-        protected TextView subject;
         protected ViewStub viewStubImage;
         protected PostItem postItem;
         protected TextView likeCnt;
-        protected Button likeBtn;
+        protected ImageButton likeBtn;
         protected ImageButton settingBtn;
         View inflated;
 
@@ -482,7 +473,6 @@ public class MainRVViewHolder {
             title = itemView.findViewById(R.id.rvimage_tv_title);
             writer = itemView.findViewById(R.id.rvimage_tv_writer);
             date = itemView.findViewById(R.id.rvimage_tv_date);
-            subject = itemView.findViewById(R.id.rvimage_tv_subject);
             likeCnt = itemView.findViewById(R.id.rvimage_tv_like);
             likeBtn = itemView.findViewById(R.id.rvimage_btn_like);
             this.viewStubImage = viewStub;
@@ -496,7 +486,6 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-            subject.setText(postItem.getDescription());
 
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
@@ -506,9 +495,9 @@ public class MainRVViewHolder {
                 }
             }
             if (check)
-                likeBtn.setText("좋아요 취소");
+                likeBtn.setImageResource(R.drawable.btn_after_like);
             else
-                likeBtn.setText("좋아요");
+                likeBtn.setImageResource(R.drawable.btn_before_like);
             likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -547,10 +536,10 @@ public class MainRVViewHolder {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요 취소");
+                                        likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요");
+                                        likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
                             }
@@ -573,11 +562,10 @@ public class MainRVViewHolder {
         protected TextView title;
         protected TextView writer;
         protected TextView date;
-        protected TextView subject;
         protected ViewStub viewStubImage;
         protected PostItem postItem;
         protected TextView likeCnt;
-        protected Button likeBtn;
+        protected ImageButton likeBtn;
         protected ImageButton settingBtn;
         View inflated;
 
@@ -586,7 +574,6 @@ public class MainRVViewHolder {
             title = itemView.findViewById(R.id.rvimage_tv_title);
             writer = itemView.findViewById(R.id.rvimage_tv_writer);
             date = itemView.findViewById(R.id.rvimage_tv_date);
-            subject = itemView.findViewById(R.id.rvimage_tv_subject);
             likeCnt = itemView.findViewById(R.id.rvimage_tv_like);
             likeBtn = itemView.findViewById(R.id.rvimage_btn_like);
             this.viewStubImage = viewStub;
@@ -600,7 +587,6 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-            subject.setText(postItem.getDescription());
 
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
@@ -610,9 +596,9 @@ public class MainRVViewHolder {
                 }
             }
             if (check)
-                likeBtn.setText("좋아요 취소");
+                likeBtn.setImageResource(R.drawable.btn_after_like);
             else
-                likeBtn.setText("좋아요");
+                likeBtn.setImageResource(R.drawable.btn_before_like);
             likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -657,10 +643,10 @@ public class MainRVViewHolder {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요 취소");
+                                        likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요");
+                                        likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
                             }
@@ -683,24 +669,22 @@ public class MainRVViewHolder {
         protected TextView title;
         protected TextView writer;
         protected TextView date;
-        protected TextView subject;
         protected PlayerView pv;
         protected TextView likeCnt;
-        protected Button likeBtn;
+        protected ImageButton likeBtn;
         protected ImageButton settingBtn;
-//        protected PlayerControlView pcv;
+        protected ImageView profile;
 
         public ContentVideoViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.rvvideo_video_tv_title);
             writer = itemView.findViewById(R.id.rvvideo_video_tv_writer);
             date = itemView.findViewById(R.id.rvvideo_video_tv_date);
-            subject = itemView.findViewById(R.id.rvvideo_video_tv_subject);
             pv = itemView.findViewById(R.id.rvvideo_video_player);
             likeCnt = itemView.findViewById(R.id.rvvideo_tv_like);
             likeBtn = itemView.findViewById(R.id.rvvideo_btn_like);
-//            pcv = itemView.findViewById(R.id.rvvideo_video_controller);
             settingBtn = itemView.findViewById(R.id.rvvideo_btn_setting);
+            profile = itemView.findViewById(R.id.rvvideo_iv_profile);
         }
 
         void updateLike(String postId, String userId, String nickname, String profile) {
@@ -715,10 +699,10 @@ public class MainRVViewHolder {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요 취소");
+                                        likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
                                         likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요");
+                                        likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
                             }

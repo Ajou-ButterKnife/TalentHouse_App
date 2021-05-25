@@ -8,13 +8,13 @@
         <shape android:shape="rectangle" >
             <stroke
                 android:width="2dp"
-                android:color="#ffc947" />
+                android:color="#ffbe6b" />
+            <solid android:color="#FFF" />
             <corners
-                android:bottomLeftRadius="12dp"
-                android:bottomRightRadius="12dp"
-                android:topLeftRadius="12dp"
-                android:topRightRadius="12dp" />
-            <solid android:color="#fce38a" />
+                android:topLeftRadius="10.00dp"
+                android:topRightRadius="10.00dp"
+                android:bottomLeftRadius="10.00dp"
+                android:bottomRightRadius="10.00dp" />
         </shape>
     </item>
 </selector>

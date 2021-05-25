@@ -25,14 +25,15 @@ data class PostItem(
     @Json(name = "like_IDs")
     val likeIDs : List<idNickname>,
     val category : String,
-    val comments : List<CommentItem>
+    val comments : List<CommentItem>,
+    val profile : String,
 ) : Serializable {
-    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, likeIDs: List<idNickname>, category : String, comments : List<CommentItem>) : this (
-            _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, likeIDs: List<idNickname>, category : String, comments : List<CommentItem>, profile : String) : this (
+            _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments, profile
     )
 
-    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, likeIDs: List<idNickname>, category : String, comments : List<CommentItem>) : this (
-        _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, likeIDs: List<idNickname>, category : String, comments : List<CommentItem>, profile : String) : this (
+        _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments, profile
     ) {
         if(url.contains(".mp4"))
             this.videoUrl = url
@@ -40,8 +41,8 @@ data class PostItem(
             this.mp3Url = url
     }
 
-    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, imageUrl: List<String>, likesCnt : Int, likeIDs: List<idNickname>, category : String, comments : List<CommentItem>) : this (
-        _id, title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, likeIDs, category, comments
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, imageUrl: List<String>, likesCnt : Int, likeIDs: List<idNickname>, category : String, comments : List<CommentItem>, profile: String) : this (
+        _id, title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, likeIDs, category, comments, profile
     )
 }
 

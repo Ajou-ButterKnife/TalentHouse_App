@@ -3,7 +3,6 @@ package kr.butterknife.talenthouse;
 import android.app.Dialog;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -18,12 +17,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -34,13 +32,9 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import kr.butterknife.talenthouse.network.request.FavoriteUserIdReq;
 import kr.butterknife.talenthouse.network.request.PutLikeReq;
@@ -52,11 +46,8 @@ import me.relex.circleindicator.CircleIndicator;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.request.UploadCommentReq;
-import kr.butterknife.talenthouse.network.request.UploadPostReq;
 import kr.butterknife.talenthouse.network.response.CommentRes;
-import kr.butterknife.talenthouse.network.response.CommonResponse;
 import kr.butterknife.talenthouse.network.response.GetCommentsRes;
-import kr.butterknife.talenthouse.network.response.PostRes;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -80,6 +71,7 @@ public class ContentFragment extends Fragment {
     ImageView fullScreenBtn;
     Dialog fullScreenDialog;
     Boolean isFullScreen = false;
+    ImageButton likeBtn;
 
     BottomSheetDialog bottomSheetDialog;
     FavoriteRVAdapter bottomAdapter;
@@ -228,9 +220,9 @@ public class ContentFragment extends Fragment {
                                     }
                                 }
                                 if (check)
-                                    likeBtn.setText("좋아요 취소");
+                                    likeBtn.setImageResource(R.drawable.btn_after_like);
                                 else
-                                    likeBtn.setText("좋아요");
+                                    likeBtn.setImageResource(R.drawable.btn_before_like);
                                 likeCnt.setText("좋아요 " + currentLikeCnt + "개");
                             }
                             LoadingDialog.INSTANCE.offLoadingDialog();
@@ -269,10 +261,10 @@ public class ContentFragment extends Fragment {
                                     if (response.body() != null) {
                                         if (response.body().getResult().equals("Plus")) {
                                             likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                            likeBtn.setText("좋아요 취소");
+                                            likeBtn.setImageResource(R.drawable.btn_after_like);
                                         } else if (response.body().getResult().equals("Minus")) {
                                             likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                            likeBtn.setText("좋아요");
+                                            likeBtn.setImageResource(R.drawable.btn_before_like);
                                         }
                                     }
                                     LoadingDialog.INSTANCE.offLoadingDialog();

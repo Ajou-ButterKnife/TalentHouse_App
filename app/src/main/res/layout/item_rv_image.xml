@@ -3,96 +3,107 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:background="#BDBDBD"
+    android:paddingBottom="3dp">
 
-    <ImageView
-        android:id="@+id/rvimage_iv_profile"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="7dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/no_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/rvimage_tv_writer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="3dp"
-        android:text="작성자"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/rvimage_iv_profile"
-        app:layout_constraintTop_toTopOf="@+id/rvimage_iv_profile" />
-
-    <TextView
-        android:id="@+id/rvimage_tv_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        android:text="2021.01.01"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/rvimage_iv_profile"
-        app:layout_constraintTop_toBottomOf="@+id/rvimage_tv_writer" />
-
-    <ImageButton
-        android:id="@+id/rvimage_btn_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="7dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rvimage_iv_profile"
-        app:srcCompat="@android:drawable/radiobutton_on_background" />
-
-    <TextView
-        android:id="@+id/rvimage_tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="제목입니다"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@id/rvimage_iv_profile"
-        app:layout_constraintTop_toBottomOf="@id/rvimage_iv_profile" />
-
-    <TextView
-        android:id="@+id/rvimage_tv_subject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="본문입니다."
-        android:textSize="10sp"
-        app:layout_constraintEnd_toEndOf="@+id/rvimage_btn_setting"
-        app:layout_constraintHorizontal_bias="0.025"
-        app:layout_constraintStart_toStartOf="@id/rvimage_iv_profile"
-        app:layout_constraintTop_toBottomOf="@id/rvimage_tv_title" />
-
-
-
-    <TextView
-        android:id="@+id/rvimage_tv_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="좋아요 1000개"
-        android:textSize="13sp"
-        app:layout_constraintStart_toStartOf="@+id/rvimage_tv_title"
-        app:layout_constraintTop_toBottomOf="@+id/rvimage_tv_subject" />
-
-    <Button
-        android:id="@+id/rvimage_btn_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="좋아요"
-        app:layout_constraintStart_toEndOf="@id/rvimage_tv_like"
-        app:layout_constraintTop_toTopOf="@+id/rvimage_tv_like" />
-
-    <ViewStub
-        android:id="@+id/rvimage_vs"
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        app:layout_constraintTop_toBottomOf="@+id/rvimage_btn_like"
-        app:layout_constraintStart_toStartOf="@+id/rvimage_tv_like"/>
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:layout_marginBottom="5dp" >
 
+        <TextView
+            android:id="@+id/rvimage_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="제목입니다"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/rvimage_iv_profile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/no_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvimage_tv_title"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/rvimage_tv_writer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="작성자"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@+id/rvimage_iv_profile"
+            app:layout_constraintTop_toTopOf="@+id/rvimage_iv_profile" />
+
+        <TextView
+            android:id="@+id/rvimage_tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2021.01.01"
+            android:textSize="8sp"
+            app:layout_constraintStart_toStartOf="@+id/rvimage_tv_writer"
+            app:layout_constraintTop_toBottomOf="@+id/rvimage_tv_writer" />
+
+        <ImageButton
+            android:id="@+id/rvimage_btn_setting"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="5dp"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/btn_more_vert"
+            android:visibility="invisible" />
+
+        <LinearLayout
+            android:id="@+id/rvimage_vs_container"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintTop_toBottomOf="@+id/rvimage_iv_profile">
+
+            <ViewStub
+                android:id="@+id/rvimage_vs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/rvimage_btn_like"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_marginStart="3dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvimage_vs_container"
+            app:srcCompat="@drawable/btn_before_like" />
+
+        <TextView
+            android:id="@+id/rvimage_tv_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="좋아요 0개"
+            android:textSize="13sp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/rvimage_btn_like"
+            app:layout_constraintTop_toBottomOf="@+id/rvimage_vs_container" />
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -30,6 +31,7 @@ public class FavoriteFragment extends Fragment {
     private RecyclerView rv;
     private MainRVAdapter rvAdapter;
     private ArrayList<PostItem> posts;
+    private TextView textView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +39,7 @@ public class FavoriteFragment extends Fragment {
         View view  = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         rv = view.findViewById(R.id.favorite_rv);
+        textView = view.findViewById(R.id.favorite_tv);
         posts = new ArrayList<>();
         rvAdapter = new MainRVAdapter(getContext(), posts);
         rvAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -65,7 +68,6 @@ public class FavoriteFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
 
         rvAdapter.doItemReload();
-//        getFavortePosts();
         return view;
     }
 
@@ -84,13 +86,15 @@ public class FavoriteFragment extends Fragment {
                                 if(postItemList.size() != 0){
                                     for(PostItem p : postItemList) {
                                         if(p.getVideoUrl() != null)
-                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile()));
                                         else if(p.getImageUrl().size() != 0)
-                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile()));
                                         else
-                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments()));
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile()));
                                     }
                                     rvAdapter.notifyDataSetChanged();
+                                }else{
+                                    textView.setVisibility(View.VISIBLE);
                                 }
                             }
                             LoadingDialog.INSTANCE.offLoadingDialog();
