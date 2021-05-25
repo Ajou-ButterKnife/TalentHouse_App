@@ -60,7 +60,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val channelName = "알림 받기"
         val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val notificationBuilder = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.sym_def_app_icon)
+            .setSmallIcon(kr.butterknife.talenthouse.R.drawable.ic_noti)
             .setContentTitle(messageTitle)
             .setContentText(messageBody)
             .setAutoCancel(true)
