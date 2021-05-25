@@ -1,6 +1,7 @@
 package kr.butterknife.talenthouse;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +35,8 @@ public class SearchFragment extends Fragment {
     private Button btnSearch;
     private Spinner spinnerSearch;
     private EditText tvSearch;
+    private TextView emptyText;
+    private TextView firstText;
 
     private String searchItem;
 
@@ -48,6 +51,9 @@ public class SearchFragment extends Fragment {
 
         rvPost = view.findViewById(R.id.search_rv);
         posts = new ArrayList<>();
+
+        emptyText = view.findViewById(R.id.empty_text);
+        firstText = view.findViewById(R.id.first_text);
 
         rvPostAdapter = new MainRVAdapter(getContext(), posts);
         rvPostAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -105,8 +111,30 @@ public class SearchFragment extends Fragment {
             public void onClick(View view) {
                 searchItem = tvSearch.getText().toString();
                 getSearchPosts();
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if(posts.isEmpty()) {
+                            rvPost.setVisibility(View.GONE);
+                            firstText.setVisibility(View.GONE);
+                            emptyText.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            rvPost.setVisibility(View.VISIBLE);
+                            firstText.setVisibility(View.GONE);
+                            emptyText.setVisibility(View.GONE);
+//                }
+                        }
+                    }
+                }, 500);// 0.5초 정도 딜레이를 준 후 시작
+
             }
         });
+
+        rvPost.setVisibility(View.GONE);
+        firstText.setVisibility(View.VISIBLE);
 
         return view;
     }
