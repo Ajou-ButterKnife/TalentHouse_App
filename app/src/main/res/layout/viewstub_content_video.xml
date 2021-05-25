@@ -26,6 +26,17 @@
         app:layout_constraintStart_toEndOf="@+id/content_video_iv_profile"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageButton
+        android:id="@+id/content_video_iv_setting"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/btn_more_vert"
+        android:backgroundTint="@android:color/transparent"
+        android:visibility="visible"/>
+
     <TextView
         android:id="@+id/content_video_tv_date"
         android:layout_width="wrap_content"
