@@ -1,11 +1,13 @@
 package kr.butterknife.talenthouse;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -111,6 +113,8 @@ public class SearchFragment extends Fragment {
             public void onClick(View view) {
                 searchItem = tvSearch.getText().toString();
                 getSearchPosts();
+                Util.INSTANCE.hideKeyboard(getContext(), view);
+
                 new Handler().postDelayed(new Runnable()
                 {
                     @Override
@@ -129,7 +133,6 @@ public class SearchFragment extends Fragment {
                         }
                     }
                 }, 500);// 0.5초 정도 딜레이를 준 후 시작
-
             }
         });
 

@@ -1,33 +1,20 @@
 package kr.butterknife.talenthouse;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.Log;
 import android.net.Uri;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
-import kr.butterknife.talenthouse.MainRVViewHolder.*;
-import kr.butterknife.talenthouse.network.ButterKnifeApi;
-import kr.butterknife.talenthouse.network.response.CommentRes;
-import kr.butterknife.talenthouse.network.response.CommonResponse;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import com.google.android.exoplayer2.C;
+import kr.butterknife.talenthouse.MainRVViewHolder.*;
+
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
@@ -35,7 +22,6 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ArrayList<PostItem> arrayList;
@@ -250,7 +236,6 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
             holder.writer.setText(arrayList.get(position).getWriterNickname());
             holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
-            holder.subject.setText(arrayList.get(position).getDescription());
             if(arrayList.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                 holder.settingBtn.setVisibility(View.VISIBLE);
                 holder.settingBtn.setOnClickListener((v) -> {
@@ -278,10 +263,10 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     break;
                 }
             }
-            if(check)
-                holder.likeBtn.setText("좋아요 취소");
+            if (check)
+                holder.likeBtn.setImageResource(R.drawable.btn_after_like);
             else
-                holder.likeBtn.setText("좋아요");
+                holder.likeBtn.setImageResource(R.drawable.btn_before_like);
             holder.likeCnt.setText("좋아요 " + arrayList.get(position).getLikeCnt() + "개");
             holder.likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

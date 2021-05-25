@@ -3,95 +3,103 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#BDBDBD"
+    android:paddingBottom="3dp" >
 
-    <ImageView
-        android:id="@+id/rvvideo_iv_profile"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="7dp"
-        android:layout_marginTop="7dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/no_image"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:layout_marginBottom="5dp" >
 
-    <TextView
-        android:id="@+id/rvvideo_video_tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:text="대충 제목"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/rvvideo_iv_profile"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/rvvideo_video_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="대충 제목"
+            android:textStyle="bold"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/rvvideo_video_tv_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="2021.01.01"
-        android:textSize="10sp"
-        app:layout_constraintStart_toEndOf="@+id/rvvideo_iv_profile"
-        app:layout_constraintTop_toBottomOf="@+id/rvvideo_video_tv_title" />
+        <ImageView
+            android:id="@+id/rvvideo_iv_profile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/no_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvvideo_video_tv_title" />
 
-    <ImageButton
-        android:id="@+id/rvvideo_btn_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/rvvideo_video_player"
-        app:layout_constraintTop_toTopOf="@+id/rvvideo_iv_profile"
-        app:srcCompat="@android:drawable/radiobutton_on_background" />
+        <TextView
+            android:id="@+id/rvvideo_video_tv_writer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="김아무개"
+            android:textSize="15sp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintStart_toEndOf="@+id/rvvideo_iv_profile"
+            app:layout_constraintTop_toTopOf="@+id/rvvideo_iv_profile" />
 
-    <TextView
-        android:id="@+id/rvvideo_video_tv_writer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="김아무개"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/rvvideo_iv_profile"
-        app:layout_constraintTop_toBottomOf="@+id/rvvideo_iv_profile" />
+        <TextView
+            android:id="@+id/rvvideo_video_tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2021.01.01"
+            android:textSize="8sp"
+            app:layout_constraintStart_toStartOf="@+id/rvvideo_video_tv_writer"
+            app:layout_constraintTop_toBottomOf="@+id/rvvideo_video_tv_writer" />
 
-    <TextView
-        android:id="@+id/rvvideo_video_tv_subject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="asdlfjkafklwaefklawnflk;awejfklaewjflkawejflk;aewfjawekl;efjaweklfjaklfjaklwfe;jawef"
-        android:textSize="13sp"
-        app:layout_constraintTop_toBottomOf="@id/rvvideo_video_tv_writer"
-        app:layout_constraintEnd_toEndOf="@id/rvvideo_video_player"
-        app:layout_constraintStart_toStartOf="@+id/rvvideo_iv_profile" />
+        <ImageButton
+            android:id="@+id/rvvideo_btn_setting"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/btn_more_vert"
+            android:backgroundTint="@android:color/transparent"
+            android:visibility="invisible"/>
 
-    <com.google.android.exoplayer2.ui.PlayerView
-        android:id="@+id/rvvideo_video_player"
-        android:layout_width="0dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="20dp"
-        app:use_controller="false"
-        android:layout_marginRight="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/rvvideo_video_tv_writer"
-        app:layout_constraintTop_toBottomOf="@+id/rvvideo_video_tv_subject"  />
 
-    <TextView
-        android:id="@+id/rvvideo_tv_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="좋아요 0개"
-        android:textSize="13sp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="@+id/rvvideo_iv_profile"
-        app:layout_constraintTop_toBottomOf="@+id/rvvideo_video_player" />
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/rvvideo_video_player"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:layout_marginTop="5dp"
+            app:use_controller="false"
+            android:layout_marginRight="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvvideo_iv_profile" />
 
-    <Button
-        android:id="@+id/rvvideo_btn_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="좋아요"
-        app:layout_constraintStart_toEndOf="@id/rvvideo_tv_like"
-        app:layout_constraintTop_toBottomOf="@+id/rvvideo_video_player" />
+        <ImageButton
+            android:id="@+id/rvvideo_btn_like"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="3dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvvideo_video_player"
+            app:srcCompat="@drawable/btn_before_like"
+            android:backgroundTint="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/rvvideo_tv_like"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="좋아요 0개"
+            android:textSize="13sp"
+            android:layout_marginStart="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/rvvideo_btn_like"
+            app:layout_constraintTop_toBottomOf="@+id/rvvideo_video_player" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

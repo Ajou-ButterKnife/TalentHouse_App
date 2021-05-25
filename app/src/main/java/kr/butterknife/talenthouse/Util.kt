@@ -5,10 +5,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
-import android.graphics.drawable.AnimationDrawable
-import android.graphics.drawable.ColorDrawable
+import android.hardware.input.InputManager
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.ColorDrawable
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatDialog
@@ -204,6 +207,22 @@ object LoadingDialog {
                 it.dismiss()
             }
         }
+    }
+
+    fun hideKeyboard(context: Context, view: View){
+//        val imm = (LayoutInflater) context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputManager
+//        imm.hideSo
+//        getSystem
+//        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputManager
+//        imm.hide
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+
+
+//        InputMethodManager manager = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+//        getContext().getSystemService(Context.INPUT_METHOD_SERVICE).hideSoftInputFromWindow(view.getWindowToken(), 0)
     }
 }
 
