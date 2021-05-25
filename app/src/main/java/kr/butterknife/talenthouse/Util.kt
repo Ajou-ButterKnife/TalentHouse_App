@@ -206,6 +206,28 @@ object LoadingDialog {
         loadingImage.post { loadingAni.start() }
     }
 
+    fun onLoadingDialog(context : Context?) {
+        if(context == null)
+            return
+
+        loadingDialog?.let {
+            if(it.isShowing)
+                return
+        }
+
+        loadingDialog = AppCompatDialog(context).apply {
+            setCancelable(false)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setContentView(R.layout.dialog_loading)
+        }
+
+        loadingDialog?.show()
+
+        val loadingImage = loadingDialog?.findViewById<ImageView>(R.id.loading_img)
+        val loadingAni = loadingImage!!.background as AnimationDrawable
+        loadingImage.post { loadingAni.start() }
+    }
+
     fun offLoadingDialog() {
         loadingDialog?.let {
             if (it.isShowing) {
