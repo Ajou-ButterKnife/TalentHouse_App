@@ -96,7 +96,7 @@
         android:backgroundTint="@android:color/transparent"
         android:scaleType="fitXY"
         app:layout_constraintStart_toEndOf="@+id/content_tv_like"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_controller"
+        app:layout_constraintTop_toBottomOf="@+id/content_video_player"
         app:srcCompat="@drawable/btn_before_like" />
 
 

@@ -174,6 +174,11 @@ object Util {
             }
         }
     }
+
+    fun hideKeyboard(context: Context, view: View){
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+    }
 }
 
 object LoadingDialog {
@@ -207,22 +212,6 @@ object LoadingDialog {
                 it.dismiss()
             }
         }
-    }
-
-    fun hideKeyboard(context: Context, view: View){
-//        val imm = (LayoutInflater) context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputManager
-//        imm.hideSo
-//        getSystem
-//        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputManager
-//        imm.hide
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
-
-
-//        InputMethodManager manager = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
-//        getContext().getSystemService(Context.INPUT_METHOD_SERVICE).hideSoftInputFromWindow(view.getWindowToken(), 0)
     }
 }
 
