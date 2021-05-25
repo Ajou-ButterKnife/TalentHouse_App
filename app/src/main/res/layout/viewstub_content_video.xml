@@ -57,26 +57,31 @@
         android:textSize="13sp"
         app:layout_constraintStart_toStartOf="@+id/content_video_tv_writer"
         app:layout_constraintTop_toBottomOf="@+id/content_video_tv_writer"
-        app:layout_constraintEnd_toEndOf="@+id/content_video_player"/>
+        app:layout_constraintEnd_toEndOf="@+id/content_video_fl"/>
 
-    <com.google.android.exoplayer2.ui.PlayerView
-        android:id="@+id/content_video_player"
+    <FrameLayout
+        android:id="@+id/content_video_fl"
         android:layout_width="0dp"
         android:layout_height="300dp"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginRight="10dp"
+        android:layout_marginHorizontal="12dp"
         app:layout_constraintStart_toStartOf="@+id/content_video_iv_profile"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_tv_subject"  />
+        app:layout_constraintTop_toBottomOf="@+id/content_video_tv_subject" >
+        <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/content_video_player"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <com.google.android.exoplayer2.ui.PlayerControlView
         android:id="@+id/content_video_controller"
         android:layout_width="0dp"
-        android:layout_height="300dp"
-        app:layout_constraintBottom_toBottomOf="@+id/content_video_player"
-        app:layout_constraintEnd_toEndOf="@+id/content_video_player"
-        app:layout_constraintStart_toStartOf="@+id/content_video_player"
-        app:layout_constraintTop_toTopOf="@+id/content_video_player" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/content_video_fl"
+        app:layout_constraintEnd_toEndOf="@+id/content_video_fl"
+        app:layout_constraintStart_toStartOf="@+id/content_video_fl"
+        app:layout_constraintTop_toTopOf="@+id/content_video_fl" />
 
     <TextView
         android:id="@+id/content_tv_like"
@@ -86,7 +91,7 @@
         android:text="좋아요 0개"
         android:textSize="13sp"
         app:layout_constraintStart_toStartOf="@+id/content_video_iv_profile"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_player" />
+        app:layout_constraintTop_toBottomOf="@+id/content_video_fl" />
 
     <ImageButton
         android:id="@+id/content_btn_like"
@@ -96,8 +101,7 @@
         android:backgroundTint="@android:color/transparent"
         android:scaleType="fitXY"
         app:layout_constraintStart_toEndOf="@+id/content_tv_like"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_player"
+        app:layout_constraintTop_toBottomOf="@+id/content_video_fl" />
         app:srcCompat="@drawable/btn_before_like" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

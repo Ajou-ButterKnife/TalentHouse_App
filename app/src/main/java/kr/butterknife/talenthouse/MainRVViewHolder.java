@@ -111,9 +111,11 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-            Glide.with(context)
-                    .load(postItem.getProfile())
-                    .into(profile);
+            if(postItem.getProfile().equals("") == false){
+                Glide.with(context)
+                        .load(postItem.getProfile())
+                        .into(profile);
+            }
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
@@ -181,6 +183,7 @@ public class MainRVViewHolder {
         protected TextView likeCnt;
         protected ImageButton likeBtn;
         protected ImageButton settingBtn;
+        protected ImageView profile;
         View inflated;
 
         public ContentImageViewHolder_2(@NonNull View itemView, ViewStub viewStub) {
@@ -194,6 +197,7 @@ public class MainRVViewHolder {
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_2);
             inflated = viewStubImage.inflate();
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
+            profile = itemView.findViewById(R.id.rvimage_iv_profile);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -201,7 +205,11 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-
+            if(postItem.getProfile().equals("") == false){
+                Glide.with(context)
+                        .load(postItem.getProfile())
+                        .into(profile);
+            }
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
@@ -273,6 +281,7 @@ public class MainRVViewHolder {
         protected TextView likeCnt;
         protected ImageButton likeBtn;
         protected ImageButton settingBtn;
+        protected ImageView profile;
         View inflated;
 
         public ContentImageViewHolder_3(@NonNull View itemView, ViewStub viewStub) {
@@ -286,6 +295,7 @@ public class MainRVViewHolder {
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_3);
             inflated = viewStubImage.inflate();
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
+            profile = itemView.findViewById(R.id.rvimage_iv_profile);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -293,7 +303,11 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-
+            if(postItem.getProfile().equals("") == false){
+                Glide.with(context)
+                        .load(postItem.getProfile())
+                        .into(profile);
+            }
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
@@ -368,6 +382,7 @@ public class MainRVViewHolder {
         protected TextView likeCnt;
         protected ImageButton likeBtn;
         protected ImageButton settingBtn;
+        protected ImageView profile;
         View inflated;
 
         public ContentImageViewHolder_4(@NonNull View itemView, ViewStub viewStub) {
@@ -381,6 +396,7 @@ public class MainRVViewHolder {
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_4);
             inflated = viewStubImage.inflate();
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
+            profile = itemView.findViewById(R.id.rvimage_iv_profile);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -388,7 +404,11 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-
+            if(postItem.getProfile().equals("") == false){
+                Glide.with(context)
+                        .load(postItem.getProfile())
+                        .into(profile);
+            }
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
@@ -466,6 +486,7 @@ public class MainRVViewHolder {
         protected TextView likeCnt;
         protected ImageButton likeBtn;
         protected ImageButton settingBtn;
+        protected ImageView profile;
         View inflated;
 
         public ContentImageViewHolder_5(@NonNull View itemView, ViewStub viewStub) {
@@ -479,6 +500,7 @@ public class MainRVViewHolder {
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_5);
             inflated = viewStubImage.inflate();
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
+            profile = itemView.findViewById(R.id.rvimage_iv_profile);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -486,7 +508,11 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-
+            if(postItem.getProfile().equals("") == false){
+                Glide.with(context)
+                        .load(postItem.getProfile())
+                        .into(profile);
+            }
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
@@ -567,6 +593,7 @@ public class MainRVViewHolder {
         protected TextView likeCnt;
         protected ImageButton likeBtn;
         protected ImageButton settingBtn;
+        protected ImageView profile;
         View inflated;
 
         public ContentImageViewHolder_6(@NonNull View itemView, ViewStub viewStub) {
@@ -580,6 +607,7 @@ public class MainRVViewHolder {
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_5);
             inflated = viewStubImage.inflate();
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
+            profile = itemView.findViewById(R.id.rvimage_iv_profile);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -587,7 +615,11 @@ public class MainRVViewHolder {
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
             date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(postItem.getUpdateTime())));
-
+            if(postItem.getProfile().equals("") == false){
+                Glide.with(context)
+                        .load(postItem.getProfile())
+                        .into(profile);
+            }
             boolean check = false;
             for (idNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
