@@ -67,7 +67,6 @@ public class ContentFragment extends Fragment {
     ImageContentPagerAdapter adapter;
     ViewPager viewPager;
     CircleIndicator indicator;
-    Button likeBtn;
     ImageView fullScreenBtn;
     Dialog fullScreenDialog;
     Boolean isFullScreen = false;
