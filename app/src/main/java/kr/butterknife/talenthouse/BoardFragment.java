@@ -58,7 +58,7 @@ public class BoardFragment extends Fragment {
         rvAdapter.initScrollListener(rv);
         rvAdapter.setOnItemReloadListener(() -> getPosts());
         rvAdapter.setOnSettingListener((v, postId) -> {
-            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (item) -> {
+            Util.INSTANCE.postSetting(requireActivity(), requireContext(), v, postId, posts, (item) -> {
                 ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", item);
                 return true;
             }, (idx) -> {
@@ -104,6 +104,7 @@ public class BoardFragment extends Fragment {
             @Override
             public void run(){
                 try{
+                    LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                     ButterKnifeApi.INSTANCE.getRetrofitService().getBoardPosts(category, sortFlag, rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
                         @Override
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
@@ -123,15 +124,18 @@ public class BoardFragment extends Fragment {
                                     e.printStackTrace();
                                 }
                             }
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                         @Override
                         public void onFailure(Call<PostRes> call, Throwable t) {
                             // 서버 쪽으로 메시지를 보내지 못한 경우
                             Log.d("err", "SERVER CONNECTION ERROR");
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     });
                 }catch (Exception e){
                     e.printStackTrace();
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             }
         }.run();

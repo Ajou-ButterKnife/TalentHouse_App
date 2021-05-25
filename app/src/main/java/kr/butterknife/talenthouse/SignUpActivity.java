@@ -106,6 +106,7 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void run(){
                             try{
+                                LoadingDialog.INSTANCE.onLoadingDialog(SignUpActivity.this);
                                 ButterKnifeApi.INSTANCE.getRetrofitService().overlapCheck(new OverlapEmail(textEmail)).enqueue(new Callback<CommonResponse>() {
                                     @Override
                                     public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -127,16 +128,19 @@ public class SignUpActivity extends AppCompatActivity {
                                             Log.d(TAG, response.message());
                                             Log.d(TAG, String.valueOf(response.code()));
                                         }
+                                        LoadingDialog.INSTANCE.offLoadingDialog();
                                     }
 
                                     @Override
                                     public void onFailure(Call<CommonResponse> call, Throwable t) {
                                         // 서버 쪽으로 메시지를 보내지 못한 경우
                                         Log.d(TAG, "SERVER CONNECTION ERROR");
+                                        LoadingDialog.INSTANCE.offLoadingDialog();
                                     }
                                 });
                             }catch (Exception e){
                                 e.printStackTrace();
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
                         }
                     }.run();
@@ -157,6 +161,7 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void run(){
                         try{
+                            LoadingDialog.INSTANCE.onLoadingDialog(SignUpActivity.this);
                             ButterKnifeApi.INSTANCE.getRetrofitService().overlapCheck(new OverlapNickname(textNickname)).enqueue(new Callback<CommonResponse>() {
                                 @Override
                                 public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -178,16 +183,19 @@ public class SignUpActivity extends AppCompatActivity {
                                         Log.d(TAG, response.message());
                                         Log.d(TAG, String.valueOf(response.code()));
                                     }
+                                    LoadingDialog.INSTANCE.offLoadingDialog();
                                 }
 
                                 @Override
                                 public void onFailure(Call<CommonResponse> call, Throwable t) {
                                     // 서버 쪽으로 메시지를 보내지 못한 경우
                                     Log.d(TAG, "SERVER CONNECTION ERROR");
+                                    LoadingDialog.INSTANCE.offLoadingDialog();
                                 }
                             });
                         }catch (Exception e){
                             e.printStackTrace();
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     }
                 }.run();
@@ -225,6 +233,7 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             try {
+                                LoadingDialog.INSTANCE.onLoadingDialog(SignUpActivity.this);
                                 ButterKnifeApi.INSTANCE.getRetrofitService().normalAddUser(new NormalSignUpReq(email, password, phone, nickname, Arrays.asList(category))).enqueue(new Callback<NormalSignUpRes>() {
                                     @Override
                                     public void onResponse(Call<NormalSignUpRes> call, Response<NormalSignUpRes> response) {
@@ -242,16 +251,19 @@ public class SignUpActivity extends AppCompatActivity {
                                             Log.d(TAG, response.message());
                                             Log.d(TAG, String.valueOf(response.code()));
                                         }
+                                        LoadingDialog.INSTANCE.offLoadingDialog();
                                     }
 
                                     @Override
                                     public void onFailure(Call<NormalSignUpRes> call, Throwable t) {
                                         // 서버쪽으로 아예 메시지를 보내지 못한 경우
                                         Log.d(TAG, "SERVER CONNECTION ERROR");
+                                        LoadingDialog.INSTANCE.offLoadingDialog();
                                     }
                                 });
                             } catch (Exception e) {
                                 e.printStackTrace();
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
                         }
                     }.run();

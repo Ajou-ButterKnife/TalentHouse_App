@@ -17,6 +17,7 @@ import kr.butterknife.talenthouse.MainRVViewHolder.*;
 
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 
@@ -241,6 +242,8 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     onSettingListener.onSetting(v, arrayList.get(position).get_id());
                 });
             }
+            // 메인 동영상 화면에 맞게
+            holder.pv.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH);
 
             SimpleExoPlayer player = new SimpleExoPlayer.Builder(context).build();
             holder.pv.setPlayer(player);

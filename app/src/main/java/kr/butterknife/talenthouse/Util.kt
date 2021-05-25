@@ -1,5 +1,6 @@
 package kr.butterknife.talenthouse
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -9,11 +10,11 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.AdapterView
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.ColorDrawable
+import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.PopupMenu
-import android.widget.Spinner
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import kotlinx.coroutines.CoroutineScope
@@ -24,7 +25,6 @@ import kr.butterknife.talenthouse.network.ButterKnifeApi
 import kr.butterknife.talenthouse.network.request.FCMTokenRegister
 import kr.butterknife.talenthouse.network.request.IdReq
 import kr.butterknife.talenthouse.network.response.CommonResponse
-import java.text.SimpleDateFormat
 
 object SpinnerUtil {
     fun setCategorySpinner(spinner: Spinner, chipGroup: ChipGroup, context: Context) {
@@ -65,10 +65,32 @@ object SpinnerUtil {
 }
 
 object Util {
-    fun unixTime2String(timemillis: Long): String {
-        val sdf = SimpleDateFormat("yyyy.MM.dd.hh:mm")
-        val date = sdf.format(timemillis)
-        return date
+    private const val SEC = 60
+    private const val MIN = 60
+    private const val HOUR = 24
+    private const val DAY = 30
+    private const val MONTH = 12
+
+    fun unixTime2String(regTime: Long): String {
+        val curTime = System.currentTimeMillis()
+        var diffTime: Long = (curTime - regTime) / 1000
+        var msg: String = ""
+        when {
+            diffTime < SEC ->
+                msg = "방금 전"
+            SEC.let { diffTime /= it; diffTime } < MIN ->
+                msg = diffTime.toString() + "분 전"
+            MIN.let { diffTime /= it; diffTime } < HOUR ->
+                msg = diffTime.toString() + "시간 전"
+            HOUR.let { diffTime /= it; diffTime } < DAY ->
+                msg = diffTime.toString() + "일 전"
+            DAY.let { diffTime /= it; diffTime } < MONTH ->
+                msg = diffTime.toString() + "달 전"
+            else -> {
+                msg = diffTime.toString() + "년 전"
+            }
+        }
+        return msg
     }
 
     fun registerFCMToken(context: Context, token: String) {
@@ -88,12 +110,13 @@ object Util {
         }
     }
 
-    fun postSetting(context: Context,
+    fun postSetting(activity : Activity?,
+                    context: Context,
                     view: View,
                     postId: String,
                     list: ArrayList<PostItem>,
-                    updateAction : (item : PostItem) -> Boolean,
-                    deleteAction : (idx : Int) -> Boolean)  {
+                    updateAction: (item: PostItem) -> Boolean,
+                    deleteAction: (idx: Int) -> Boolean)  {
         val popup = PopupMenu(context, view)
         val menuInflater = popup.menuInflater
         menuInflater.inflate(R.menu.post_menu, popup.menu)
@@ -101,8 +124,8 @@ object Util {
             when (item.itemId) {
                 R.id.post_menu_update -> {
                     var updateIndex = 0
-                    while(updateIndex < list.size) {
-                        if(list[updateIndex]._id == postId) break
+                    while (updateIndex < list.size) {
+                        if (list[updateIndex]._id == postId) break
                         updateIndex++
                     }
                     updateAction(list[updateIndex])
@@ -112,7 +135,7 @@ object Util {
                     builder.setTitle("게시글 삭제")
                     builder.setMessage("게시글을 삭제하시겠습니까?")
                     builder.setPositiveButton("삭제") { dialog: DialogInterface?, which: Int ->
-                        deletePost(postId, context)
+                        deletePost(activity, postId, context)
                         var deleteIndex = 0
                         while (deleteIndex < list.size) {
                             if (list[deleteIndex]._id == postId) break
@@ -129,11 +152,12 @@ object Util {
         popup.show()
     }
 
-    private fun deletePost(postId: String, context: Context) {
+    private fun deletePost(activity : Activity?, postId: String, context: Context) {
         val coroutineScope = CoroutineScope(Dispatchers.Default + Job())
         var response: CommonResponse? = null
         coroutineScope.launch {
             try {
+                LoadingDialog.onLoadingDialog(activity)
                 response = ButterKnifeApi.retrofitService.deletePost(LoginInfo.getLoginInfo(context)[0], IdReq(postId))
                 var toastMsg = "서버로 부터 받아오지 못하였습니다."
 
@@ -143,10 +167,44 @@ object Util {
                 }
 
                 Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT).show()
-
+                LoadingDialog.offLoadingDialog()
             }
             catch (e: Exception) {
+                LoadingDialog.offLoadingDialog()
+            }
+        }
+    }
+}
 
+object LoadingDialog {
+    var loadingDialog: AppCompatDialog? = null
+
+    fun onLoadingDialog(activity: Activity?) {
+        if(activity == null || activity.isFinishing)
+            return
+
+        loadingDialog?.let {
+            if(it.isShowing)
+                return
+        }
+
+        loadingDialog = AppCompatDialog(activity).apply {
+            setCancelable(false)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setContentView(R.layout.dialog_loading)
+        }
+
+        loadingDialog?.show()
+
+        val loadingImage = loadingDialog?.findViewById<ImageView>(R.id.loading_img)
+        val loadingAni = loadingImage!!.background as AnimationDrawable
+        loadingImage.post { loadingAni.start() }
+    }
+
+    fun offLoadingDialog() {
+        loadingDialog?.let {
+            if (it.isShowing) {
+                it.dismiss()
             }
         }
     }

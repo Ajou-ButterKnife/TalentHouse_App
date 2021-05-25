@@ -92,6 +92,7 @@ class SettingActivity : AppCompatActivity() {
     private fun getUserInfo() {
         coroutineScope.launch {
             try {
+                LoadingDialog.onLoadingDialog(this@SettingActivity)
                 userInfoRes = ButterKnifeApi.retrofitService.getUserInfo(loginInfo[0])
                 userInfoRes?.let { res ->
                     if(res.result == "Success") {
@@ -144,8 +145,11 @@ class SettingActivity : AppCompatActivity() {
                         // alert dialog 뛰어주거나 하자.
                     }
                 }
+                LoadingDialog.offLoadingDialog()
             }
-            catch (e: Exception) {}
+            catch (e: Exception) {
+                LoadingDialog.offLoadingDialog()
+            }
         }
     }
 
@@ -178,6 +182,7 @@ class SettingActivity : AppCompatActivity() {
         loginInfo = LoginInfo.getLoginInfo(applicationContext)
         coroutineScope.launch {
             try {
+                LoadingDialog.onLoadingDialog(this@SettingActivity)
                 response = ButterKnifeApi.retrofitService.updateInfo(loginInfo[0], req)
                 response?.let {
                     if (it.result == "Success") {
@@ -187,9 +192,12 @@ class SettingActivity : AppCompatActivity() {
                             ?: "알 수 없는 오류", Toast.LENGTH_SHORT).show()
                     }
                 }
+                LoadingDialog.offLoadingDialog()
                 clearAll()
             }
-            catch (e: Exception) {}
+            catch (e: Exception) {
+                LoadingDialog.offLoadingDialog()
+            }
         }
     }
 
@@ -208,6 +216,7 @@ class SettingActivity : AppCompatActivity() {
         }
         coroutineScope.launch {
             try {
+                LoadingDialog.onLoadingDialog(this@SettingActivity)
                 response = ButterKnifeApi.retrofitService.updatePassword(loginInfo[0], PWUpdateReq(pw))
                 response?.let {
                     if(it.result == "Success") {
@@ -218,9 +227,12 @@ class SettingActivity : AppCompatActivity() {
                             ?: "알 수 없는 오류", Toast.LENGTH_SHORT).show()
                     }
                 }
+                LoadingDialog.offLoadingDialog()
                 clearAll()
             }
-            catch (e: Exception) {}
+            catch (e: Exception) {
+                LoadingDialog.offLoadingDialog()
+            }
         }
     }
 

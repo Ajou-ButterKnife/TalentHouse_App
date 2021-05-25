@@ -86,7 +86,7 @@
         android:text="좋아요 0개"
         android:textSize="13sp"
         app:layout_constraintStart_toStartOf="@+id/content_video_iv_profile"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_controller" />
+        app:layout_constraintTop_toBottomOf="@+id/content_video_player" />
 
     <ImageButton
         android:id="@+id/content_btn_like"
@@ -98,5 +98,6 @@
         app:layout_constraintStart_toEndOf="@+id/content_tv_like"
         app:layout_constraintTop_toBottomOf="@+id/content_video_controller"
         app:srcCompat="@drawable/btn_before_like" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

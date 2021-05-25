@@ -386,7 +386,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
                         ImageView tempImage = new ImageView(getContext());
                         tempImage.setScaleType(ImageView.ScaleType.FIT_XY);
                         relativeLayout.addView(tempImage);
-                        RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(200, 200);
+                        RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(700, 700);
                         imageParams.setMargins(0, 10, 10, 10);
                         tempImage.setLayoutParams(imageParams);
                         tempImage.setId((int) currentTime);
@@ -469,6 +469,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run() {
                 try {
+                    LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                     ButterKnifeApi.INSTANCE.getRetrofitService().postCreate(new UploadPostReq(id, LoginInfo.INSTANCE.getLoginInfo(getContext())[1], title, description, category, imageUrl, videoUrl)).enqueue(new Callback<CommonResponse>() {
                         @Override
                         public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
@@ -481,13 +482,13 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
 
                                 }
                             }
-
                             // 정상 출력이 되지 않을 때 서버에서의 response
                             else {
                                 Log.d(TAG, response.errorBody().toString());
                                 Log.d(TAG, response.message());
                                 Log.d(TAG, String.valueOf(response.code()));
                             }
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
 
                         @Override
@@ -495,10 +496,12 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
                             // 서버쪽으로 아예 메시지를 보내지 못한 경우
                             Toast.makeText(getActivity().getApplicationContext(), "서버와 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "SERVER CONNECTION ERROR");
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             }
         }.run();
@@ -509,6 +512,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run() {
                 try {
+                    LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                     ButterKnifeApi.INSTANCE.getRetrofitService().postUpdate(new UploadPostReq(
                             id,
                             LoginInfo.INSTANCE.getLoginInfo(getContext())[1],
@@ -535,6 +539,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
                                 Log.d(TAG, response.message());
                                 Log.d(TAG, String.valueOf(response.code()));
                             }
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
 
                         @Override
@@ -542,10 +547,12 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
                             // 서버쪽으로 아예 메시지를 보내지 못한 경우
                             Toast.makeText(getActivity().getApplicationContext(), "서버와 통신이 원활하지 않습니다.", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "SERVER CONNECTION ERROR");
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     });
                 } catch (Exception e) {
                     e.printStackTrace();
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             }
         }.run();

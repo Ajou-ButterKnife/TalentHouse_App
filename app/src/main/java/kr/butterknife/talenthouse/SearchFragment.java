@@ -2,6 +2,7 @@ package kr.butterknife.talenthouse;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +37,8 @@ public class SearchFragment extends Fragment {
     private Button btnSearch;
     private Spinner spinnerSearch;
     private EditText tvSearch;
+    private TextView emptyText;
+    private TextView firstText;
 
     private String searchItem;
 
@@ -51,6 +54,9 @@ public class SearchFragment extends Fragment {
         rvPost = view.findViewById(R.id.search_rv);
         posts = new ArrayList<>();
 
+        emptyText = view.findViewById(R.id.empty_text);
+        firstText = view.findViewById(R.id.first_text);
+
         rvPostAdapter = new MainRVAdapter(getContext(), posts);
         rvPostAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -64,7 +70,7 @@ public class SearchFragment extends Fragment {
         rvPostAdapter.initScrollListener(rvPost);
         rvPostAdapter.setOnItemReloadListener(() -> getSearchPosts());
         rvPostAdapter.setOnSettingListener((v, postId) -> {
-            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (item) -> {
+            Util.INSTANCE.postSetting(requireActivity(), requireContext(), v, postId, posts, (item) -> {
                 ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", item);
                 return true;
             }, (idx) -> {
@@ -108,8 +114,30 @@ public class SearchFragment extends Fragment {
                 searchItem = tvSearch.getText().toString();
                 getSearchPosts();
                 Util.INSTANCE.hideKeyboard(getContext(), view);
+
+                new Handler().postDelayed(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if(posts.isEmpty()) {
+                            rvPost.setVisibility(View.GONE);
+                            firstText.setVisibility(View.GONE);
+                            emptyText.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            rvPost.setVisibility(View.VISIBLE);
+                            firstText.setVisibility(View.GONE);
+                            emptyText.setVisibility(View.GONE);
+//                }
+                        }
+                    }
+                }, 500);// 0.5초 정도 딜레이를 준 후 시작
             }
         });
+
+        rvPost.setVisibility(View.GONE);
+        firstText.setVisibility(View.VISIBLE);
 
         return view;
     }
@@ -119,6 +147,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void run(){
                 try{
+                    LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
                     ButterKnifeApi.INSTANCE.getRetrofitService().getSearchPosts(spinner_item, searchItem, rvPostAdapter.getPageNum()).enqueue(new Callback<SearchPostRes>() {
                         @Override
                         public void onResponse(Call<SearchPostRes> call, retrofit2.Response<SearchPostRes> response) {
@@ -139,16 +168,19 @@ public class SearchFragment extends Fragment {
                                     e.printStackTrace();
                                 }
                             }
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
 
                         @Override
                         public void onFailure(Call<SearchPostRes> call, Throwable t) {
                             // 서버 쪽으로 메시지를 보내지 못한 경우
                             Log.d("err", "SERVER CONNECTION ERROR");
+                            LoadingDialog.INSTANCE.offLoadingDialog();
                         }
                     });
                 }catch (Exception e){
                     e.printStackTrace();
+                    LoadingDialog.INSTANCE.offLoadingDialog();
                 }
             }
         }.run();
