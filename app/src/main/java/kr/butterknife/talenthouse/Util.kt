@@ -4,8 +4,11 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
+import android.hardware.input.InputManager
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.PopupMenu
@@ -13,7 +16,10 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kr.butterknife.talenthouse.network.ButterKnifeApi
 import kr.butterknife.talenthouse.network.request.FCMTokenRegister
 import kr.butterknife.talenthouse.network.request.IdReq
@@ -143,6 +149,22 @@ object Util {
 
             }
         }
+    }
+
+    fun hideKeyboard(context: Context, view: View){
+//        val imm = (LayoutInflater) context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputManager
+//        imm.hideSo
+//        getSystem
+//        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputManager
+//        imm.hide
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
+
+
+//        InputMethodManager manager = (InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        manager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+//        getContext().getSystemService(Context.INPUT_METHOD_SERVICE).hideSoftInputFromWindow(view.getWindowToken(), 0)
     }
 }
 
