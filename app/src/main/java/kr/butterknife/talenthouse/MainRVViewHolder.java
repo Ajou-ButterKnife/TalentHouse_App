@@ -131,7 +131,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
+                    updateLike(context, postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
             List<String> urlList = postItem.getImageUrl();
@@ -140,11 +140,12 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv_1));
         }
 
-        void updateLike(String postId, String userId, String nickname, String profile) {
+        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        LoadingDialog.INSTANCE.onLoadingDialog(context);
                         PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
                         ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
@@ -158,16 +159,19 @@ public class MainRVViewHolder {
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
 
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
                         });
                     } catch (Exception e) {
                         e.printStackTrace();
+                        LoadingDialog.INSTANCE.offLoadingDialog();
                     }
                 }
             }.run();
@@ -225,7 +229,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
+                    updateLike(context, postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
 
@@ -238,11 +242,12 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv2_2));
         }
 
-        void updateLike(String postId, String userId, String nickname, String profile) {
+        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        LoadingDialog.INSTANCE.onLoadingDialog(context);
                         PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
                         ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
@@ -256,16 +261,19 @@ public class MainRVViewHolder {
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
 
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
                         });
                     } catch (Exception e) {
                         e.printStackTrace();
+                        LoadingDialog.INSTANCE.offLoadingDialog();
                     }
                 }
             }.run();
@@ -323,7 +331,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
+                    updateLike(context, postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
 
@@ -339,11 +347,12 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv3_3));
         }
 
-        void updateLike(String postId, String userId, String nickname, String profile) {
+        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        LoadingDialog.INSTANCE.onLoadingDialog(context);
                         PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
                         ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
@@ -357,16 +366,19 @@ public class MainRVViewHolder {
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
 
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
                         });
                     } catch (Exception e) {
                         e.printStackTrace();
+                        LoadingDialog.INSTANCE.offLoadingDialog();
                     }
                 }
             }.run();
@@ -424,7 +436,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
+                    updateLike(context, postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
 
@@ -443,11 +455,12 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv4_4));
         }
 
-        void updateLike(String postId, String userId, String nickname, String profile) {
+        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        LoadingDialog.INSTANCE.onLoadingDialog(context);
                         PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
                         ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
@@ -461,16 +474,19 @@ public class MainRVViewHolder {
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
 
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
                         });
                     } catch (Exception e) {
                         e.printStackTrace();
+                        LoadingDialog.INSTANCE.offLoadingDialog();
                     }
                 }
             }.run();
@@ -528,7 +544,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
+                    updateLike(context, postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
 
@@ -550,11 +566,12 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv5_5));
         }
 
-        void updateLike(String postId, String userId, String nickname, String profile) {
+        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        LoadingDialog.INSTANCE.onLoadingDialog(context);
                         PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
                         ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
@@ -568,16 +585,19 @@ public class MainRVViewHolder {
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
 
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
                         });
                     } catch (Exception e) {
                         e.printStackTrace();
+                        LoadingDialog.INSTANCE.offLoadingDialog();
                     }
                 }
             }.run();
@@ -635,7 +655,7 @@ public class MainRVViewHolder {
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    updateLike(postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
+                    updateLike(context, postItem.get_id(), LoginInfo.INSTANCE.getLoginInfo(context)[0], LoginInfo.INSTANCE.getLoginInfo(context)[1], LoginInfo.INSTANCE.getLoginInfo(context)[2]);
                 }
             });
 
@@ -663,11 +683,12 @@ public class MainRVViewHolder {
             imageView.setColorFilter(Color.parseColor("#55050900"));
         }
 
-        void updateLike(String postId, String userId, String nickname, String profile) {
+        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        LoadingDialog.INSTANCE.onLoadingDialog(context);
                         PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
                         ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
@@ -681,16 +702,19 @@ public class MainRVViewHolder {
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
 
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
                         });
                     } catch (Exception e) {
                         e.printStackTrace();
+                        LoadingDialog.INSTANCE.offLoadingDialog();
                     }
                 }
             }.run();
@@ -719,11 +743,12 @@ public class MainRVViewHolder {
             profile = itemView.findViewById(R.id.rvvideo_iv_profile);
         }
 
-        void updateLike(String postId, String userId, String nickname, String profile) {
+        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
                     try {
+                        LoadingDialog.INSTANCE.onLoadingDialog(context);
                         PutLikeReq putLikeReq = new PutLikeReq(userId, nickname, profile);
                         ButterKnifeApi.INSTANCE.getRetrofitService().putLike(postId, putLikeReq).enqueue(new Callback<LikeRes>() {
                             @Override
@@ -737,16 +762,19 @@ public class MainRVViewHolder {
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
 
                             @Override
                             public void onFailure(Call<LikeRes> call, Throwable t) {
                                 // 서버 쪽으로 메시지를 보내지 못한 경우
                                 Log.d("err", "SERVER CONNECTION ERROR");
+                                LoadingDialog.INSTANCE.offLoadingDialog();
                             }
                         });
                     } catch (Exception e) {
                         e.printStackTrace();
+                        LoadingDialog.INSTANCE.offLoadingDialog();
                     }
                 }
             }.run();
