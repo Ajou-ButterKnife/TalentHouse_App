@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import kr.butterknife.talenthouse.MainRVViewHolder.*;
 
+import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
@@ -236,6 +237,9 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
             holder.writer.setText(arrayList.get(position).getWriterNickname());
             holder.date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(arrayList.get(position).getUpdateTime())));
+            Glide.with(context)
+                    .load(arrayList.get(position).getProfile())
+                    .into(holder.profile);
             if(arrayList.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                 holder.settingBtn.setVisibility(View.VISIBLE);
                 holder.settingBtn.setOnClickListener((v) -> {
