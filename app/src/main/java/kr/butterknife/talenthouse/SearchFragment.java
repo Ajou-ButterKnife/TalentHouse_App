@@ -111,28 +111,11 @@ public class SearchFragment extends Fragment {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchItem = tvSearch.getText().toString();
-                getSearchPosts();
                 Util.INSTANCE.hideKeyboard(getContext(), view);
-
-                new Handler().postDelayed(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        if(posts.isEmpty()) {
-                            rvPost.setVisibility(View.GONE);
-                            firstText.setVisibility(View.GONE);
-                            emptyText.setVisibility(View.VISIBLE);
-                        }
-                        else {
-                            rvPost.setVisibility(View.VISIBLE);
-                            firstText.setVisibility(View.GONE);
-                            emptyText.setVisibility(View.GONE);
-//                }
-                        }
-                    }
-                }, 500);// 0.5초 정도 딜레이를 준 후 시작
+                searchItem = tvSearch.getText().toString();
+                rvPostAdapter.setPage(0);
+                posts.clear();
+                getSearchPosts();
             }
         });
 
@@ -162,8 +145,17 @@ public class SearchFragment extends Fragment {
                                         else
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile()));
                                     }
-                                    Log.d("TESTTEST", String.valueOf(postList));
                                     rvPostAdapter.notifyDataSetChanged();
+                                    if(posts.isEmpty()) {
+                                        rvPost.setVisibility(View.GONE);
+                                        firstText.setVisibility(View.GONE);
+                                        emptyText.setVisibility(View.VISIBLE);
+                                    }
+                                    else {
+                                        rvPost.setVisibility(View.VISIBLE);
+                                        firstText.setVisibility(View.GONE);
+                                        emptyText.setVisibility(View.GONE);
+                                    }
                                 }catch (Exception e){
                                     e.printStackTrace();
                                 }
