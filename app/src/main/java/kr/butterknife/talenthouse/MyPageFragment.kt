@@ -98,18 +98,27 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             }
             popup.show()
         }
-        coroutineScope.launch {
-            getUserInfo()
-            setVisibility(userId == loginInfo[0])
-            Log.d(MyPageFragment::class.java.simpleName, loginInfo[0] + "\n" + userId);
-            rvAdapter.doItemReload()
+        if(userId != loginInfo[0]) {
+            coroutineScope.launch {
+                getUserInfo()
+                setVisibility(userId == loginInfo[0])
+                Log.d(MyPageFragment::class.java.simpleName, loginInfo[0] + "\n" + userId);
+                rvAdapter.doItemReload()
+            }
         }
     }
 
     override fun onResume() {
         super.onResume()
         if(userId == loginInfo[0]) {
-            getUserInfo()
+            coroutineScope.launch {
+                getUserInfo()
+                setVisibility(userId == loginInfo[0])
+                Log.d(MyPageFragment::class.java.simpleName, loginInfo[0] + "\n" + userId)
+                posts.clear()
+                rvAdapter.setPage(0)
+                rvAdapter.doItemReload()
+            }
         }
     }
 
