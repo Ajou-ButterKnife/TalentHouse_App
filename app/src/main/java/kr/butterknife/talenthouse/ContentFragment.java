@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.ui.PlayerControlView;
@@ -61,9 +63,9 @@ public class ContentFragment extends Fragment {
     ViewPager viewPager;
     CircleIndicator indicator;
     ImageButton likeBtn;
-
     BottomSheetDialog bottomSheetDialog;
     FavoriteRVAdapter bottomAdapter;
+    ImageView profile;
 
     public ContentFragment(PostItem item) {
         this.item = item;
@@ -147,6 +149,7 @@ public class ContentFragment extends Fragment {
             indicator.setViewPager(viewPager);
             likeCnt = inflated.findViewById(R.id.content_tv_like);
             likeBtn = inflated.findViewById(R.id.content_btn_like);
+            profile = inflated.findViewById(R.id.content_image_iv_profile);
         } else if (item.getVideoUrl() != null) {
             content.setLayoutResource(R.layout.viewstub_content_video);
             View inflated = content.inflate();
@@ -158,6 +161,7 @@ public class ContentFragment extends Fragment {
             pcv = inflated.findViewById(R.id.content_video_controller);
             likeCnt = inflated.findViewById(R.id.content_tv_like);
             likeBtn = inflated.findViewById(R.id.content_btn_like);
+            profile = inflated.findViewById(R.id.content_video_iv_profile);
         } else {
             content.setLayoutResource(R.layout.item_rv_text);
             View inflated = content.inflate();
@@ -168,7 +172,11 @@ public class ContentFragment extends Fragment {
             likeCnt = inflated.findViewById(R.id.rvtext_tv_like);
             likeBtn = inflated.findViewById(R.id.rvtext_btn_like);
         }
-
+        if(item.getProfile().equals("") == false){
+            Glide.with(getContext())
+                    .load(item.getProfile())
+                    .into(profile);
+        }
         title.setText(item.getTitle());
         date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(item.getUpdateTime())));
         writer.setText(item.getWriterNickname());
@@ -268,7 +276,9 @@ public class ContentFragment extends Fragment {
         likeCnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(likeCnt.getText().equals("좋아요 0개")){
+                    return;
+                }
                 bottomSheetDialog = new BottomSheetDialog(getContext());
                 View v = getLayoutInflater().inflate(R.layout.bottom_content, null);
                 bottomSheetDialog.setContentView(v);
