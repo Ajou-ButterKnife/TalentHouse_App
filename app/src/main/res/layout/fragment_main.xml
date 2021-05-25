@@ -9,7 +9,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_rv_category"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:scrollbars="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,8 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
         android:clickable="true"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@drawable/pencil_image"
+        app:backgroundTint="#fce38a"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
