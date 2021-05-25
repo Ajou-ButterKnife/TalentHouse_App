@@ -160,7 +160,6 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
 
             spinner.setSelection(initIdx);
 
-//             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(100, 100);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
             layoutParams.rightMargin = 5;
             layoutParams.gravity = Gravity.CENTER;
@@ -470,7 +469,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
             public void run() {
                 try {
                     LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
-                    ButterKnifeApi.INSTANCE.getRetrofitService().postCreate(new UploadPostReq(id, LoginInfo.INSTANCE.getLoginInfo(getContext())[1], title, description, category, imageUrl, videoUrl)).enqueue(new Callback<CommonResponse>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().postCreate(new UploadPostReq(id, LoginInfo.INSTANCE.getLoginInfo(getContext())[1], LoginInfo.INSTANCE.getLoginInfo(getContext())[2], title, description, category, imageUrl, videoUrl)).enqueue(new Callback<CommonResponse>() {
                         @Override
                         public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
                             // 정상 출력이 되면 아래 로그가 출력됨
@@ -516,6 +515,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
                     ButterKnifeApi.INSTANCE.getRetrofitService().postUpdate(new UploadPostReq(
                             id,
                             LoginInfo.INSTANCE.getLoginInfo(getContext())[1],
+                            LoginInfo.INSTANCE.getLoginInfo(getContext())[2],
                             title,
                             description,
                             category,
