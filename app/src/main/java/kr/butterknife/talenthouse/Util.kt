@@ -12,6 +12,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatDialog
@@ -163,6 +164,7 @@ object Util {
                     builder.setTitle("게시글 삭제")
                     builder.setMessage("게시글을 삭제하시겠습니까?")
                     builder.setPositiveButton("삭제") { dialog: DialogInterface?, which: Int ->
+                        LoadingDialog.onLoadingDialog(context)
                         deletePost(postId, context)
                         var deleteIndex = 0
                         while (deleteIndex < list.size) {
@@ -170,6 +172,7 @@ object Util {
                             deleteIndex++
                         }
                         deleteAction(deleteIndex)
+                        LoadingDialog.offLoadingDialog()
                     }
                     builder.setNegativeButton("취소") { dialog: DialogInterface?, which: Int -> Toast.makeText(context, "negative", Toast.LENGTH_SHORT).show() }
                     builder.show()
@@ -185,7 +188,6 @@ object Util {
         var response: CommonResponse? = null
         coroutineScope.launch {
             try {
-                LoadingDialog.onLoadingDialog(context)
                 response = ButterKnifeApi.retrofitService.deletePost(LoginInfo.getLoginInfo(context)[0], IdReq(postId))
                 var toastMsg = "서버로 부터 받아오지 못하였습니다."
 
@@ -195,10 +197,8 @@ object Util {
                 }
 
                 Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT).show()
-                LoadingDialog.offLoadingDialog()
             }
             catch (e: Exception) {
-                LoadingDialog.offLoadingDialog()
             }
         }
     }

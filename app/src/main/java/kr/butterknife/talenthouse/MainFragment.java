@@ -82,7 +82,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 return true;
             }, (idx) -> {
                 posts.remove((int) idx);
-                rvAdapter.notifyItemRemoved(idx);
+                rvAdapter.notifyDataSetChanged();
                 return true;
             });
         });

@@ -67,12 +67,12 @@ class MyPageFragment(var userId: String = "") : Fragment() {
         rvAdapter.setOnSettingListener { v: View, postId: String ->
             postSetting(requireContext(), v, postId, posts,
                 { item: PostItem ->
-                (activity as MainActivity?)!!.replaceFragment(WriteFragment(), "Write", item)
-                true
+                    (activity as MainActivity?)!!.replaceFragment(WriteFragment(), "Write", item)
+                    true
                 },
                 { idx: Int ->
                     posts.removeAt(idx as Int)
-                    rvAdapter.notifyItemRemoved(idx)
+                    rvAdapter.notifyDataSetChanged()
                     true
                 })
         }

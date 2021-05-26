@@ -72,7 +72,7 @@ public class SearchFragment extends Fragment {
                 return true;
             }, (idx) -> {
                 posts.remove((int) idx);
-                rvPostAdapter.notifyItemRemoved(idx);
+                rvPostAdapter.notifyDataSetChanged();
                 return true;
             });
         });

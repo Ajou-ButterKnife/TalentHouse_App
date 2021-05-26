@@ -55,7 +55,7 @@ public class FavoriteFragment extends Fragment {
                 return true;
             }, (idx) -> {
                 posts.remove((int) idx);
-                rvAdapter.notifyItemRemoved(idx);
+                rvAdapter.notifyDataSetChanged();
                 return true;
             });
         });
