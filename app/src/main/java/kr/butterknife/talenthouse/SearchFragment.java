@@ -1,13 +1,10 @@
 package kr.butterknife.talenthouse;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -131,7 +128,7 @@ public class SearchFragment extends Fragment {
             public void run(){
                 try{
                     LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getSearchPosts(spinner_item, searchItem, rvPostAdapter.getPageNum()).enqueue(new Callback<SearchPostRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getSearchPosts(spinner_item, searchItem, rvPostAdapter.getPage()).enqueue(new Callback<SearchPostRes>() {
                         @Override
                         public void onResponse(Call<SearchPostRes> call, retrofit2.Response<SearchPostRes> response) {
                             if(response.body() != null){
@@ -144,8 +141,11 @@ public class SearchFragment extends Fragment {
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile()));
                                         else
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile()));
+                                        rvPostAdapter.notifyItemInserted(posts.size() - 1);
                                     }
-                                    rvPostAdapter.notifyDataSetChanged();
+                                    if(postList.size() == 0)
+                                        rvPostAdapter.setPage(rvPostAdapter.getPage() - 1);
+
                                     if(posts.isEmpty()) {
                                         rvPost.setVisibility(View.GONE);
                                         firstText.setVisibility(View.GONE);

@@ -77,10 +77,6 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         onSettingListener = listener;
     }
 
-    public int getPageNum() {
-        return page;
-    }
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -376,4 +372,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.page = page;
     }
 
+    public int getPage() {
+        return page;
+    }
 }

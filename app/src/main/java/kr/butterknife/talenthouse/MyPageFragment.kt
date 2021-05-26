@@ -160,7 +160,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
         coroutineScope.launch {
             try {
                 LoadingDialog.onLoadingDialog(activity)
-                postsRes = ButterKnifeApi.retrofitService.getMyPagePosts(userId, rvAdapter.pageNum)
+                postsRes = ButterKnifeApi.retrofitService.getMyPagePosts(userId, rvAdapter.page)
                 postsRes?.data?.let {
                     for(p in it) {
                         when {
@@ -168,9 +168,10 @@ class MyPageFragment(var userId: String = "") : Fragment() {
                             p.imageUrl?.isNotEmpty()!! -> posts.add(PostItem(p._id, p.title, p.writerNickname, p.writerId, p.updateTime, p.description, p.imageUrl!!, p.likeCnt, p.likeIDs, p.category, p.comments, p.profile))
                             else -> posts.add(PostItem(p._id, p.title, p.writerNickname, p.writerId, p.updateTime, p.description, p.likeCnt, p.likeIDs, p.category, p.comments, p.profile))
                         }
+                        rvAdapter.notifyItemInserted(posts.size - 1)
                     }
-
-                    rvAdapter.notifyDataSetChanged()
+                    if(it.isEmpty())
+                       rvAdapter.page = rvAdapter.page - 1
                 }
                 //평소에는 게시물이 없습니다. 이런거 표시해주기
                 LoadingDialog.offLoadingDialog()
