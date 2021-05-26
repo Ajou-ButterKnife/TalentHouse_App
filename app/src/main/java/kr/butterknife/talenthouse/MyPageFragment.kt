@@ -65,7 +65,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
             getUserPosts()
         }
         rvAdapter.setOnSettingListener { v: View, postId: String ->
-            postSetting(requireActivity(), requireContext(), v, postId, posts,
+            postSetting(requireContext(), v, postId, posts,
                 { item: PostItem ->
                 (activity as MainActivity?)!!.replaceFragment(WriteFragment(), "Write", item)
                 true

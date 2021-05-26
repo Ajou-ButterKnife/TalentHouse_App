@@ -72,7 +72,7 @@ public class ContentFragment extends Fragment {
     ImageView fullScreenBtn;
     Dialog fullScreenDialog;
     Boolean isFullScreen = false;
-    ImageButton likeBtn;
+    ImageButton likeBtn, settingBtn;
     BottomSheetDialog bottomSheetDialog;
     FavoriteRVAdapter bottomAdapter;
     ImageView profile;
@@ -160,6 +160,7 @@ public class ContentFragment extends Fragment {
             likeCnt = inflated.findViewById(R.id.content_tv_like);
             likeBtn = inflated.findViewById(R.id.content_btn_like);
             profile = inflated.findViewById(R.id.content_image_iv_profile);
+            settingBtn = inflated.findViewById(R.id.content_image_iv_setting);
         } else if (item.getVideoUrl() != null) {
             content.setLayoutResource(R.layout.viewstub_content_video);
             View inflated = content.inflate();
@@ -172,6 +173,7 @@ public class ContentFragment extends Fragment {
             likeCnt = inflated.findViewById(R.id.content_tv_like);
             likeBtn = inflated.findViewById(R.id.content_btn_like);
             profile = inflated.findViewById(R.id.content_video_iv_profile);
+            settingBtn = inflated.findViewById(R.id.content_video_iv_setting);
             fullScreenBtn = pv.findViewById(R.id.exo_fullscreen_icon);
             fullScreenBtn.setOnClickListener(v -> {
                 if(!isFullScreen) {
@@ -205,6 +207,21 @@ public class ContentFragment extends Fragment {
             ((MainActivity) getActivity()).outsideMyPageClick();
         });
         subject.setText(item.getDescription());
+
+        if(!item.getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(getContext())[0]))
+            settingBtn.setVisibility(View.GONE);
+        else {
+            settingBtn.setOnClickListener(v -> {
+                Util.INSTANCE.postSetting(requireContext(), v, item.get_id(), () -> {
+                    ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", this.item);
+                    ((MainActivity) getActivity()).finishFragment(ContentFragment.this);
+                    return true;
+                }, () -> {
+                    ((MainActivity) getActivity()).finishFragment(ContentFragment.this);
+                    return true;
+                });
+            });
+        }
 
         new Runnable() {
             @Override

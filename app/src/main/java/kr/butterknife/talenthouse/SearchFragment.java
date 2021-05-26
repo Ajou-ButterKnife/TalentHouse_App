@@ -67,7 +67,7 @@ public class SearchFragment extends Fragment {
         rvPostAdapter.initScrollListener(rvPost);
         rvPostAdapter.setOnItemReloadListener(() -> getSearchPosts());
         rvPostAdapter.setOnSettingListener((v, postId) -> {
-            Util.INSTANCE.postSetting(requireActivity(), requireContext(), v, postId, posts, (item) -> {
+            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (item) -> {
                 ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", item);
                 return true;
             }, (idx) -> {

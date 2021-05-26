@@ -55,7 +55,7 @@ public class BoardFragment extends Fragment {
         rvAdapter.initScrollListener(rv);
         rvAdapter.setOnItemReloadListener(() -> getPosts());
         rvAdapter.setOnSettingListener((v, postId) -> {
-            Util.INSTANCE.postSetting(requireActivity(), requireContext(), v, postId, posts, (item) -> {
+            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (item) -> {
                 ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", item);
                 return true;
             }, (idx) -> {
