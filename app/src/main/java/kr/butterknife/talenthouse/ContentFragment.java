@@ -1,11 +1,9 @@
 package kr.butterknife.talenthouse;
 
 import android.app.Dialog;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,10 +18,9 @@ import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -72,10 +69,11 @@ public class ContentFragment extends Fragment {
     ImageView fullScreenBtn;
     Dialog fullScreenDialog;
     Boolean isFullScreen = false;
-    ImageButton likeBtn;
+    ImageButton likeBtn, settingBtn;
     BottomSheetDialog bottomSheetDialog;
     FavoriteRVAdapter bottomAdapter;
     ImageView profile;
+    Boolean flag = false;
 
     public ContentFragment(PostItem item) {
         this.item = item;
@@ -153,13 +151,11 @@ public class ContentFragment extends Fragment {
             writer = inflated.findViewById(R.id.content_image_tv_writer);
             subject = inflated.findViewById(R.id.content_tv_subject);
             viewPager = inflated.findViewById(R.id.content_pager);
-            adapter = new ImageContentPagerAdapter(getContext(), item.getImageUrl());
-            viewPager.setAdapter(adapter);
             indicator = inflated.findViewById(R.id.content_indicator);
-            indicator.setViewPager(viewPager);
             likeCnt = inflated.findViewById(R.id.content_tv_like);
             likeBtn = inflated.findViewById(R.id.content_btn_like);
             profile = inflated.findViewById(R.id.content_image_iv_profile);
+            settingBtn = inflated.findViewById(R.id.content_image_iv_setting);
         } else if (item.getVideoUrl() != null) {
             content.setLayoutResource(R.layout.viewstub_content_video);
             View inflated = content.inflate();
@@ -172,6 +168,7 @@ public class ContentFragment extends Fragment {
             likeCnt = inflated.findViewById(R.id.content_tv_like);
             likeBtn = inflated.findViewById(R.id.content_btn_like);
             profile = inflated.findViewById(R.id.content_video_iv_profile);
+            settingBtn = inflated.findViewById(R.id.content_video_iv_setting);
             fullScreenBtn = pv.findViewById(R.id.exo_fullscreen_icon);
             fullScreenBtn.setOnClickListener(v -> {
                 if(!isFullScreen) {
@@ -197,14 +194,24 @@ public class ContentFragment extends Fragment {
                     .load(item.getProfile())
                     .into(profile);
         }
-        title.setText(item.getTitle());
-        date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(item.getUpdateTime())));
-        writer.setText(item.getWriterNickname());
-        writer.setOnClickListener(v -> {
-            ((MainActivity) getActivity()).setMyPageID(item.getWriterId());
-            ((MainActivity) getActivity()).outsideMyPageClick();
-        });
-        subject.setText(item.getDescription());
+
+        setView();
+
+        if(!item.getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(getContext())[0]))
+            settingBtn.setVisibility(View.GONE);
+        else {
+            settingBtn.setOnClickListener(v -> {
+                Util.INSTANCE.postSetting(requireContext(), v, item.get_id(), () -> {
+                    ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", this.item);
+                    flag = true;
+//                    ((MainActivity) getActivity()).finishFragment(ContentFragment.this);
+                    return true;
+                }, () -> {
+                    ((MainActivity) getActivity()).finishFragment(ContentFragment.this);
+                    return true;
+                });
+            });
+        }
 
         new Runnable() {
             @Override
@@ -217,10 +224,10 @@ public class ContentFragment extends Fragment {
                             if (response.body() != null) {
                                 int currentLikeCnt = response.body().getLikeCnt();
 
-                                List<idNickname> newIdNickname = response.body().getLikeIds();
+                                List<IdNickname> newIdNickname = response.body().getLikeIds();
 
                                 boolean check = false;
-                                for (idNickname temp : newIdNickname) {
+                                for (IdNickname temp : newIdNickname) {
                                     if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(getContext())[0])) {
                                         check = true;
                                         break;
@@ -327,9 +334,9 @@ public class ContentFragment extends Fragment {
                         @Override
                         public void onResponse(Call<FavoritePostUserIdRes> call, Response<FavoritePostUserIdRes> response) {
                             if(response.body() != null){
-                                List<idNickname> idNicknames = response.body().getData();
-                                for(idNickname tempData : idNicknames){
-                                    likePerson l = new likePerson(tempData.getUserId(), tempData.getNickname(), tempData.getProfile());
+                                List<IdNickname> idNicknames = response.body().getData();
+                                for(IdNickname tempData : idNicknames){
+                                    LikePerson l = new LikePerson(tempData.getUserId(), tempData.getNickname(), tempData.getProfile());
                                     bottomAdapter.addItem(l);
                                 }
                                 bottomAdapter.notifyDataSetChanged();
@@ -369,6 +376,60 @@ public class ContentFragment extends Fragment {
             player.prepare();
 
             player.setPlayWhenReady(false);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(flag) {
+            new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
+                        ButterKnifeApi.INSTANCE.getRetrofitService().getOnePost(item.get_id()).enqueue(new Callback<PostItem>() {
+                            @Override
+                            public void onResponse(Call<PostItem> call, Response<PostItem> response) {
+                                if(response.body() != null){
+                                    item = response.body();
+                                    setView();
+                                }
+                                LoadingDialog.INSTANCE.offLoadingDialog();
+                            }
+
+                            @Override
+                            public void onFailure(Call<PostItem> call, Throwable t) {
+                                // 서버쪽으로 아예 메시지를 보내지 못한 경우
+                                Log.d("ERR", "SERVER CONNECTION ERROR");
+                                LoadingDialog.INSTANCE.offLoadingDialog();
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        LoadingDialog.INSTANCE.offLoadingDialog();
+                    }
+                }
+            }.run();
+            flag = false;
+        }
+    }
+
+    public void setView() {
+        title.setText(item.getTitle());
+        date.setText(Util.INSTANCE.unixTime2String(Long.parseLong(item.getUpdateTime())));
+        writer.setText(item.getWriterNickname());
+        writer.setOnClickListener(v -> {
+            ((MainActivity) getActivity()).setMyPageID(item.getWriterId());
+            ((MainActivity) getActivity()).outsideMyPageClick();
+        });
+        subject.setText(item.getDescription());
+
+        if(item.getImageUrl().size() != 0) {
+            viewPager.setAdapter(null);
+            adapter = new ImageContentPagerAdapter(getContext(), item.getImageUrl());
+            viewPager.setAdapter(adapter);
+            indicator.setViewPager(viewPager);
         }
     }
 

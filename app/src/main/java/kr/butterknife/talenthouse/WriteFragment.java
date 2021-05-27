@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -72,7 +71,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
     private Button btnUpPost;
     private Intent intent;
     private Uri uri;
-    private List<imageObject> images;
+    private List<ImageObject> images;
     private File video;
     private final int imageSelected = 10;
     private final int videoSelected = 20;
@@ -214,7 +213,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
                             relativeLayout.setVisibility(View.GONE);
                         }
                     });
-                    images.add(new imageObject(null, tempImage.getId(), beforeItem.getImageUrl().get(i)));
+                    images.add(new ImageObject(null, tempImage.getId(), beforeItem.getImageUrl().get(i)));
                     relativeLayout.addView(tempTextView);
                     linearLayout.addView(relativeLayout);
                 }
@@ -252,7 +251,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
                         // image 업로드일 경우
                         uploadWithTransferUtilty(images, postId);
                         ArrayList<String> postImageUrl = new ArrayList<>();
-                        for (imageObject file : images) {
+                        for (ImageObject file : images) {
                             postImageUrl.add("https://talent-house-app.s3.ap-northeast-2.amazonaws.com/photo/" + postId + file.getFile().getName());
                         }
                         postPost(postTitle, postDesc, postCategory, postId, postImageUrl, null);
@@ -268,7 +267,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
                         if (images.size() != 0)
                             uploadWithTransferUtilty(images, postId);
                         ArrayList<String> postImageUrl = new ArrayList<>();
-                        for(imageObject temp : images){
+                        for(ImageObject temp : images){
                             if(temp.getFile() != null){
                                 String tempUrl = "https://talent-house-app.s3.ap-northeast-2.amazonaws.com/photo/" + postId + temp.getFile().getName();
                                 postImageUrl.add(tempUrl);
@@ -292,7 +291,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void uploadWithTransferUtilty(List<imageObject> files, String id) {
+    public void uploadWithTransferUtilty(List<ImageObject> files, String id) {
         // CredentialsProvider 객체 생성 (Cognito에서 자격 증명 풀 ID 제공)
         AWSCredentials awsCredentials = new BasicAWSCredentials(getString(R.string.aws_access_key), getString(R.string.aws_secret_key));
         AmazonS3Client s3Client = new AmazonS3Client(awsCredentials, Region.getRegion(Regions.AP_NORTHEAST_2));
@@ -300,7 +299,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
         TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(getActivity().getApplicationContext()).build();
         TransferNetworkLossHandler.getInstance(getActivity().getApplicationContext());
 
-        for (imageObject file : files) {
+        for (ImageObject file : files) {
             if(file.getFile() == null){
                 continue;
             }else{
@@ -414,7 +413,7 @@ public class WriteFragment extends Fragment implements View.OnClickListener {
                         linearLayout.addView(relativeLayout);
 
                         Uri temp = data.getClipData().getItemAt(i).getUri();
-                        images.add(new imageObject(new File(getRealPathFromURI(temp)), tempImage.getId(), ""));
+                        images.add(new ImageObject(new File(getRealPathFromURI(temp)), tempImage.getId(), ""));
                     }
                 } else {
                     Toast.makeText(getContext(), "이미지를 선택하지 않았습니다.", Toast.LENGTH_SHORT).show();

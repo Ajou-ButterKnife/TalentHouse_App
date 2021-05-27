@@ -117,7 +117,7 @@ public class MainRVViewHolder {
                         .into(profile);
             }
             boolean check = false;
-            for (idNickname temp : postItem.getLikeIDs()) {
+            for (IdNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
@@ -215,7 +215,7 @@ public class MainRVViewHolder {
                         .into(profile);
             }
             boolean check = false;
-            for (idNickname temp : postItem.getLikeIDs()) {
+            for (IdNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
@@ -317,7 +317,7 @@ public class MainRVViewHolder {
                         .into(profile);
             }
             boolean check = false;
-            for (idNickname temp : postItem.getLikeIDs()) {
+            for (IdNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
@@ -422,7 +422,7 @@ public class MainRVViewHolder {
                         .into(profile);
             }
             boolean check = false;
-            for (idNickname temp : postItem.getLikeIDs()) {
+            for (IdNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
@@ -530,7 +530,7 @@ public class MainRVViewHolder {
                         .into(profile);
             }
             boolean check = false;
-            for (idNickname temp : postItem.getLikeIDs()) {
+            for (IdNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
@@ -641,7 +641,7 @@ public class MainRVViewHolder {
                         .into(profile);
             }
             boolean check = false;
-            for (idNickname temp : postItem.getLikeIDs()) {
+            for (IdNickname temp : postItem.getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
