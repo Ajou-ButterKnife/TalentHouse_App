@@ -56,9 +56,11 @@
         android:id="@+id/content_et_comment"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray"
+        android:background="@drawable/search_et_border"
         android:inputType="text"
         android:textSize="20sp"
+        android:padding="5dp"
+        android:hint="평가를 입력해주세요."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/content_btn_addcomment"
         app:layout_constraintStart_toStartOf="parent" />
