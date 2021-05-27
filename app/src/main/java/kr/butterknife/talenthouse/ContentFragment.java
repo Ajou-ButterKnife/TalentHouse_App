@@ -1,11 +1,9 @@
 package kr.butterknife.talenthouse;
 
 import android.app.Dialog;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,9 +18,7 @@ import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -234,10 +230,10 @@ public class ContentFragment extends Fragment {
                             if (response.body() != null) {
                                 int currentLikeCnt = response.body().getLikeCnt();
 
-                                List<idNickname> newIdNickname = response.body().getLikeIds();
+                                List<IdNickname> newIdNickname = response.body().getLikeIds();
 
                                 boolean check = false;
-                                for (idNickname temp : newIdNickname) {
+                                for (IdNickname temp : newIdNickname) {
                                     if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(getContext())[0])) {
                                         check = true;
                                         break;
@@ -344,9 +340,9 @@ public class ContentFragment extends Fragment {
                         @Override
                         public void onResponse(Call<FavoritePostUserIdRes> call, Response<FavoritePostUserIdRes> response) {
                             if(response.body() != null){
-                                List<idNickname> idNicknames = response.body().getData();
-                                for(idNickname tempData : idNicknames){
-                                    likePerson l = new likePerson(tempData.getUserId(), tempData.getNickname(), tempData.getProfile());
+                                List<IdNickname> idNicknames = response.body().getData();
+                                for(IdNickname tempData : idNicknames){
+                                    LikePerson l = new LikePerson(tempData.getUserId(), tempData.getNickname(), tempData.getProfile());
                                     bottomAdapter.addItem(l);
                                 }
                                 bottomAdapter.notifyDataSetChanged();

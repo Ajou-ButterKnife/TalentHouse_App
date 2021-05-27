@@ -5,7 +5,7 @@ import java.io.File
 import java.io.Serializable
 
 data class PostItem(
-        val _id : String,
+    val _id : String,
     val title : String,
     @Json(name = "writer_nickname")
     val writerNickname : String,
@@ -23,16 +23,16 @@ data class PostItem(
     @Json(name = "like_cnt")
     val likeCnt : Int,
     @Json(name = "like_IDs")
-    val likeIDs : List<idNickname>,
+    val likeIDs : List<IdNickname>,
     val category : String,
     val comments : List<CommentItem>,
     val profile : String,
 ) : Serializable {
-    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, likeIDs: List<idNickname>, category : String, comments : List<CommentItem>, profile : String) : this (
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, likeIDs: List<IdNickname>, category : String, comments : List<CommentItem>, profile : String) : this (
             _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments, profile
     )
 
-    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, likeIDs: List<idNickname>, category : String, comments : List<CommentItem>, profile : String) : this (
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, likeIDs: List<IdNickname>, category : String, comments : List<CommentItem>, profile : String) : this (
         _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments, profile
     ) {
         if(url.contains(".mp4"))
@@ -41,7 +41,7 @@ data class PostItem(
             this.mp3Url = url
     }
 
-    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, imageUrl: List<String>, likesCnt : Int, likeIDs: List<idNickname>, category : String, comments : List<CommentItem>, profile: String) : this (
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, imageUrl: List<String>, likesCnt : Int, likeIDs: List<IdNickname>, category : String, comments : List<CommentItem>, profile: String) : this (
         _id, title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, likeIDs, category, comments, profile
     )
 }
@@ -60,22 +60,22 @@ data class CommentItem(
     val profile : String,
     val comment : String,
     val date : String
-)
+) : Serializable
 
-data class idNickname(
+data class IdNickname(
     @Json(name = "user_id")
     val userId : String,
     val nickname: String,
     val profile: String?
-)
+) : Serializable
 
-data class likePerson(
+data class LikePerson(
     val writerId: String,
     val nickname : String,
     val profile : String?,
 )
 
-data class imageObject(
+data class ImageObject(
     val file : File?,
     val id : Int,
     val beforeUrl : String
