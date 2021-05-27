@@ -27,13 +27,14 @@ data class PostItem(
     val category : String,
     val comments : List<CommentItem>,
     val profile : String,
+    val score : Int?
 ) : Serializable {
     constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, likesCnt : Int, likeIDs: List<IdNickname>, category : String, comments : List<CommentItem>, profile : String) : this (
-            _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments, profile
+            _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments, profile, null
     )
 
     constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, likeIDs: List<IdNickname>, category : String, comments : List<CommentItem>, profile : String) : this (
-        _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments, profile
+        _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments, profile, null
     ) {
         if(url.contains(".mp4"))
             this.videoUrl = url
@@ -42,7 +43,20 @@ data class PostItem(
     }
 
     constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, imageUrl: List<String>, likesCnt : Int, likeIDs: List<IdNickname>, category : String, comments : List<CommentItem>, profile: String) : this (
-        _id, title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, likeIDs, category, comments, profile
+        _id, title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, likeIDs, category, comments, profile, null
+    )
+
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, url : String, likesCnt : Int, likeIDs: List<IdNickname>, category : String, comments : List<CommentItem>, profile : String, score : Int) : this (
+        _id, title, writerNickname, writerId, updateTime, description, null, null, null, likesCnt, likeIDs, category, comments, profile, score
+    ) {
+        if(url.contains(".mp4"))
+            this.videoUrl = url
+        else
+            this.mp3Url = url
+    }
+
+    constructor(_id : String, title : String, writerNickname : String, writerId : String, updateTime : String, description : String, imageUrl: List<String>, likesCnt : Int, likeIDs: List<IdNickname>, category : String, comments : List<CommentItem>, profile: String, score : Int) : this (
+        _id, title, writerNickname, writerId, updateTime, description, null, null, imageUrl, likesCnt, likeIDs, category, comments, profile, score
     )
 }
 

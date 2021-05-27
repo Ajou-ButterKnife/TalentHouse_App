@@ -176,6 +176,22 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     onSettingListener.onSetting(v, arrayList.get(position).get_id());
                 });
             }
+            if(arrayList.get(position).getScore() != null) {
+                holder.medal.setVisibility(View.VISIBLE);
+                switch (arrayList.get(position).getScore()) {
+                    case 1 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.gold_medal));
+                        break;
+                    case 2 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.sliver_medal));
+                        break;
+                    case 3 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.bronze_medal));
+                        break;
+                }
+                holder.category.setVisibility(View.VISIBLE);
+                holder.category.setText(arrayList.get(position).getCategory());
+            }
         }else if(_holder instanceof ContentImageViewHolder_2) {
             ContentImageViewHolder_2 holder = (ContentImageViewHolder_2) _holder;
             holder.onBind(arrayList.get(position), context);
@@ -185,6 +201,22 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.settingBtn.setOnClickListener((v) -> {
                     onSettingListener.onSetting(v, arrayList.get(position).get_id());
                 });
+            }
+            if(arrayList.get(position).getScore() != null) {
+                holder.medal.setVisibility(View.VISIBLE);
+                switch (arrayList.get(position).getScore()) {
+                    case 1 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.gold_medal));
+                        break;
+                    case 2 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.sliver_medal));
+                        break;
+                    case 3 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.bronze_medal));
+                        break;
+                }
+                holder.category.setVisibility(View.VISIBLE);
+                holder.category.setText(arrayList.get(position).getCategory());
             }
         }else if(_holder instanceof ContentImageViewHolder_3) {
             ContentImageViewHolder_3 holder = (ContentImageViewHolder_3) _holder;
@@ -196,6 +228,22 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     onSettingListener.onSetting(v, arrayList.get(position).get_id());
                 });
             }
+            if(arrayList.get(position).getScore() != null) {
+                holder.medal.setVisibility(View.VISIBLE);
+                switch (arrayList.get(position).getScore()) {
+                    case 1 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.gold_medal));
+                        break;
+                    case 2 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.sliver_medal));
+                        break;
+                    case 3 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.bronze_medal));
+                        break;
+                }
+                holder.category.setVisibility(View.VISIBLE);
+                holder.category.setText(arrayList.get(position).getCategory());
+            }
         }else if(_holder instanceof ContentImageViewHolder_4) {
             ContentImageViewHolder_4 holder = (ContentImageViewHolder_4) _holder;
             holder.onBind(arrayList.get(position), context);
@@ -205,6 +253,22 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.settingBtn.setOnClickListener((v) -> {
                     onSettingListener.onSetting(v, arrayList.get(position).get_id());
                 });
+            }
+            if(arrayList.get(position).getScore() != null) {
+                holder.medal.setVisibility(View.VISIBLE);
+                switch (arrayList.get(position).getScore()) {
+                    case 1 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.gold_medal));
+                        break;
+                    case 2 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.sliver_medal));
+                        break;
+                    case 3 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.bronze_medal));
+                        break;
+                }
+                holder.category.setVisibility(View.VISIBLE);
+                holder.category.setText(arrayList.get(position).getCategory());
             }
         }else if(_holder instanceof ContentImageViewHolder_5) {
             ContentImageViewHolder_5 holder = (ContentImageViewHolder_5) _holder;
@@ -216,6 +280,22 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     onSettingListener.onSetting(v, arrayList.get(position).get_id());
                 });
             }
+            if(arrayList.get(position).getScore() != null) {
+                holder.medal.setVisibility(View.VISIBLE);
+                switch (arrayList.get(position).getScore()) {
+                    case 1 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.gold_medal));
+                        break;
+                    case 2 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.sliver_medal));
+                        break;
+                    case 3 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.bronze_medal));
+                        break;
+                }
+                holder.category.setVisibility(View.VISIBLE);
+                holder.category.setText(arrayList.get(position).getCategory());
+            }
         }else if(_holder instanceof ContentImageViewHolder_6) {
             ContentImageViewHolder_6 holder = (ContentImageViewHolder_6) _holder;
             holder.onBind(arrayList.get(position), context);
@@ -225,6 +305,22 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.settingBtn.setOnClickListener((v) -> {
                     onSettingListener.onSetting(v, arrayList.get(position).get_id());
                 });
+            }
+            if(arrayList.get(position).getScore() != null) {
+                holder.medal.setVisibility(View.VISIBLE);
+                switch (arrayList.get(position).getScore()) {
+                    case 1 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.gold_medal));
+                        break;
+                    case 2 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.sliver_medal));
+                        break;
+                    case 3 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.bronze_medal));
+                        break;
+                }
+                holder.category.setVisibility(View.VISIBLE);
+                holder.category.setText(arrayList.get(position).getCategory());
             }
         }
         else if(_holder instanceof ContentVideoViewHolder) {
@@ -244,6 +340,22 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.settingBtn.setOnClickListener((v) -> {
                     onSettingListener.onSetting(v, arrayList.get(position).get_id());
                 });
+            }
+            if(arrayList.get(position).getScore() != null) {
+                holder.medal.setVisibility(View.VISIBLE);
+                switch (arrayList.get(position).getScore()) {
+                    case 1 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.gold_medal));
+                        break;
+                    case 2 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.sliver_medal));
+                        break;
+                    case 3 :
+                        holder.medal.setImageDrawable(context.getDrawable(R.drawable.bronze_medal));
+                        break;
+                }
+                holder.category.setVisibility(View.VISIBLE);
+                holder.category.setText(arrayList.get(position).getCategory());
             }
             // 메인 동영상 화면에 맞게
             holder.pv.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH);

@@ -90,6 +90,8 @@ public class MainRVViewHolder {
         protected ImageButton settingBtn;
         protected ImageView profile;
         View inflated;
+        protected ImageView medal;
+        protected TextView category;
 
         public ContentImageViewHolder_1(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -100,6 +102,8 @@ public class MainRVViewHolder {
             likeBtn = itemView.findViewById(R.id.rvimage_btn_like);
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
             profile = itemView.findViewById(R.id.rvimage_iv_profile);
+            medal = itemView.findViewById(R.id.rvimage_iv_medal);
+            category = itemView.findViewById(R.id.rvimage_tv_category);
 
             this.viewStubImage = viewStub;
             viewStubImage.setLayoutResource(R.layout.viewstub_main_image_1);
@@ -190,6 +194,8 @@ public class MainRVViewHolder {
         protected ImageButton settingBtn;
         protected ImageView profile;
         View inflated;
+        protected ImageView medal;
+        protected TextView category;
 
         public ContentImageViewHolder_2(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -203,6 +209,8 @@ public class MainRVViewHolder {
             inflated = viewStubImage.inflate();
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
             profile = itemView.findViewById(R.id.rvimage_iv_profile);
+            medal = itemView.findViewById(R.id.rvimage_iv_medal);
+            category = itemView.findViewById(R.id.rvimage_tv_category);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -292,6 +300,8 @@ public class MainRVViewHolder {
         protected ImageButton settingBtn;
         protected ImageView profile;
         View inflated;
+        protected ImageView medal;
+        protected TextView category;
 
         public ContentImageViewHolder_3(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -305,6 +315,8 @@ public class MainRVViewHolder {
             inflated = viewStubImage.inflate();
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
             profile = itemView.findViewById(R.id.rvimage_iv_profile);
+            medal = itemView.findViewById(R.id.rvimage_iv_medal);
+            category = itemView.findViewById(R.id.rvimage_tv_category);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -397,6 +409,8 @@ public class MainRVViewHolder {
         protected ImageButton settingBtn;
         protected ImageView profile;
         View inflated;
+        protected ImageView medal;
+        protected TextView category;
 
         public ContentImageViewHolder_4(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -410,6 +424,8 @@ public class MainRVViewHolder {
             inflated = viewStubImage.inflate();
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
             profile = itemView.findViewById(R.id.rvimage_iv_profile);
+            medal = itemView.findViewById(R.id.rvimage_iv_medal);
+            category = itemView.findViewById(R.id.rvimage_tv_category);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -505,6 +521,8 @@ public class MainRVViewHolder {
         protected ImageButton settingBtn;
         protected ImageView profile;
         View inflated;
+        protected ImageView medal;
+        protected TextView category;
 
         public ContentImageViewHolder_5(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -518,6 +536,8 @@ public class MainRVViewHolder {
             inflated = viewStubImage.inflate();
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
             profile = itemView.findViewById(R.id.rvimage_iv_profile);
+            medal = itemView.findViewById(R.id.rvimage_iv_medal);
+            category = itemView.findViewById(R.id.rvimage_tv_category);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -616,6 +636,8 @@ public class MainRVViewHolder {
         protected ImageButton settingBtn;
         protected ImageView profile;
         View inflated;
+        protected ImageView medal;
+        protected TextView category;
 
         public ContentImageViewHolder_6(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -629,6 +651,8 @@ public class MainRVViewHolder {
             inflated = viewStubImage.inflate();
             settingBtn = itemView.findViewById(R.id.rvimage_btn_setting);
             profile = itemView.findViewById(R.id.rvimage_iv_profile);
+            medal = itemView.findViewById(R.id.rvimage_iv_medal);
+            category = itemView.findViewById(R.id.rvimage_tv_category);
         }
 
         void onBind(PostItem postItem, Context context) {
@@ -731,6 +755,8 @@ public class MainRVViewHolder {
         protected ImageButton likeBtn;
         protected ImageButton settingBtn;
         protected ImageView profile;
+        protected ImageView medal;
+        protected TextView category;
 
         public ContentVideoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -742,6 +768,8 @@ public class MainRVViewHolder {
             likeBtn = itemView.findViewById(R.id.rvvideo_btn_like);
             settingBtn = itemView.findViewById(R.id.rvvideo_btn_setting);
             profile = itemView.findViewById(R.id.rvvideo_iv_profile);
+            medal = itemView.findViewById(R.id.rvvideo_iv_medal);
+            category = itemView.findViewById(R.id.rvvideo_tv_category);
         }
 
         void updateLike(Context context, String postId, String userId, String nickname, String profile) {

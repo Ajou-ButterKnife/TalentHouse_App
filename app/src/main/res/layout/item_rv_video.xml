@@ -6,6 +6,22 @@
     android:layout_marginBottom="5dp"
     android:background="@android:color/white">
 
+    <ImageView
+        android:id="@+id/rvvideo_iv_medal"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/rvvideo_tv_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카테고리"
+        app:layout_constraintStart_toEndOf="@id/rvvideo_iv_medal"
+        app:layout_constraintTop_toTopOf="@id/rvvideo_iv_medal"
+        app:layout_constraintBottom_toBottomOf="@+id/rvvideo_iv_medal" />
+
     <TextView
         android:id="@+id/rvvideo_video_tv_title"
         android:layout_width="wrap_content"
