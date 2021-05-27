@@ -1,48 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/hot_content"
-        android:icon="@drawable/sharp_local_fire_department_24"
-        android:title="명예의 전당"
-        />
-    <item
-        android:id="@+id/all_content"
-        android:icon="@drawable/fine_arts"
-        android:title="전체 게시판"
-        />
-
-    <item
-        android:id="@+id/dance_content"
-        android:icon="@drawable/party_people"
-        android:title="춤 게시판"
-        />
-
-    <item
-        android:id="@+id/song_content"
-        android:icon="@drawable/microphone"
-        android:title="노래 게시판"
-        />
-    <item
-        android:id="@+id/rap_content"
-        android:icon="@drawable/hip_hop"
-        android:title="랩 게시판"
-        />
-    <item
-        android:id="@+id/draw_content"
-        android:icon="@drawable/color_palette"
-        android:title="그림 게시판"
-        />
-    <item
-        android:id="@+id/picture_content"
-        android:icon="@drawable/camera"
-        android:title="사진 게시판"
-        />
-    <item
-        android:id="@+id/etc_content"
-        android:icon="@drawable/more"
-        android:title="기타 게시판"
-        />
-
-
+    <group
+        android:id="@+id/drawable1"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/hot_content"
+            android:icon="@drawable/sharp_local_fire_department_24"
+            android:title="명예의 전당"
+            />
+    </group>
+    <group
+        android:id="@+id/drawable2"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/all_content"
+            android:icon="@drawable/fine_arts"
+            android:title="전체 게시판"
+            />
+    </group>
+    <group
+        android:id="@+id/drawable3"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/dance_content"
+            android:icon="@drawable/party_people"
+            android:title="춤 게시판"
+            />
+    </group>
+    <group
+        android:id="@+id/drawable4"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/song_content"
+            android:icon="@drawable/microphone"
+            android:title="노래 게시판"
+            />
+    </group>
+    <group
+        android:id="@+id/drawable5"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/rap_content"
+            android:icon="@drawable/hip_hop"
+            android:title="랩 게시판"
+            />
+    </group>
+    <group
+        android:id="@+id/drawable6"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/draw_content"
+            android:icon="@drawable/color_palette"
+            android:title="그림 게시판"
+            />
+    </group>
+    <group
+        android:id="@+id/drawable7"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/picture_content"
+            android:icon="@drawable/camera"
+            android:title="사진 게시판"
+            />
+    </group>
+    <group
+        android:id="@+id/drawable8"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/etc_content"
+            android:icon="@drawable/more"
+            android:title="기타 게시판"
+            />
+    </group>
 </menu>

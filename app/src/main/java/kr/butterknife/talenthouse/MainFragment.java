@@ -1,29 +1,20 @@
 package kr.butterknife.talenthouse;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
-import kr.butterknife.talenthouse.network.request.IdReq;
 import kr.butterknife.talenthouse.network.response.CategoryRes;
-import kr.butterknife.talenthouse.network.response.CommonResponse;
 import kr.butterknife.talenthouse.network.response.PostRes;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +25,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private RecyclerView rv;
     private MainRVAdapter rvAdapter;
     private ArrayList<PostItem> posts;
+    private LinearLayoutManager linearLayoutManager;
 
     private RecyclerView rvCategory;
     private MainCategoryRVAdapter rvCategoryAdapter;
@@ -85,18 +77,19 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             ((MainActivity) getActivity()).outsideMyPageClick();
         });
         rvAdapter.setOnSettingListener((v, postId) -> {
-            Util.INSTANCE.postSetting(requireActivity(), requireContext(), v, postId, posts, (item) -> {
+            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (item) -> {
                 ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", item);
                 return true;
             }, (idx) -> {
                 posts.remove((int) idx);
-                rvAdapter.notifyItemRemoved(idx);
+                rvAdapter.notifyDataSetChanged();
                 return true;
             });
         });
 
         rv.setAdapter(rvAdapter);
-        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rv.setLayoutManager(linearLayoutManager);
         getCategories();
 
         return view;
@@ -108,7 +101,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             public void run(){
                 try{
                     LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(categorySet, rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getPosts(categorySet, rvAdapter.getPage()).enqueue(new Callback<PostRes>() {
                         @Override
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
@@ -121,8 +114,10 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile()));
                                         else
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile()));
+                                        rvAdapter.notifyItemInserted(posts.size() - 1);
                                     }
-                                    rvAdapter.notifyDataSetChanged();
+                                    if(postList.size() == 0)
+                                        rvAdapter.setPage(rvAdapter.getPage() - 1);
                                 }catch (Exception e){
                                     e.printStackTrace();
                                 }
@@ -201,10 +196,12 @@ public class MainFragment extends Fragment implements View.OnClickListener {
             categorySet = str;
             rvAdapter.setPage(0);
             posts.clear();
-            getPosts();
-//            rvAdapter.doItemReload();
+            rv.setAdapter(null);
+            rv.setLayoutManager(null);
             rv.setAdapter(rvAdapter);
-            rvAdapter.initScrollListener(rv);
+            rv.setLayoutManager(linearLayoutManager);
+            rvAdapter.notifyDataSetChanged();
+            rvAdapter.doItemReload();
 
         }
     };

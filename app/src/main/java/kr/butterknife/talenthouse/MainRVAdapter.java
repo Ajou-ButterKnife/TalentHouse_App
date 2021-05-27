@@ -77,10 +77,6 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         onSettingListener = listener;
     }
 
-    public int getPageNum() {
-        return page;
-    }
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -152,7 +148,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             holder.writer.setOnClickListener(v -> myPageListener.gotoMyPage(arrayList.get(position).getWriterId()));
 
             boolean check = false;
-            for (idNickname temp : arrayList.get(position).getLikeIDs()) {
+            for (IdNickname temp : arrayList.get(position).getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
@@ -263,7 +259,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             playerList.add(player);
 
             boolean check = false;
-            for (idNickname temp : arrayList.get(position).getLikeIDs()) {
+            for (IdNickname temp : arrayList.get(position).getLikeIDs()) {
                 if (temp.getUserId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {
                     check = true;
                     break;
@@ -376,4 +372,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.page = page;
     }
 
+    public int getPage() {
+        return page;
+    }
 }

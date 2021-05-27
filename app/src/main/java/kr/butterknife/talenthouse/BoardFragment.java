@@ -9,13 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
-import kr.butterknife.talenthouse.network.response.CategoryRes;
 import kr.butterknife.talenthouse.network.response.PostRes;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -58,12 +55,12 @@ public class BoardFragment extends Fragment {
         rvAdapter.initScrollListener(rv);
         rvAdapter.setOnItemReloadListener(() -> getPosts());
         rvAdapter.setOnSettingListener((v, postId) -> {
-            Util.INSTANCE.postSetting(requireActivity(), requireContext(), v, postId, posts, (item) -> {
+            Util.INSTANCE.postSetting(requireContext(), v, postId, posts, (item) -> {
                 ((MainActivity) getActivity()).replaceFragment(new WriteFragment(), "Write", item);
                 return true;
             }, (idx) -> {
                 posts.remove((int) idx);
-                rvAdapter.notifyItemRemoved(idx);
+                rvAdapter.notifyDataSetChanged();
                 return true;
             });
         });
@@ -105,7 +102,7 @@ public class BoardFragment extends Fragment {
             public void run(){
                 try{
                     LoadingDialog.INSTANCE.onLoadingDialog(getActivity());
-                    ButterKnifeApi.INSTANCE.getRetrofitService().getBoardPosts(category, sortFlag, rvAdapter.getPageNum()).enqueue(new Callback<PostRes>() {
+                    ButterKnifeApi.INSTANCE.getRetrofitService().getBoardPosts(category, sortFlag, rvAdapter.getPage()).enqueue(new Callback<PostRes>() {
                         @Override
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
@@ -118,8 +115,10 @@ public class BoardFragment extends Fragment {
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile()));
                                         else
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile()));
+                                        rvAdapter.notifyItemInserted(posts.size() - 1);
                                     }
-                                    rvAdapter.notifyDataSetChanged();
+                                    if(postList.size() == 0)
+                                        rvAdapter.setPage(rvAdapter.getPage() - 1);
                                 }catch (Exception e){
                                     e.printStackTrace();
                                 }

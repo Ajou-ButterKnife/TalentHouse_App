@@ -2,6 +2,7 @@ package kr.butterknife.talenthouse.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kr.butterknife.talenthouse.PostItem
 import kr.butterknife.talenthouse.network.request.*
 import kr.butterknife.talenthouse.network.response.*
 import okhttp3.OkHttpClient
@@ -12,8 +13,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
-private const val BASE_URL = "http://192.168.0.104:5000/"
-
+//private const val BASE_URL = "http://192.168.0.102:4000/"
+private const val BASE_URL = "http://10.0.2.2:4000"
 
 private val loggingInterceptor = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
@@ -118,6 +119,9 @@ interface ButterKnifeApiService {
 
     @GET("post/get/favorite/{postId}")
     fun getPostLikeIds(@Path("postId") postId: String) : Call<GetPostLikeIds>
+
+    @GET("post/one")
+    fun getOnePost(@Query("id") postId : String) : Call<PostItem>
 
 }
 

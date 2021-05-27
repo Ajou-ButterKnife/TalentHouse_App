@@ -12,6 +12,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.graphics.drawable.AnimationDrawable
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import androidx.appcompat.app.AppCompatDialog
@@ -109,9 +110,37 @@ object Util {
             }
         }
     }
+    fun postSetting(context: Context,
+                    view: View,
+                    postId: String,
+                    updateAction: () -> Boolean,
+                    deleteAction: () -> Boolean)  {
+        val popup = PopupMenu(context, view)
+        val menuInflater = popup.menuInflater
+        menuInflater.inflate(R.menu.post_menu, popup.menu)
+        popup.setOnMenuItemClickListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.post_menu_update -> {
+                    updateAction()
+                }
+                R.id.post_menu_delete -> {
+                    val builder = AlertDialog.Builder(context)
+                    builder.setTitle("게시글 삭제")
+                    builder.setMessage("게시글을 삭제하시겠습니까?")
+                    builder.setPositiveButton("삭제") { dialog: DialogInterface?, which: Int ->
+                        deletePost(postId, context)
+                        deleteAction()
+                    }
+                    builder.setNegativeButton("취소") { dialog: DialogInterface?, which: Int -> Toast.makeText(context, "negative", Toast.LENGTH_SHORT).show() }
+                    builder.show()
+                }
+            }
+            true
+        }
+        popup.show()
+    }
 
-    fun postSetting(activity : Activity?,
-                    context: Context,
+    fun postSetting(context: Context,
                     view: View,
                     postId: String,
                     list: ArrayList<PostItem>,
@@ -135,13 +164,15 @@ object Util {
                     builder.setTitle("게시글 삭제")
                     builder.setMessage("게시글을 삭제하시겠습니까?")
                     builder.setPositiveButton("삭제") { dialog: DialogInterface?, which: Int ->
-                        deletePost(activity, postId, context)
+                        LoadingDialog.onLoadingDialog(context)
+                        deletePost(postId, context)
                         var deleteIndex = 0
                         while (deleteIndex < list.size) {
                             if (list[deleteIndex]._id == postId) break
                             deleteIndex++
                         }
                         deleteAction(deleteIndex)
+                        LoadingDialog.offLoadingDialog()
                     }
                     builder.setNegativeButton("취소") { dialog: DialogInterface?, which: Int -> Toast.makeText(context, "negative", Toast.LENGTH_SHORT).show() }
                     builder.show()
@@ -152,12 +183,11 @@ object Util {
         popup.show()
     }
 
-    private fun deletePost(activity : Activity?, postId: String, context: Context) {
+    private fun deletePost(postId: String, context: Context) {
         val coroutineScope = CoroutineScope(Dispatchers.Default + Job())
         var response: CommonResponse? = null
         coroutineScope.launch {
             try {
-                LoadingDialog.onLoadingDialog(activity)
                 response = ButterKnifeApi.retrofitService.deletePost(LoginInfo.getLoginInfo(context)[0], IdReq(postId))
                 var toastMsg = "서버로 부터 받아오지 못하였습니다."
 
@@ -167,10 +197,8 @@ object Util {
                 }
 
                 Toast.makeText(context, toastMsg, Toast.LENGTH_SHORT).show()
-                LoadingDialog.offLoadingDialog()
             }
             catch (e: Exception) {
-                LoadingDialog.offLoadingDialog()
             }
         }
     }

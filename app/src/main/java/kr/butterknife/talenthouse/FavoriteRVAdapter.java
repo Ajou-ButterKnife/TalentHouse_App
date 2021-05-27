@@ -1,13 +1,11 @@
 package kr.butterknife.talenthouse;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import java.util.ArrayList;
 
 public class FavoriteRVAdapter extends RecyclerView.Adapter<FavoriteRVAdapter.FavoriteRVHolder> {
-    private ArrayList<likePerson> likePersonList = new ArrayList<>();
+    private ArrayList<LikePerson> likePersonList = new ArrayList<>();
     Context context;
     BottomSheetDialog bottomSheetDialog;
 
@@ -67,7 +65,7 @@ public class FavoriteRVAdapter extends RecyclerView.Adapter<FavoriteRVAdapter.Fa
         return likePersonList.size();
     }
 
-    public void addItem(likePerson lp){
+    public void addItem(LikePerson lp){
         likePersonList.add(lp);
     }
 
