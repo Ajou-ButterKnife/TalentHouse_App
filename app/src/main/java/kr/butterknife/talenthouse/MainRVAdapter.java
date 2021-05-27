@@ -240,6 +240,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             if(arrayList.get(position).getProfile().equals("") == false){
                 Glide.with(context)
                         .load(arrayList.get(position).getProfile())
+                        .circleCrop()
                         .into(holder.profile);
             }
             if(arrayList.get(position).getWriterId().equals(LoginInfo.INSTANCE.getLoginInfo(context)[0])) {

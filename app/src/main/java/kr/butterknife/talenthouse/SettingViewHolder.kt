@@ -138,6 +138,7 @@ class SettingImageVH(private val context : Context, view : View) : RecyclerView.
                     if(item.strValue != "") item.strValue
                     else context.resources.getDrawable(R.drawable.no_image, null)
                 )
+                .circleCrop()
                 .into(profileImage)
 
             onItemClickListener = item.onClick

@@ -16,6 +16,8 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         String nickname = LoginInfo.INSTANCE.getLoginInfo(getApplicationContext())[1];
         String profileImg = LoginInfo.INSTANCE.getLoginInfo(getApplicationContext())[2];
         nav_header_text.setText(nickname + "님 반갑습니다!");
-        Glide.with(this).load(profileImg).into(nav_header_image);
+        Glide.with(this).load(profileImg).circleCrop().into(nav_header_image);
         String content = nav_header_text.getText().toString();
 
         SpannableString spannableString = new SpannableString(content);

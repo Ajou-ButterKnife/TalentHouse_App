@@ -144,6 +144,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
                         if(it.data.profile != "")
                             Glide.with(requireContext())
                                 .load(it.data.profile)
+                                .circleCrop()
                                 .into(mypage_image_profile)
                     }
                 }
