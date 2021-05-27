@@ -19,8 +19,8 @@
 
     <item
         android:id="@+id/btmnavi_favorite"
-        android:title="좋아요"
-        android:icon="@drawable/btm_navigation_favorite"/>
+        android:icon="@drawable/btn_navigation_favorite"
+        android:title="불꽃" />
 
     <item
         android:id="@+id/btmnavi_mypage"
