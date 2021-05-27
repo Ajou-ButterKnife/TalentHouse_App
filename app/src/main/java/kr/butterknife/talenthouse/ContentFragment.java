@@ -428,7 +428,7 @@ public class ContentFragment extends Fragment {
         });
         subject.setText(item.getDescription());
 
-        if(item.getImageUrl().size() != 0) {
+        if(item.getImageUrl() != null) {
             viewPager.setAdapter(null);
             adapter = new ImageContentPagerAdapter(getContext(), item.getImageUrl());
             viewPager.setAdapter(adapter);
