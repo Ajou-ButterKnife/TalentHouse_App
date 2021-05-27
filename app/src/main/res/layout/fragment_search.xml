@@ -31,6 +31,17 @@
         android:visibility="gone"
         android:text="검색어를 입력 해주세요" />
 
+    <ImageView
+        android:id="@+id/exclamation_image"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        android:gravity="center"
+        android:visibility="gone"
+        app:srcCompat="@drawable/exclamation_mark"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="150dp"
+        tools:layout_editor_absoluteY="253dp" />
+
     <Spinner
         android:id="@+id/search_spinner"
         android:layout_width="110dp"
@@ -55,7 +66,7 @@
     <Button
         android:id="@+id/search_btn"
         android:layout_width="80dp"
-        android:layout_height="35dp"
+        android:layout_height="37dp"
         android:layout_marginTop="5dp"
         android:layout_marginRight="5dp"
         android:backgroundTint="#Ffb26b"

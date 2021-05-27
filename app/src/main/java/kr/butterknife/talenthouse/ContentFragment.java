@@ -193,6 +193,7 @@ public class ContentFragment extends Fragment {
         if(item.getProfile().equals("") == false){
             Glide.with(getContext())
                     .load(item.getProfile())
+                    .circleCrop()
                     .into(profile);
         }
 

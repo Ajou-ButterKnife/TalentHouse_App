@@ -19,7 +19,8 @@
         android:id="@+id/hot_startDate_tv"
         android:layout_width="150dp"
         android:layout_height="45dp"
-        android:text="TextView"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Start Date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +28,8 @@
         android:id="@+id/hot_endDate_tv"
         android:layout_width="150dp"
         android:layout_height="45dp"
-        android:text="TextView"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="End Date"
         app:layout_constraintStart_toEndOf="@+id/hot_startDate_tv"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,7 +37,7 @@
         android:id="@+id/hot_submit_btn"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:text="Button"
+        android:text="선택"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/hot_endDate_tv"

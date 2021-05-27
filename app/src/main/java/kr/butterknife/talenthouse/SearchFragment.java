@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class SearchFragment extends Fragment {
     private EditText tvSearch;
     private TextView emptyText;
     private TextView firstText;
+    private ImageView emptyImage;
 
     private String searchItem;
 
@@ -53,6 +55,7 @@ public class SearchFragment extends Fragment {
 
         emptyText = view.findViewById(R.id.empty_text);
         firstText = view.findViewById(R.id.first_text);
+        emptyImage = view.findViewById(R.id.exclamation_image);
 
         rvPostAdapter = new MainRVAdapter(getContext(), posts);
         rvPostAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -117,6 +120,7 @@ public class SearchFragment extends Fragment {
         });
 
         rvPost.setVisibility(View.GONE);
+        emptyImage.setVisibility(View.VISIBLE);
         firstText.setVisibility(View.VISIBLE);
 
         return view;
@@ -149,12 +153,14 @@ public class SearchFragment extends Fragment {
                                     if(posts.isEmpty()) {
                                         rvPost.setVisibility(View.GONE);
                                         firstText.setVisibility(View.GONE);
+                                        emptyImage.setVisibility(View.VISIBLE);
                                         emptyText.setVisibility(View.VISIBLE);
                                     }
                                     else {
                                         rvPost.setVisibility(View.VISIBLE);
                                         firstText.setVisibility(View.GONE);
                                         emptyText.setVisibility(View.GONE);
+                                        emptyImage.setVisibility(View.GONE);
                                     }
                                 }catch (Exception e){
                                     e.printStackTrace();

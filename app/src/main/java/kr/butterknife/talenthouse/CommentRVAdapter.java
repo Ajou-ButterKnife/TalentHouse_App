@@ -81,7 +81,7 @@ public class CommentRVAdapter extends RecyclerView.Adapter<CommentRVAdapter.Comm
         holder.dateText = comments.get(position).getDate();
 
         if(comments.get(position).getProfile().equals("") == false){
-            Glide.with(context).load(comments.get(position).getProfile()).into(holder.profile);
+            Glide.with(context).load(comments.get(position).getProfile()).circleCrop().into(holder.profile);
         }
 
         holder.writer.setOnClickListener(new View.OnClickListener() {

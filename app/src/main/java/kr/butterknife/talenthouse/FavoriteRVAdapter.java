@@ -46,7 +46,7 @@ public class FavoriteRVAdapter extends RecyclerView.Adapter<FavoriteRVAdapter.Fa
     @Override
     public void onBindViewHolder(@NonNull FavoriteRVAdapter.FavoriteRVHolder holder, int position) {
         if(likePersonList.get(position).getProfile().equals("") == false){
-            Glide.with(context).load(likePersonList.get(position).getProfile()).into(holder.profile);
+            Glide.with(context).load(likePersonList.get(position).getProfile()).circleCrop().into(holder.profile);
         }
         holder.tv_nickname.setText(likePersonList.get(position).getNickname());
         holder.tv_nickname.setOnClickListener(new View.OnClickListener() {
