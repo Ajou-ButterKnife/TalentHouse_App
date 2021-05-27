@@ -84,6 +84,8 @@ public class FavoriteFragment extends Fragment {
                         @Override
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
+                                linearLayout.setVisibility(View.GONE);
+                                rv.setVisibility(View.VISIBLE);
                                 List<PostItem> postItemList = response.body().getData();
                                 if(postItemList.size() != 0){
                                     for(PostItem p : postItemList) {
@@ -96,9 +98,11 @@ public class FavoriteFragment extends Fragment {
                                         rvAdapter.notifyItemInserted(posts.size() - 1);
                                     }
                                 }else{
-                                    textView.setVisibility(View.VISIBLE);
+                                    if(posts.size() == 0) {
+                                        linearLayout.setVisibility(View.VISIBLE);
+                                        rv.setVisibility(View.GONE);
+                                    }
                                     rvAdapter.setPage(rvAdapter.getPage() - 1);
-
                                 }
                             }
                             LoadingDialog.INSTANCE.offLoadingDialog();
