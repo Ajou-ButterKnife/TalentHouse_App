@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +30,8 @@ public class FavoriteFragment extends Fragment {
     private RecyclerView rv;
     private MainRVAdapter rvAdapter;
     private ArrayList<PostItem> posts;
-    private TextView textView;
+    TextView textView;
+    private LinearLayout linearLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +39,9 @@ public class FavoriteFragment extends Fragment {
         View view  = inflater.inflate(R.layout.fragment_favorite, container, false);
 
         rv = view.findViewById(R.id.favorite_rv);
-        textView = view.findViewById(R.id.favorite_tv);
+        textView = view.findViewById(R.id.favorite_tv_nickname);
+        textView.setText(LoginInfo.INSTANCE.getLoginInfo(getContext())[1]);
+        linearLayout = view.findViewById(R.id.favorite_ll);
         posts = new ArrayList<>();
         rvAdapter = new MainRVAdapter(getContext(), posts);
         rvAdapter.setOnItemClickListener(new OnItemClickListener() {
@@ -94,6 +98,7 @@ public class FavoriteFragment extends Fragment {
                                 }else{
                                     textView.setVisibility(View.VISIBLE);
                                     rvAdapter.setPage(rvAdapter.getPage() - 1);
+
                                 }
                             }
                             LoadingDialog.INSTANCE.offLoadingDialog();

@@ -55,7 +55,7 @@ public class ContentFragment extends Fragment {
 
     PostItem item;
     ViewStub content;
-    TextView title, date, writer, subject, addComment, likeCnt;
+    TextView title, date, writer, subject, likeCnt;
     EditText comment;
     RecyclerView commentRV;
     ArrayList<CommentItem> commentList;
@@ -72,8 +72,9 @@ public class ContentFragment extends Fragment {
     ImageButton likeBtn, settingBtn;
     BottomSheetDialog bottomSheetDialog;
     FavoriteRVAdapter bottomAdapter;
-    ImageView profile;
+    ImageView profile, addComment;
     Boolean flag = false;
+
 
     public ContentFragment(PostItem item) {
         this.item = item;
