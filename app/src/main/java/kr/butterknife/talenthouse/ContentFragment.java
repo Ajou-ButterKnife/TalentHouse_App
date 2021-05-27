@@ -72,7 +72,8 @@ public class ContentFragment extends Fragment {
     ImageButton likeBtn, settingBtn;
     BottomSheetDialog bottomSheetDialog;
     FavoriteRVAdapter bottomAdapter;
-    ImageView profile, addComment;
+    ImageView profile;
+    ImageButton addComment;
     Boolean flag = false;
 
 

@@ -10,6 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:background="#BDBDBD"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,30 +18,35 @@
 
     <TextView
         android:id="@+id/empty_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색 결과 없음"
         android:visibility="gone"
-        android:text="검색 결과 없음" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/first_text"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:text="검색어를 입력 해주세요" />
 
     <ImageView
         android:id="@+id/exclamation_image"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:gravity="center"
-        android:visibility="gone"
         app:srcCompat="@drawable/exclamation_mark"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="150dp"
-        tools:layout_editor_absoluteY="253dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.35"/>
 
     <Spinner
         android:id="@+id/search_spinner"
