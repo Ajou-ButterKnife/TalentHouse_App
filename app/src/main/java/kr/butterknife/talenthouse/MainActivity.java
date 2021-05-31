@@ -76,24 +76,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         drawerLayout = (DrawerLayout) findViewById(R.id.dl_main_drawer_root);
         navigationView = (NavigationView) findViewById(R.id.nv_main_navigation_root);
 
-        View nav_header_view = navigationView.getHeaderView(0);
-        ImageView nav_header_image = (ImageView) nav_header_view.findViewById(R.id.nav_header_profile_iv);
-        TextView nav_header_text = (TextView) nav_header_view.findViewById(R.id.nav_header_nickname_tv);
-
-        String nickname = LoginInfo.INSTANCE.getLoginInfo(getApplicationContext())[1];
-        String profileImg = LoginInfo.INSTANCE.getLoginInfo(getApplicationContext())[2];
-        nav_header_text.setText(nickname + "님 반갑습니다!");
-        Glide.with(this).load(profileImg).circleCrop().into(nav_header_image);
-        String content = nav_header_text.getText().toString();
-
-        SpannableString spannableString = new SpannableString(content);
-        int start = content.indexOf(nickname);
-        int end = start + nickname.length();
-
-        spannableString.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new RelativeSizeSpan(1.8f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
-        nav_header_text.setText(spannableString);
-
         navigationView.setNavigationItemSelectedListener(this);
 
         if(ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
@@ -119,6 +101,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 replaceFragment(favoriteFragment, "favorite");
                 return true;
             case R.id.btmnavi_menu :
+                View nav_header_view = navigationView.getHeaderView(0);
+                ImageView nav_header_image = (ImageView) nav_header_view.findViewById(R.id.nav_header_profile_iv);
+                TextView nav_header_text = (TextView) nav_header_view.findViewById(R.id.nav_header_nickname_tv);
+                String nickname = LoginInfo.INSTANCE.getLoginInfo(getApplicationContext())[1];
+                String profileImg = LoginInfo.INSTANCE.getLoginInfo(getApplicationContext())[2];
+                nav_header_text.setText(nickname + "님 반갑습니다!");
+                if(!profileImg.equals("")) {
+                    Glide.with(this).load(profileImg).circleCrop().into(nav_header_image);
+                }
+                String content = nav_header_text.getText().toString();
+
+                SpannableString spannableString = new SpannableString(content);
+                int start = content.indexOf(nickname);
+                int end = start + nickname.length();
+
+                spannableString.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableString.setSpan(new RelativeSizeSpan(1.8f), start, end, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE);
+                nav_header_text.setText(spannableString);
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
             case R.id.btmnavi_mypage :
