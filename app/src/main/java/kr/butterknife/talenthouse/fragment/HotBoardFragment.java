@@ -46,6 +46,7 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
     private TextView startDateTv;
     private TextView endDateTv;
     private Button submitBtn;
+    private LinearLayoutManager linearLayoutManager;
     private int startEndFlag = 0;   // 0 : start, 1 : end
 
     public HotBoardFragment() {
@@ -86,15 +87,6 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
             }
         });
 
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startDate = (String) startDateTv.getText();
-                endDate = (String) endDateTv.getText();
-                posts.clear();
-                getHotPosts();
-            }
-        });
         rv = view.findViewById(R.id.hot_board_rv);
         posts = new ArrayList<>();
 
@@ -109,13 +101,31 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
             }
         });
         rv.setAdapter(rvAdapter);
-        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rv.setLayoutManager(linearLayoutManager);
+
         calendar.setTime(new Date());
         DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
         endDate = df.format(calendar.getTime());
         calendar.add(Calendar.DATE, -7);
         startDate = df.format(calendar.getTime());
         getHotPosts();
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startDate = (String) startDateTv.getText();
+                endDate = (String) endDateTv.getText();
+                rvAdapter.setPage(0);
+                posts.clear();
+                rv.setAdapter(null);
+                rv.setLayoutManager(null);
+                rv.setLayoutManager(linearLayoutManager);
+                rv.setAdapter(rvAdapter);
+                getHotPosts();
+                rvAdapter.notifyDataSetChanged();
+            }
+        });
 
         return view;
     }
@@ -133,9 +143,12 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
                                 try{
                                     int i = 0;
                                     List<PostItem> postList = response.body().getData();
+                                    String prevCategory = postList.get(0).getCategory();
                                     for(PostItem p : postList){
-                                        if(i == 3)
+                                        if(i == 3 || !prevCategory.equals(p.getCategory())) {
                                             i = 1;
+                                            prevCategory = p.getCategory();
+                                        }
                                         else
                                             i++;
                                         if(p.getVideoUrl() != null)
