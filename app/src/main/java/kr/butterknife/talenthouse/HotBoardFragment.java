@@ -98,6 +98,15 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
         posts = new ArrayList<>();
 
         rvAdapter = new MainRVAdapter(getContext(), posts);
+        rvAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int pos) {
+                ((MainActivity) getActivity()).replaceFragment(
+                        new ContentFragment(posts.get(pos)),
+                        "Content"
+                );
+            }
+        });
         rv.setAdapter(rvAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         calendar.setTime(new Date());
@@ -121,12 +130,17 @@ public class HotBoardFragment extends Fragment implements DatePickerDialog.OnDat
                         public void onResponse(Call<PostRes> call, Response<PostRes> response) {
                             if(response.body() != null){
                                 try{
+                                    int i = 0;
                                     List<PostItem> postList = response.body().getData();
                                     for(PostItem p : postList){
+                                        if(i == 3)
+                                            i = 1;
+                                        else
+                                            i++;
                                         if(p.getVideoUrl() != null)
-                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile(), 1));
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getVideoUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile(), i));
                                         else if(p.getImageUrl().size() != 0)
-                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile(), 3));
+                                            posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getImageUrl(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile(), i));
                                         else
                                             posts.add(new PostItem(p.get_id(), p.getTitle(), p.getWriterNickname(), p.getWriterId(), p.getUpdateTime(), p.getDescription(), p.getLikeCnt(), p.getLikeIDs(), p.getCategory(), p.getComments(), p.getProfile()));
                                     }
