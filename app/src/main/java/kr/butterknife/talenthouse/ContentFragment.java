@@ -240,7 +240,7 @@ public class ContentFragment extends Fragment {
                                     likeBtn.setImageResource(R.drawable.btn_after_like);
                                 else
                                     likeBtn.setImageResource(R.drawable.btn_before_like);
-                                likeCnt.setText("좋아요 " + currentLikeCnt + "개");
+                                likeCnt.setText("불꽃 " + currentLikeCnt + "개");
                             }
                             LoadingDialog.INSTANCE.offLoadingDialog();
                         }
@@ -277,10 +277,10 @@ public class ContentFragment extends Fragment {
                                 public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                     if (response.body() != null) {
                                         if (response.body().getResult().equals("Plus")) {
-                                            likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                            likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                             likeBtn.setImageResource(R.drawable.btn_after_like);
                                         } else if (response.body().getResult().equals("Minus")) {
-                                            likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                            likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                             likeBtn.setImageResource(R.drawable.btn_before_like);
                                         }
                                     }
@@ -306,7 +306,7 @@ public class ContentFragment extends Fragment {
         likeCnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(likeCnt.getText().equals("좋아요 0개")){
+                if(likeCnt.getText().equals("불꽃 0개")){
                     return;
                 }
                 bottomSheetDialog = new BottomSheetDialog(getContext());

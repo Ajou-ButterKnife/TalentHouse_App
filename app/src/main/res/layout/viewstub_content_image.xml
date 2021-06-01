@@ -65,15 +65,6 @@
         app:layout_constraintStart_toStartOf="@+id/content_image_iv_profile"
         app:layout_constraintTop_toBottomOf="@+id/content_image_iv_profile" />
 
-    <TextView
-        android:id="@+id/content_tv_subject"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="본문입니다."
-        app:layout_constraintStart_toStartOf="@id/content_image_title"
-        app:layout_constraintTop_toBottomOf="@+id/content_image_title" />
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/content_pager"
         android:layout_width="0dp"
@@ -81,7 +72,7 @@
         android:layout_marginTop="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_tv_subject" />
+        app:layout_constraintTop_toBottomOf="@+id/content_image_title" />
 
     <me.relex.circleindicator.CircleIndicator
         android:id="@+id/content_indicator"
@@ -94,6 +85,15 @@
         app:layout_constraintEnd_toEndOf="@+id/content_pager"
         app:layout_constraintTop_toBottomOf="@+id/content_pager" />
 
+    <TextView
+        android:id="@+id/content_tv_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="본문입니다."
+        app:layout_constraintStart_toStartOf="@id/content_image_title"
+        app:layout_constraintTop_toBottomOf="@+id/content_indicator" />
+
     <ImageButton
         android:id="@+id/content_btn_like"
         android:layout_width="30dp"
@@ -102,14 +102,14 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_indicator"
+        app:layout_constraintTop_toBottomOf="@+id/content_tv_subject"
         app:srcCompat="@drawable/btn_before_like" />
 
     <TextView
         android:id="@+id/content_tv_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="좋아요 0개"
+        android:text="불꽃 0개"
         android:textSize="13sp"
         app:layout_constraintTop_toTopOf="@+id/content_btn_like"
         app:layout_constraintStart_toEndOf="@+id/content_btn_like"
