@@ -361,7 +361,8 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.category.setText(arrayList.get(position).getCategory());
             }
             // 메인 동영상 화면에 맞게
-            holder.pv.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH);
+            holder.pv.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FIT);
+            holder.pv.setKeepContentOnPlayerReset(true);
 
             SimpleExoPlayer player = new SimpleExoPlayer.Builder(context).build();
             holder.pv.setPlayer(player);
