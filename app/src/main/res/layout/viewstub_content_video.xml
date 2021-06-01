@@ -108,7 +108,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_tv_subject"/>
+        app:layout_constraintTop_toBottomOf="@+id/content_video_fl"/>
 
     <TextView
         android:id="@+id/content_tv_like"
