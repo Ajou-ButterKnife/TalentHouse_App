@@ -56,11 +56,9 @@ public class MainRVViewHolder {
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요 취소");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                     } else if (response.body().getResult().equals("Minus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
-                                        likeBtn.setText("좋아요");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                     }
                                 }
                             }
@@ -132,7 +130,7 @@ public class MainRVViewHolder {
                 likeBtn.setImageResource(R.drawable.btn_after_like);
             else
                 likeBtn.setImageResource(R.drawable.btn_before_like);
-            likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
+            likeCnt.setText("불꽃 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -157,10 +155,10 @@ public class MainRVViewHolder {
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
@@ -234,7 +232,7 @@ public class MainRVViewHolder {
                 likeBtn.setImageResource(R.drawable.btn_after_like);
             else
                 likeBtn.setImageResource(R.drawable.btn_before_like);
-            likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
+            likeCnt.setText("불꽃 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -263,10 +261,10 @@ public class MainRVViewHolder {
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
@@ -340,7 +338,7 @@ public class MainRVViewHolder {
                 likeBtn.setImageResource(R.drawable.btn_after_like);
             else
                 likeBtn.setImageResource(R.drawable.btn_before_like);
-            likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
+            likeCnt.setText("불꽃 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -372,10 +370,10 @@ public class MainRVViewHolder {
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
@@ -449,7 +447,7 @@ public class MainRVViewHolder {
                 likeBtn.setImageResource(R.drawable.btn_after_like);
             else
                 likeBtn.setImageResource(R.drawable.btn_before_like);
-            likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
+            likeCnt.setText("불꽃 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -484,10 +482,10 @@ public class MainRVViewHolder {
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
@@ -561,7 +559,7 @@ public class MainRVViewHolder {
                 likeBtn.setImageResource(R.drawable.btn_after_like);
             else
                 likeBtn.setImageResource(R.drawable.btn_before_like);
-            likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
+            likeCnt.setText("불꽃 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -599,10 +597,10 @@ public class MainRVViewHolder {
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
@@ -676,7 +674,7 @@ public class MainRVViewHolder {
                 likeBtn.setImageResource(R.drawable.btn_after_like);
             else
                 likeBtn.setImageResource(R.drawable.btn_before_like);
-            likeCnt.setText("좋아요 " + postItem.getLikeCnt() + "개");
+            likeCnt.setText("불꽃 " + postItem.getLikeCnt() + "개");
             likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -720,10 +718,10 @@ public class MainRVViewHolder {
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }
@@ -784,10 +782,10 @@ public class MainRVViewHolder {
                             public void onResponse(Call<LikeRes> call, Response<LikeRes> response) {
                                 if (response.body() != null) {
                                     if (response.body().getResult().equals("Plus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_after_like);
                                     } else if (response.body().getResult().equals("Minus")) {
-                                        likeCnt.setText("좋아요 " + response.body().getLikeCnt() + "개");
+                                        likeCnt.setText("불꽃 " + response.body().getLikeCnt() + "개");
                                         likeBtn.setImageResource(R.drawable.btn_before_like);
                                     }
                                 }

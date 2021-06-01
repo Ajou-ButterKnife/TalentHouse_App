@@ -154,11 +154,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     break;
                 }
             }
-            if(check)
-                holder.likeBtn.setText("좋아요 취소");
-            else
-                holder.likeBtn.setText("좋아요");
-            holder.likeCnt.setText("좋아요 " + arrayList.get(position).getLikeCnt() + "개");
+            holder.likeCnt.setText("불꽃 " + arrayList.get(position).getLikeCnt() + "개");
             holder.likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -382,7 +378,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 holder.likeBtn.setImageResource(R.drawable.btn_after_like);
             else
                 holder.likeBtn.setImageResource(R.drawable.btn_before_like);
-            holder.likeCnt.setText("좋아요 " + arrayList.get(position).getLikeCnt() + "개");
+            holder.likeCnt.setText("불꽃 " + arrayList.get(position).getLikeCnt() + "개");
             holder.likeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
