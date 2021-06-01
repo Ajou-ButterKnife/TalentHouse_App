@@ -98,7 +98,7 @@
         android:layout_marginLeft="5dp"
         android:text="본문입니다"
         app:layout_constraintStart_toStartOf="@+id/content_video_tv_title"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_controller" />
+        app:layout_constraintTop_toBottomOf="@+id/content_video_fl" />
 
     <ImageButton
         android:id="@+id/content_btn_like"
@@ -108,7 +108,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="8dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_video_fl"/>
+        app:layout_constraintTop_toBottomOf="@+id/content_video_tv_subject"/>
 
     <TextView
         android:id="@+id/content_tv_like"
