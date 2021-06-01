@@ -1,10 +1,6 @@
-package kr.butterknife.talenthouse
+package kr.butterknife.talenthouse.activity
 
-import android.app.Activity
-import android.content.ContentUris
-import android.content.Context
 import android.content.Intent
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -32,7 +28,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kr.butterknife.talenthouse.*
+import kr.butterknife.talenthouse.adapter.SettingItem
+import kr.butterknife.talenthouse.adapter.SettingRVAdapter
 import kr.butterknife.talenthouse.network.ButterKnifeApi
+import kr.butterknife.talenthouse.viewholder.SettingImageVH
+import kr.butterknife.talenthouse.viewholder.SettingSpinnerVH
+import kr.butterknife.talenthouse.viewholder.SettingTextVH
 import kr.butterknife.talenthouse.network.request.PWUpdateReq
 import kr.butterknife.talenthouse.network.request.ProfileUpdateReq
 import kr.butterknife.talenthouse.network.request.UserInfoUpdateReq

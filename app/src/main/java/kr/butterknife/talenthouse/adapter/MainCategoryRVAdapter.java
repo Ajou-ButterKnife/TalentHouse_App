@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse;
+package kr.butterknife.talenthouse.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import kr.butterknife.talenthouse.R;
 
 public class MainCategoryRVAdapter extends RecyclerView.Adapter<MainCategoryRVAdapter.ViewHolder>{
     private ArrayList<String> itemList;

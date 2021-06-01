@@ -1,25 +1,26 @@
-package kr.butterknife.talenthouse;
+package kr.butterknife.talenthouse.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import kr.butterknife.talenthouse.LoadingDialog;
+import kr.butterknife.talenthouse.LoginInfo;
+import kr.butterknife.talenthouse.R;
+import kr.butterknife.talenthouse.SpinnerUtil;
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.request.NormalLoginReq;
 
@@ -47,7 +48,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

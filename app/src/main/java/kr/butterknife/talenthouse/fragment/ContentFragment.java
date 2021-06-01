@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse;
+package kr.butterknife.talenthouse.fragment;
 
 import android.app.Dialog;
 import android.net.Uri;
@@ -20,7 +20,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -35,6 +34,18 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import kr.butterknife.talenthouse.CommentItem;
+import kr.butterknife.talenthouse.adapter.CommentRVAdapter;
+import kr.butterknife.talenthouse.adapter.FavoriteRVAdapter;
+import kr.butterknife.talenthouse.IdNickname;
+import kr.butterknife.talenthouse.adapter.ImageContentPagerAdapter;
+import kr.butterknife.talenthouse.LikePerson;
+import kr.butterknife.talenthouse.LoadingDialog;
+import kr.butterknife.talenthouse.LoginInfo;
+import kr.butterknife.talenthouse.activity.MainActivity;
+import kr.butterknife.talenthouse.PostItem;
+import kr.butterknife.talenthouse.R;
+import kr.butterknife.talenthouse.Util;
 import kr.butterknife.talenthouse.network.request.FavoriteUserIdReq;
 import kr.butterknife.talenthouse.network.request.PutLikeReq;
 import kr.butterknife.talenthouse.network.response.FavoritePostUserIdRes;

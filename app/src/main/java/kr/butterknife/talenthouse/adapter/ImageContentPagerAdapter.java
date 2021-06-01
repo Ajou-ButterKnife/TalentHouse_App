@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse;
+package kr.butterknife.talenthouse.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,6 +12,8 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
+
+import kr.butterknife.talenthouse.R;
 
 public class ImageContentPagerAdapter extends PagerAdapter {
     private LayoutInflater inflater;

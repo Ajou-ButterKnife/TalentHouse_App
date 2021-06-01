@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse;
+package kr.butterknife.talenthouse.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.google.firebase.FirebaseApp;
+
+import kr.butterknife.talenthouse.LoginInfo;
+import kr.butterknife.talenthouse.R;
 
 public class SplashActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse;
+package kr.butterknife.talenthouse.viewholder;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -18,6 +18,13 @@ import com.google.android.exoplayer2.ui.PlayerView;
 
 import java.util.List;
 
+import kr.butterknife.talenthouse.IdNickname;
+import kr.butterknife.talenthouse.LoadingDialog;
+import kr.butterknife.talenthouse.LoginInfo;
+import kr.butterknife.talenthouse.OnItemClickListener;
+import kr.butterknife.talenthouse.PostItem;
+import kr.butterknife.talenthouse.R;
+import kr.butterknife.talenthouse.Util;
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.request.PutLikeReq;
 import kr.butterknife.talenthouse.network.response.LikeRes;
@@ -27,13 +34,13 @@ import retrofit2.Response;
 
 //https://youngest-programming.tistory.com/69
 public class MainRVViewHolder {
-    static class ContentNOViewHolder extends ContentRVHolder {
-        protected TextView title;
-        protected TextView writer;
-        protected TextView date;
-        protected TextView subject;
-        protected TextView likeCnt;
-        protected Button likeBtn;
+    public static class ContentNOViewHolder extends ContentRVHolder {
+        public TextView title;
+        public TextView writer;
+        public TextView date;
+        public TextView subject;
+        public TextView likeCnt;
+        public Button likeBtn;
 
         public ContentNOViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -45,7 +52,7 @@ public class MainRVViewHolder {
             likeBtn = itemView.findViewById(R.id.rvtext_btn_like);
         }
 
-        void updateLike(String postId, String userId, String nickname, String profile) {
+        public void updateLike(String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
@@ -77,19 +84,19 @@ public class MainRVViewHolder {
         }
     }
 
-    static class ContentImageViewHolder_1 extends ContentRVHolder {
-        protected TextView title;
-        protected TextView writer;
-        protected TextView date;
-        protected ViewStub viewStubImage;
-        protected TextView likeCnt;
-        protected ImageButton likeBtn;
-        protected PostItem postItem;
-        protected ImageButton settingBtn;
-        protected ImageView profile;
+    public static class ContentImageViewHolder_1 extends ContentRVHolder {
+        public TextView title;
+        public TextView writer;
+        public TextView date;
+        public ViewStub viewStubImage;
+        public TextView likeCnt;
+        public ImageButton likeBtn;
+        public PostItem postItem;
+        public ImageButton settingBtn;
+        public ImageView profile;
         View inflated;
-        protected ImageView medal;
-        protected TextView category;
+        public ImageView medal;
+        public TextView category;
 
         public ContentImageViewHolder_1(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -108,7 +115,7 @@ public class MainRVViewHolder {
             inflated = viewStubImage.inflate();
         }
 
-        void onBind(PostItem postItem, Context context) {
+        public void onBind(PostItem postItem, Context context) {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
@@ -143,7 +150,7 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv_1));
         }
 
-        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
+        public void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
@@ -181,19 +188,19 @@ public class MainRVViewHolder {
         }
     }
 
-    static class ContentImageViewHolder_2 extends ContentRVHolder {
-        protected TextView title;
-        protected TextView writer;
-        protected TextView date;
-        protected ViewStub viewStubImage;
-        protected PostItem postItem;
-        protected TextView likeCnt;
-        protected ImageButton likeBtn;
-        protected ImageButton settingBtn;
-        protected ImageView profile;
+    public static class ContentImageViewHolder_2 extends ContentRVHolder {
+        public TextView title;
+        public TextView writer;
+        public TextView date;
+        public ViewStub viewStubImage;
+        public PostItem postItem;
+        public TextView likeCnt;
+        public ImageButton likeBtn;
+        public ImageButton settingBtn;
+        public ImageView profile;
         View inflated;
-        protected ImageView medal;
-        protected TextView category;
+        public ImageView medal;
+        public TextView category;
 
         public ContentImageViewHolder_2(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -211,7 +218,7 @@ public class MainRVViewHolder {
             category = itemView.findViewById(R.id.rvimage_tv_category);
         }
 
-        void onBind(PostItem postItem, Context context) {
+        public void onBind(PostItem postItem, Context context) {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
@@ -249,7 +256,7 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv2_2));
         }
 
-        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
+        public void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
@@ -287,19 +294,19 @@ public class MainRVViewHolder {
         }
     }
 
-    static class ContentImageViewHolder_3 extends ContentRVHolder {
-        protected TextView title;
-        protected TextView writer;
-        protected TextView date;
-        protected ViewStub viewStubImage;
-        protected PostItem postItem;
-        protected TextView likeCnt;
-        protected ImageButton likeBtn;
-        protected ImageButton settingBtn;
-        protected ImageView profile;
+    public static class ContentImageViewHolder_3 extends ContentRVHolder {
+        public TextView title;
+        public TextView writer;
+        public TextView date;
+        public ViewStub viewStubImage;
+        public PostItem postItem;
+        public TextView likeCnt;
+        public ImageButton likeBtn;
+        public ImageButton settingBtn;
+        public ImageView profile;
         View inflated;
-        protected ImageView medal;
-        protected TextView category;
+        public ImageView medal;
+        public TextView category;
 
         public ContentImageViewHolder_3(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -317,7 +324,7 @@ public class MainRVViewHolder {
             category = itemView.findViewById(R.id.rvimage_tv_category);
         }
 
-        void onBind(PostItem postItem, Context context) {
+        public void onBind(PostItem postItem, Context context) {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
@@ -358,7 +365,7 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv3_3));
         }
 
-        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
+        public void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
@@ -396,19 +403,19 @@ public class MainRVViewHolder {
         }
     }
 
-    static class ContentImageViewHolder_4 extends ContentRVHolder {
-        protected TextView title;
-        protected TextView writer;
-        protected TextView date;
-        protected ViewStub viewStubImage;
-        protected PostItem postItem;
-        protected TextView likeCnt;
-        protected ImageButton likeBtn;
-        protected ImageButton settingBtn;
-        protected ImageView profile;
+    public static class ContentImageViewHolder_4 extends ContentRVHolder {
+        public TextView title;
+        public TextView writer;
+        public TextView date;
+        public ViewStub viewStubImage;
+        public PostItem postItem;
+        public TextView likeCnt;
+        public ImageButton likeBtn;
+        public ImageButton settingBtn;
+        public ImageView profile;
         View inflated;
-        protected ImageView medal;
-        protected TextView category;
+        public ImageView medal;
+        public TextView category;
 
         public ContentImageViewHolder_4(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -426,7 +433,7 @@ public class MainRVViewHolder {
             category = itemView.findViewById(R.id.rvimage_tv_category);
         }
 
-        void onBind(PostItem postItem, Context context) {
+        public void onBind(PostItem postItem, Context context) {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
@@ -470,7 +477,7 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv4_4));
         }
 
-        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
+        public void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
@@ -508,19 +515,19 @@ public class MainRVViewHolder {
         }
     }
 
-    static class ContentImageViewHolder_5 extends ContentRVHolder {
-        protected TextView title;
-        protected TextView writer;
-        protected TextView date;
-        protected ViewStub viewStubImage;
-        protected PostItem postItem;
-        protected TextView likeCnt;
-        protected ImageButton likeBtn;
-        protected ImageButton settingBtn;
-        protected ImageView profile;
+    public static class ContentImageViewHolder_5 extends ContentRVHolder {
+        public TextView title;
+        public TextView writer;
+        public TextView date;
+        public ViewStub viewStubImage;
+        public PostItem postItem;
+        public TextView likeCnt;
+        public ImageButton likeBtn;
+        public ImageButton settingBtn;
+        public ImageView profile;
         View inflated;
-        protected ImageView medal;
-        protected TextView category;
+        public ImageView medal;
+        public TextView category;
 
         public ContentImageViewHolder_5(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -538,7 +545,7 @@ public class MainRVViewHolder {
             category = itemView.findViewById(R.id.rvimage_tv_category);
         }
 
-        void onBind(PostItem postItem, Context context) {
+        public void onBind(PostItem postItem, Context context) {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
@@ -585,7 +592,7 @@ public class MainRVViewHolder {
                     .into((ImageView) inflated.findViewById(R.id.vs_main_iv5_5));
         }
 
-        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
+        public void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
@@ -623,19 +630,19 @@ public class MainRVViewHolder {
         }
     }
 
-    static class ContentImageViewHolder_6 extends ContentRVHolder {
-        protected TextView title;
-        protected TextView writer;
-        protected TextView date;
-        protected ViewStub viewStubImage;
-        protected PostItem postItem;
-        protected TextView likeCnt;
-        protected ImageButton likeBtn;
-        protected ImageButton settingBtn;
-        protected ImageView profile;
+    public static class ContentImageViewHolder_6 extends ContentRVHolder {
+        public TextView title;
+        public TextView writer;
+        public TextView date;
+        public ViewStub viewStubImage;
+        public PostItem postItem;
+        public TextView likeCnt;
+        public ImageButton likeBtn;
+        public ImageButton settingBtn;
+        public ImageView profile;
         View inflated;
-        protected ImageView medal;
-        protected TextView category;
+        public ImageView medal;
+        public TextView category;
 
         public ContentImageViewHolder_6(@NonNull View itemView, ViewStub viewStub) {
             super(itemView);
@@ -653,7 +660,7 @@ public class MainRVViewHolder {
             category = itemView.findViewById(R.id.rvimage_tv_category);
         }
 
-        void onBind(PostItem postItem, Context context) {
+        public void onBind(PostItem postItem, Context context) {
             this.postItem = postItem;
             title.setText(postItem.getTitle());
             writer.setText(postItem.getWriterNickname());
@@ -706,7 +713,7 @@ public class MainRVViewHolder {
             imageView.setColorFilter(Color.parseColor("#55050900"));
         }
 
-        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
+        public void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
@@ -744,17 +751,17 @@ public class MainRVViewHolder {
         }
     }
 
-    static class ContentVideoViewHolder extends ContentRVHolder {
-        protected TextView title;
-        protected TextView writer;
-        protected TextView date;
-        protected PlayerView pv;
-        protected TextView likeCnt;
-        protected ImageButton likeBtn;
-        protected ImageButton settingBtn;
-        protected ImageView profile;
-        protected ImageView medal;
-        protected TextView category;
+    public static class ContentVideoViewHolder extends ContentRVHolder {
+        public TextView title;
+        public TextView writer;
+        public TextView date;
+        public PlayerView pv;
+        public TextView likeCnt;
+        public ImageButton likeBtn;
+        public ImageButton settingBtn;
+        public ImageView profile;
+        public ImageView medal;
+        public TextView category;
 
         public ContentVideoViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -770,7 +777,7 @@ public class MainRVViewHolder {
             category = itemView.findViewById(R.id.rvvideo_tv_category);
         }
 
-        void updateLike(Context context, String postId, String userId, String nickname, String profile) {
+        public void updateLike(Context context, String postId, String userId, String nickname, String profile) {
             new Runnable() {
                 @Override
                 public void run() {
@@ -808,7 +815,7 @@ public class MainRVViewHolder {
         }
     }
 
-    static class ContentLoadingViewHolder extends ContentRVHolder {
+    public static class ContentLoadingViewHolder extends ContentRVHolder {
         public ContentLoadingViewHolder(@NonNull View itemView) {
             super(itemView);
         }
@@ -819,7 +826,7 @@ class ContentRVHolder extends RecyclerView.ViewHolder {
 
     private OnItemClickListener itemClickListener;
 
-    void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.itemClickListener = listener;
     }
 

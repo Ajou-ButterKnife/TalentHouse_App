@@ -1,10 +1,8 @@
-package kr.butterknife.talenthouse
+package kr.butterknife.talenthouse.viewholder
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.text.InputType
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.SwitchCompat
@@ -14,6 +12,10 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import kr.butterknife.talenthouse.LoginInfo
+import kr.butterknife.talenthouse.OnItemClickListener
+import kr.butterknife.talenthouse.R
+import kr.butterknife.talenthouse.adapter.SettingItem
 
 class SettingTitleVH(view : View) : RecyclerView.ViewHolder(view) {
     val title = view.findViewById<TextView>(R.id.rvsetting_title)

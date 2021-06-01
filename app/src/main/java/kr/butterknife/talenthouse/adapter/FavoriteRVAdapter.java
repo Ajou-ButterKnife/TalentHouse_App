@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse;
+package kr.butterknife.talenthouse.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,6 +14,10 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;
+
+import kr.butterknife.talenthouse.LikePerson;
+import kr.butterknife.talenthouse.R;
+import kr.butterknife.talenthouse.activity.MainActivity;
 
 public class FavoriteRVAdapter extends RecyclerView.Adapter<FavoriteRVAdapter.FavoriteRVHolder> {
     private ArrayList<LikePerson> likePersonList = new ArrayList<>();

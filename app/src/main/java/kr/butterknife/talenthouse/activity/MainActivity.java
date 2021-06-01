@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse;
+package kr.butterknife.talenthouse.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,12 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -39,6 +35,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
+
+import kr.butterknife.talenthouse.LoginInfo;
+import kr.butterknife.talenthouse.PostItem;
+import kr.butterknife.talenthouse.R;
+import kr.butterknife.talenthouse.Util;
+import kr.butterknife.talenthouse.fragment.BoardFragment;
+import kr.butterknife.talenthouse.fragment.FavoriteFragment;
+import kr.butterknife.talenthouse.fragment.HotBoardFragment;
+import kr.butterknife.talenthouse.fragment.MainFragment;
+import kr.butterknife.talenthouse.fragment.MyPageFragment;
+import kr.butterknife.talenthouse.fragment.SearchFragment;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 

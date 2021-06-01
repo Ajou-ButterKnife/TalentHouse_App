@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse;
+package kr.butterknife.talenthouse.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -20,13 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import kr.butterknife.talenthouse.CommentItem;
+import kr.butterknife.talenthouse.LoginInfo;
+import kr.butterknife.talenthouse.R;
+import kr.butterknife.talenthouse.Util;
+import kr.butterknife.talenthouse.activity.MainActivity;
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
-import kr.butterknife.talenthouse.network.request.DeleteCommentReq;
 import kr.butterknife.talenthouse.network.request.UpdateCommentReq;
 import kr.butterknife.talenthouse.network.response.CommonResponse;
-import kr.butterknife.talenthouse.network.response.LikeRes;
 import kr.butterknife.talenthouse.network.response.UpdateCommentRes;
 import retrofit2.Call;
 import retrofit2.Callback;

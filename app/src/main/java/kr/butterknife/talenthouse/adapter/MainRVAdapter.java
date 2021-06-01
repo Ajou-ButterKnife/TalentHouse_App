@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse;
+package kr.butterknife.talenthouse.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -13,7 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import kr.butterknife.talenthouse.MainRVViewHolder.*;
+import kr.butterknife.talenthouse.ContentType;
+import kr.butterknife.talenthouse.IdNickname;
+import kr.butterknife.talenthouse.LoginInfo;
+import kr.butterknife.talenthouse.viewholder.MainRVViewHolder.*;
+import kr.butterknife.talenthouse.OnItemClickListener;
+import kr.butterknife.talenthouse.PostItem;
+import kr.butterknife.talenthouse.R;
+import kr.butterknife.talenthouse.Util;
 
 import com.bumptech.glide.Glide;
 import com.google.android.exoplayer2.SimpleExoPlayer;
@@ -42,7 +49,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         itemClickListener = listener;
     }
 
-    interface OnItemReloadListener {
+    public interface OnItemReloadListener {
         void reloadItem();
     }
 
@@ -52,7 +59,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         itemReloadListener = listener;
     }
 
-    interface OnMyPageListener {
+    public interface OnMyPageListener {
         void gotoMyPage(String writerId);
     }
 
@@ -67,7 +74,7 @@ public class MainRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             itemReloadListener.reloadItem();
     }
 
-    interface OnSettingListener {
+    public interface OnSettingListener {
         void onSetting(View view, String postId);
     }
 

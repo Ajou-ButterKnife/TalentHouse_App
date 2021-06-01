@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse;
+package kr.butterknife.talenthouse.fragment;
 
 import android.os.Bundle;
 
@@ -18,6 +18,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.butterknife.talenthouse.LoadingDialog;
+import kr.butterknife.talenthouse.LoginInfo;
+import kr.butterknife.talenthouse.activity.MainActivity;
+import kr.butterknife.talenthouse.adapter.MainRVAdapter;
+import kr.butterknife.talenthouse.OnItemClickListener;
+import kr.butterknife.talenthouse.PostItem;
+import kr.butterknife.talenthouse.R;
+import kr.butterknife.talenthouse.Util;
 import kr.butterknife.talenthouse.network.ButterKnifeApi;
 import kr.butterknife.talenthouse.network.response.PostRes;
 import retrofit2.Call;

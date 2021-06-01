@@ -1,4 +1,4 @@
-package kr.butterknife.talenthouse
+package kr.butterknife.talenthouse.fragment
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,8 +15,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kr.butterknife.talenthouse.*
 import kr.butterknife.talenthouse.LoginInfo.logout
 import kr.butterknife.talenthouse.Util.postSetting
+import kr.butterknife.talenthouse.activity.MainActivity
+import kr.butterknife.talenthouse.activity.SettingActivity
+import kr.butterknife.talenthouse.activity.SplashActivity
+import kr.butterknife.talenthouse.adapter.MainRVAdapter
 import kr.butterknife.talenthouse.network.ButterKnifeApi
 import kr.butterknife.talenthouse.network.response.MyPageRes
 import kr.butterknife.talenthouse.network.response.PostRes
