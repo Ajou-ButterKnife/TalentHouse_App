@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_my_page.*
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +36,7 @@ class MyPageFragment(var userId: String = "") : Fragment() {
     private var userInfoRes : MyPageRes? = null
     private var postsRes : PostRes? = null
     private val INTENT_KEY = "SettingKey"
+    private lateinit var linearLayoutManager : LinearLayoutManager
 
 
     // 들어오는 spf의 id에 따라서 메뉴 보여줄지 말지
@@ -81,6 +83,8 @@ class MyPageFragment(var userId: String = "") : Fragment() {
                     true
                 })
         }
+        linearLayoutManager = LinearLayoutManager(requireContext())
+        mypage_rv.layoutManager = linearLayoutManager
         mypage_rv.adapter = rvAdapter
 
         mypage_btn_menu.setOnClickListener {
@@ -121,6 +125,10 @@ class MyPageFragment(var userId: String = "") : Fragment() {
                 setVisibility(userId == loginInfo[0])
                 Log.d(MyPageFragment::class.java.simpleName, loginInfo[0] + "\n" + userId)
                 posts.clear()
+                mypage_rv.adapter = null
+                mypage_rv.layoutManager = null
+                mypage_rv.layoutManager = linearLayoutManager
+                mypage_rv.adapter = rvAdapter
                 rvAdapter.setPage(0)
                 rvAdapter.doItemReload()
             }
