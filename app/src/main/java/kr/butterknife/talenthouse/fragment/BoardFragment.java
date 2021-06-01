@@ -34,6 +34,7 @@ public class BoardFragment extends Fragment {
     private String category;
     private Button sortToTime;
     private Button sortToLike;
+    private LinearLayoutManager linearLayoutManager;
     private Integer sortFlag = 1;
 
 
@@ -74,7 +75,9 @@ public class BoardFragment extends Fragment {
         });
 
         rv.setAdapter(rvAdapter);
-        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        rv.setLayoutManager(linearLayoutManager);
+
         category = getArguments().getString("category");
 
         rvAdapter.doItemReload();
@@ -85,9 +88,14 @@ public class BoardFragment extends Fragment {
         sortToTime.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                posts.clear();
-                rvAdapter.setPage(0);
                 sortFlag = 1;
+                rvAdapter.setPage(0);
+                posts.clear();
+                rv.setAdapter(null);
+                rv.setLayoutManager(null);
+                rv.setAdapter(rvAdapter);
+                rv.setLayoutManager(linearLayoutManager);
+                rvAdapter.notifyDataSetChanged();
                 rvAdapter.doItemReload();
             }
         });
@@ -95,9 +103,14 @@ public class BoardFragment extends Fragment {
         sortToLike.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                posts.clear();
-                rvAdapter.setPage(0);
                 sortFlag = 2;
+                rvAdapter.setPage(0);
+                posts.clear();
+                rv.setAdapter(null);
+                rv.setLayoutManager(null);
+                rv.setAdapter(rvAdapter);
+                rv.setLayoutManager(linearLayoutManager);
+                rvAdapter.notifyDataSetChanged();
                 rvAdapter.doItemReload();
             }
         });
