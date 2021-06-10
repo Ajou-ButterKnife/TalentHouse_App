@@ -226,6 +226,7 @@ public class MainRVViewHolder {
             if(postItem.getProfile().equals("") == false){
                 Glide.with(context)
                         .load(postItem.getProfile())
+                        .circleCrop()
                         .into(profile);
             }
             boolean check = false;
@@ -332,6 +333,7 @@ public class MainRVViewHolder {
             if(postItem.getProfile().equals("") == false){
                 Glide.with(context)
                         .load(postItem.getProfile())
+                        .circleCrop()
                         .into(profile);
             }
             boolean check = false;
@@ -441,6 +443,7 @@ public class MainRVViewHolder {
             if(postItem.getProfile().equals("") == false){
                 Glide.with(context)
                         .load(postItem.getProfile())
+                        .circleCrop()
                         .into(profile);
             }
             boolean check = false;
@@ -553,6 +556,7 @@ public class MainRVViewHolder {
             if(postItem.getProfile().equals("") == false){
                 Glide.with(context)
                         .load(postItem.getProfile())
+                        .circleCrop()
                         .into(profile);
             }
             boolean check = false;
@@ -668,6 +672,7 @@ public class MainRVViewHolder {
             if(postItem.getProfile().equals("") == false){
                 Glide.with(context)
                         .load(postItem.getProfile())
+                        .circleCrop()
                         .into(profile);
             }
             boolean check = false;
